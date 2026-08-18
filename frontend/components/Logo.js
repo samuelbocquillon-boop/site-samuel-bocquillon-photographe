@@ -34,23 +34,17 @@ export const Logo = ({ dark = false, compact = false }) => (
   </Link>
 );
 
-// Badge circulaire tournant (hero accueil — maquette)
+// Badge circulaire statique (hero accueil — logo officiel fourni par le client)
 export const CircularBadge = ({ className = '' }) => (
   <div className={className} aria-hidden="true" data-testid="hero-circular-badge">
-    <div className="relative h-full w-full">
-      <svg viewBox="0 0 160 160" className="h-full w-full animate-[spin_28s_linear_infinite]">
-        <defs>
-          <path id="badge-circle" d="M 80,80 m -58,0 a 58,58 0 1,1 116,0 a 58,58 0 1,1 -116,0" />
-        </defs>
-        <text fill="#EFECE8" fontSize="12.5" fontFamily="var(--font-manrope), Manrope, sans-serif" fontWeight="600" letterSpacing="3.5">
-          <textPath href="#badge-circle">SAMUEL BOCQUILLON • PHOTOGRAPHE DE MARIAGE •</textPath>
-        </text>
-      </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-ivoire">
-        <span className="text-[11px] leading-none -mb-1">✦</span>
-        <span className="font-serif text-[38px] leading-none">S<span className="italic">B</span></span>
-        <span className="text-[11px] leading-none -mt-0.5">✦</span>
-      </div>
-    </div>
+    <img
+      src="/badge-samuel-bocquillon.webp"
+      alt=""
+      width="473"
+      height="480"
+      className="h-full w-full object-contain"
+      loading="eager"
+      decoding="async"
+    />
   </div>
 );

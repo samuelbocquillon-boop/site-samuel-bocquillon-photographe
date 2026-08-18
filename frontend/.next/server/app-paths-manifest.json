@@ -3,7 +3,5 @@
   "/a-propos/page": "app/a-propos/page.js",
   "/portfolio/page": "app/portfolio/page.js",
   "/prestations/page": "app/prestations/page.js",
-  "/blog/page": "app/blog/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/admin/page": "app/admin/page.js"
+  "/blog/page": "app/blog/page.js"
 }

@@ -1496,6 +1496,9 @@ video {
 .fill-cuir {
   fill: #5A3A2E;
 }
+.object-contain {
+  object-fit: contain;
+}
 .object-cover {
   object-fit: cover;
 }

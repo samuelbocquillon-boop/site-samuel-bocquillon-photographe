@@ -84,3 +84,7 @@ Accueil, À propos, Portfolio (filtres + reportage à la une), Prestations (hub 
 - Logo fourni par le client (5.webp, monogramme SB + filet cognac + nom + baseline) recadré automatiquement (Pillow, bbox alpha) et exporté en /public/logo-samuel-bocquillon.webp (23 Ko, fond transparent, retina x3)
 - Composant Logo.js remplacé par l'image officielle — header desktop (h-52px), menu mobile (h-10), toutes pages publiques
 - Vérifié par screenshots : accueil, blog, mobile
+
+## Itération 8 — Badge circulaire hero statique
+- Badge rond fourni par le client (7.webp) : fond blanc circulaire ajouté (intérieur transparent illisible sur photo), recadré et exporté en /public/badge-samuel-bocquillon.webp (30 Ko)
+- Composant CircularBadge : remplacé par l'image statique (rotation supprimée), affiché bas-droite du hero accueil
