@@ -17,6 +17,7 @@ module.exports = {
       fontFamily: {
         serif: ['var(--font-cormorant)', 'Cormorant Garamond', 'serif'],
         sans: ['var(--font-manrope)', 'Manrope', 'sans-serif'],
+        script: ['var(--font-script)', 'Great Vibes', 'cursive'],
       },
       keyframes: {
         'accordion-down': {

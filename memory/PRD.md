@@ -41,3 +41,13 @@ Accueil, À propos, Portfolio (filtres + reportage à la une), Prestations (hub 
 - Phase 1 POC : ✓ (17/17 tests)
 - Phase 2 Build complet : ✓ (18 routes 200, SSR vérifié)
 - Phase 3 Tests E2E : en cours
+
+## Itération 3 — Accueil refait selon maquette (validé par screenshots)
+- Hero split : texte gauche (titre bicolore charbon/cognac), photo droite avec fondu transparence vers ivoire, badge circulaire SB tournant bas-droite, CTA cuir carré
+- Header : logo texte 2 lignes, nav "Prestations", sans bouton Réserver ; Footer clair (monogramme script SB, LIENS, SUIVEZ-MOI, copyright) — appliqué à tout le site
+- Portfolio accueil : colonne texte + 2 grandes + 5 petites images (slots accueil-portfolio-1..7)
+- Prestations : "PRESTATIONS" vertical, 3 colonnes plates, 02 Complète en brun
+- Témoignages : carrousel 3 points (auto 7s), dernier mot en cognac
+- Contact accueil : formulaire minimal (inputs soulignés) + photo (slot accueil-contact-image)
+- Police script Great Vibes ajoutée pour signatures "Samuel B." (accueil + à propos)
+- 62 slots images au total

@@ -1,5 +1,5 @@
 import './globals.css';
-import { Cormorant_Garamond, Manrope } from 'next/font/google';
+import { Cormorant_Garamond, Manrope, Great_Vibes } from 'next/font/google';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { CookieBanner } from '@/components/CookieBanner';
@@ -18,6 +18,13 @@ const manrope = Manrope({
   subsets: ['latin'],
   weight: ['400', '500', '600'],
   variable: '--font-manrope',
+  display: 'swap',
+});
+
+const greatVibes = Great_Vibes({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-script',
   display: 'swap',
 });
 
@@ -88,7 +95,7 @@ function localBusinessJsonLd(settings) {
 export default async function RootLayout({ children }) {
   const settings = await getSettings();
   return (
-    <html lang="fr" className={`${cormorant.variable} ${manrope.variable}`}>
+    <html lang="fr" className={`${cormorant.variable} ${manrope.variable} ${greatVibes.variable}`}>
       <body className="font-sans">
         <script
           type="application/ld+json"

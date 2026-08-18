@@ -73,9 +73,6 @@ export const Header = () => {
                 </div>
               )
             )}
-            <Link href="/contact" className="btn-primary !py-3 !px-5" data-testid="header-cta-button">
-              Réserver
-            </Link>
           </nav>
           <button
             className="lg:hidden inline-flex items-center justify-center h-11 w-11 rounded-[10px] border border-charbon/15 text-charbon"
