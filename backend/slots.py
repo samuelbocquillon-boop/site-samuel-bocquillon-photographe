@@ -85,7 +85,8 @@ IMAGE_SLOTS = [
     {'slot_key': 'formation-image-3', 'page': 'Présentation — Formation', 'label': 'Formation — En images 3', 'description': 'Section Apprendre. Pratiquer. Partager. — image 3', 'default_url': f'{U}1502920917128-1aa500764cbd{QS}', 'default_alt': 'Stagiaire photographe en situation réelle — formation terrain'},
 
     # ---------- CONTACT ----------
-    {'slot_key': 'contact-hero', 'page': 'Contact', 'label': 'Contact — Bannière', 'description': 'Photo de bannière de la page Contact', 'default_url': f'{U}1465495976277-4387d4b0b4c6{Q}', 'default_alt': 'Couple au coucher du soleil — contactez votre photographe de mariage'},
+    {'slot_key': 'contact-hero', 'page': 'Contact', 'label': 'Contact — Bannière (photo de droite)', 'description': "Photo du hero, fondue vers l'ivoire à gauche", 'default_url': f'{U}1465495976277-4387d4b0b4c6{Q}', 'default_alt': 'Couple de mariés face au coucher du soleil — contactez votre photographe de mariage'},
+    {'slot_key': 'contact-cta-fond', 'page': 'Contact', 'label': 'Contact — Fond section « Prêt à écrire votre histoire ? »', 'description': "Photo de fond de l'appel à l'action final", 'default_url': f'{U}1583939003579-730e3918a45a{Q}', 'default_alt': 'Baiser tendre des jeunes mariés — prêt à écrire votre histoire'},
 
     # ---------- AVIS ----------
     {'slot_key': 'avis-hero', 'page': 'Avis clients', 'label': 'Avis — Bannière', 'description': 'Photo de bannière de la page Avis clients', 'default_url': f'{U}1525258946800-98cfd641d0de{Q}', 'default_alt': 'Mariés heureux — avis clients du photographe Samuel Bocquillon'},

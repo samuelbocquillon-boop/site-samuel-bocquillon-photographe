@@ -64,7 +64,7 @@ export default async function HomePage() {
           <Reveal className="lg:col-span-5">
             <div className="relative pl-6 pb-6 sm:pl-10 sm:pb-10">
               {/* Carte papier texturée décalée derrière la photo (maquette) */}
-              <div className="absolute left-0 bottom-0 w-[55%] h-[70%] bg-[#e6e1d8] border border-charbon/10" aria-hidden="true" />
+              <div className="absolute left-0 bottom-0 w-[55%] h-[70%] bg-pierre/25 border border-charbon/10" aria-hidden="true" />
               <SmartImage
                 img={images['accueil-portrait']}
                 className="relative w-full aspect-[4/5] object-cover"

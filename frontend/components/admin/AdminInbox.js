@@ -75,7 +75,7 @@ export const AdminInbox = () => {
                   <CheckCheck className="h-3.5 w-3.5" /> Marquer comme lue
                 </button>
               )}
-              <a href={`mailto:${c.email}`} className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold bg-cuir text-ivoire rounded-[8px] px-3.5 py-2 hover:bg-[#4a3025] transition-colors">
+              <a href={`mailto:${c.email}`} className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold bg-cuir text-ivoire rounded-[8px] px-3.5 py-2 hover:bg-cuir/90 transition-colors">
                 <Mail className="h-3.5 w-3.5" /> Répondre
               </a>
               <button onClick={() => remove(c.id)} className="inline-flex items-center gap-1.5 text-[12.5px] text-charbon/50 hover:text-[#a03526] px-2 transition-colors" data-testid={`admin-contact-delete-${c.id}`}>

@@ -1,9 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { MapPin, Navigation } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { CONSENT_KEY } from './CookieBanner';
 
-// Carte Google Maps — chargée uniquement après consentement RGPD
+// « Où me trouver » — carte beige avec épingle brune (maquette), Google Maps après consentement RGPD
 export const MapEmbed = ({ settings }) => {
   const [consent, setConsent] = useState(null);
 
@@ -25,7 +25,7 @@ export const MapEmbed = ({ settings }) => {
 
   return (
     <div>
-      <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-[12px] overflow-hidden border border-charbon/10 bg-white" data-testid="contact-google-maps-embed">
+      <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] overflow-hidden bg-ivoire" data-testid="contact-google-maps-embed">
         {consent === 'accepted' ? (
           <iframe
             title={`Carte — ${settings.city || 'Valenciennes'}, itinéraire vers Samuel Bocquillon photographe`}
@@ -36,20 +36,33 @@ export const MapEmbed = ({ settings }) => {
             allowFullScreen
           />
         ) : (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center">
-            <MapPin className="h-8 w-8 text-cognac" />
-            <p className="text-charbon/70 text-[14.5px] max-w-sm">
-              La carte Google Maps nécessite votre consentement aux cookies pour s'afficher.
-            </p>
-            <button onClick={accept} className="btn-outline !py-3 !px-5" data-testid="map-consent-button">
-              Afficher la carte
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
+            {/* Texture discrète façon carte */}
+            <div className="absolute inset-0 opacity-[0.16]" aria-hidden="true" style={{ backgroundImage: 'radial-gradient(circle at 25% 35%, #8A5A44 0.5px, transparent 1px), radial-gradient(circle at 70% 60%, #8A5A44 0.5px, transparent 1px)', backgroundSize: '46px 46px, 62px 62px' }} />
+            <span className="relative inline-flex h-12 w-12 items-center justify-center rounded-full bg-cuir text-ivoire">
+              <MapPin className="h-5 w-5" />
+            </span>
+            <button onClick={accept} className="relative label-caps !text-[10.5px] text-cuir underline underline-offset-4 decoration-cognac/60 hover:decoration-cognac transition-colors min-h-[44px]" data-testid="map-consent-button">
+              Afficher la carte interactive (cookies Google Maps)
             </button>
           </div>
         )}
       </div>
-      <a href={directionsUrl} target="_blank" rel="noopener noreferrer" className="btn-outline mt-5" data-testid="contact-directions-link">
-        <Navigation className="h-4 w-4" />
-        Obtenir l'itinéraire
+      <p className="mt-5 text-[15px] leading-[1.75] text-charbon/80">
+        Basé à {settings.city || 'Valenciennes'} ({settings.region || 'Hauts-de-France'})
+        <br />
+        Déplacements dans toute la France
+        <br />
+        et à l'international.
+      </p>
+      <a
+        href={directionsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="label-caps !text-[11px] text-cuir hover:text-cognac transition-colors duration-200 mt-4 inline-block"
+        data-testid="contact-directions-link"
+      >
+        Obtenir l'itinéraire →
       </a>
     </div>
   );

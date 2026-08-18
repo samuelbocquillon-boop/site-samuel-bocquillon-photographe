@@ -1,8 +1,9 @@
-import { Mail, Phone, MapPin, Instagram, Facebook, Clock } from 'lucide-react';
+import Link from 'next/link';
+import { Mail, Phone, Instagram, Facebook, MapPin, MessageCircle, CalendarDays, Heart } from 'lucide-react';
 import { getSettings, getImages } from '@/lib/api';
 import { FAQ_CONTACT } from '@/lib/content';
+import { SmartImage } from '@/components/SmartImage';
 import { Reveal } from '@/components/Reveal';
-import { PageHero } from '@/components/PageHero';
 import { ContactForm } from '@/components/ContactForm';
 import { FAQAccordion } from '@/components/FAQAccordion';
 import { MapEmbed } from '@/components/MapEmbed';
@@ -10,7 +11,7 @@ import { MapEmbed } from '@/components/MapEmbed';
 export const metadata = {
   title: 'Contact — Parlons de votre mariage | Réponse sous 24h',
   description:
-    "Contactez Samuel Bocquillon, photographe de mariage à Valenciennes : formulaire, téléphone, email et itinéraire. Réponse garantie sous 24h pour votre projet de mariage, corporate ou formation.",
+    "Contactez Samuel Bocquillon, photographe de mariage à Valenciennes : formulaire, téléphone, email et itinéraire. Réponse garantie sous 24 à 48h pour votre projet de mariage, corporate ou formation.",
   alternates: { canonical: '/contact' },
 };
 
@@ -26,111 +27,178 @@ function contactFaqJsonLd() {
   };
 }
 
+const BAND_ITEMS = [
+  { icon: MessageCircle, title: 'Réponse rapide', text: "Je m'engage à vous répondre sous 24 à 48h ouvrées. Chaque message compte." },
+  { icon: CalendarDays, title: 'Disponibilités', text: "Les dates se réservent en moyenne 12 à 18 mois à l'avance. N'attendez pas pour me contacter." },
+  { icon: Heart, title: 'Rencontre', text: "Un échange en visio ou autour d'un café pour faire connaissance et parler de votre grand jour." },
+];
+
 export default async function ContactPage() {
   const [settings, images] = await Promise.all([getSettings(), getImages()]);
+
+  const instagramHandle = settings.instagram
+    ? '@' + settings.instagram.replace(/\/$/, '').split('/').pop()
+    : null;
+
+  const CONTACT_ITEMS = [
+    settings.email && { icon: Mail, label: 'Email', value: settings.email, href: `mailto:${settings.email}`, testid: 'contact-info-email' },
+    settings.phone && { icon: Phone, label: 'Téléphone', value: settings.phone, href: `tel:${(settings.phone || '').replace(/\s/g, '')}`, testid: 'contact-info-phone' },
+    settings.instagram && { icon: Instagram, label: 'Instagram', value: instagramHandle, href: settings.instagram, external: true, testid: 'contact-info-instagram' },
+    settings.facebook && { icon: Facebook, label: 'Facebook', value: 'Samuel Bocquillon Photographe', href: settings.facebook, external: true, testid: 'contact-info-facebook' },
+  ].filter(Boolean);
 
   return (
     <main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(contactFaqJsonLd()) }} />
-      <PageHero
-        img={images['contact-hero']}
-        label="Contact"
-        title="Parlons de votre mariage."
-        subtitle="Chaque histoire est unique. Racontez-moi la vôtre, je serai honoré de la photographier."
-        testid="contact-hero"
-      />
 
-      {/* Formulaire + infos */}
-      <section className="sb-section" data-testid="contact-main">
-        <div className="sb-container grid grid-cols-1 lg:grid-cols-12 gap-10">
-          <Reveal className="lg:col-span-7 bg-white rounded-[12px] border border-charbon/10 shadow-[var(--sb-shadow-soft)] p-6 sm:p-9">
-            <h2 className="font-serif text-3xl sm:text-4xl leading-[1.05]">Envoyez-moi un message</h2>
-            <p className="mt-3 text-[15px] text-charbon/70">Tous les champs marqués * sont obligatoires.</p>
-            <div className="mt-7">
+      {/* ============ HERO — titre à gauche, photo fondue vers l'ivoire ============ */}
+      <section className="relative min-h-[56svh] lg:min-h-[62svh] overflow-hidden" data-testid="contact-hero">
+        <div className="absolute inset-y-0 right-0 w-full sm:w-[80%] lg:w-[70%]">
+          <SmartImage img={images['contact-hero']} eager className="h-full w-full object-cover" sizes="70vw" />
+          <div className="absolute inset-0 bg-gradient-to-r from-ivoire via-ivoire/45 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-ivoire to-transparent" />
+        </div>
+        <div className="relative sb-container flex min-h-[56svh] lg:min-h-[62svh] items-center">
+          <div className="max-w-lg py-20">
+            <p className="label-caps text-cognac">Contact</p>
+            <h1 className="font-serif font-medium text-5xl sm:text-6xl lg:text-[76px] leading-[1.02] tracking-[-0.02em] text-charbon mt-4">
+              Parlons de
+              <br />
+              <span className="text-cognac">votre mariage.</span>
+            </h1>
+            <span className="block h-[2px] w-10 bg-cognac mt-6" aria-hidden="true" />
+            <p className="mt-6 text-[15px] sm:text-[15.5px] leading-[1.8] text-charbon/80 max-w-xs">
+              Chaque histoire est unique.
+              <br className="hidden sm:block" /> Racontez-moi la vôtre, je serai honoré
+              <br className="hidden sm:block" /> de la photographier.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ FORMULAIRE + RESTONS EN CONTACT ============ */}
+      <section className="pb-14 sm:pb-20" data-testid="contact-main">
+        <div className="sb-container">
+          <div className="bg-white px-6 sm:px-10 lg:px-14 py-12 sm:py-16 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+            <Reveal className="lg:col-span-6">
+              <h2 className="font-serif text-4xl sm:text-[44px] leading-[1.12]">
+                Envoyez-moi
+                <br />
+                un <span className="text-cognac">message</span>
+              </h2>
+              <span className="block h-[2px] w-9 bg-cognac mt-5 mb-9" aria-hidden="true" />
               <ContactForm full testidPrefix="contact" />
+            </Reveal>
+            <Reveal delay={0.1} className="lg:col-span-6 lg:pl-6">
+              <h2 className="font-serif text-4xl sm:text-[44px] leading-[1.12]">
+                Restons en <span className="text-cognac">contact</span>
+              </h2>
+              <p className="mt-7 text-[15px] leading-[1.8] text-charbon/80 max-w-sm">
+                Je suis à votre écoute pour échanger
+                <br className="hidden sm:block" /> sur votre mariage et vos envies photographiques.
+                <br className="hidden sm:block" /> Réponse sous 24 à 48h ouvrées.
+              </p>
+              <dl className="mt-9 space-y-6">
+                {CONTACT_ITEMS.map((item) => (
+                  <div key={item.label} className="flex items-start gap-4" data-testid={item.testid}>
+                    <span className="h-11 w-11 rounded-full bg-cuir text-ivoire flex items-center justify-center shrink-0">
+                      <item.icon className="h-4.5 w-4.5" />
+                    </span>
+                    <div>
+                      <dt className="label-caps !text-[10px] text-charbon/55">{item.label}</dt>
+                      <dd className="mt-1">
+                        <a
+                          href={item.href}
+                          {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                          className="text-[14.5px] text-charbon/85 hover:text-cuir transition-colors"
+                        >
+                          {item.value}
+                        </a>
+                      </dd>
+                    </div>
+                  </div>
+                ))}
+                <div className="flex items-start gap-4" data-testid="contact-info-address">
+                  <span className="h-11 w-11 rounded-full bg-cuir text-ivoire flex items-center justify-center shrink-0">
+                    <MapPin className="h-4.5 w-4.5" />
+                  </span>
+                  <div>
+                    <dt className="label-caps !text-[10px] text-charbon/55">Adresse</dt>
+                    <dd className="mt-1 text-[14.5px] leading-[1.7] text-charbon/85">
+                      Basé à {settings.city} ({settings.region})
+                      <br />
+                      Déplacements dans toute la France
+                      <br />
+                      et à l'international
+                    </dd>
+                  </div>
+                </div>
+              </dl>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ BANDE 3 ITEMS — réponse / disponibilités / rencontre ============ */}
+      <section className="bg-pierre/15 border-y border-charbon/10 py-10 sm:py-12" data-testid="contact-band">
+        <div className="sb-container grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-0 md:divide-x md:divide-charbon/15">
+          {BAND_ITEMS.map((b, idx) => (
+            <div key={b.title} className={`flex items-start gap-5 ${idx > 0 ? 'md:pl-10' : ''} ${idx < 2 ? 'md:pr-10' : ''}`} data-testid={`contact-band-${idx + 1}`}>
+              <span className="h-12 w-12 rounded-full bg-cuir text-ivoire flex items-center justify-center shrink-0">
+                <b.icon className="h-5 w-5" />
+              </span>
+              <div>
+                <h3 className="label-caps !text-[12px] text-charbon">{b.title}</h3>
+                <p className="mt-2.5 text-[13.5px] leading-[1.7] text-charbon/70 max-w-[260px]">{b.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ============ INFORMATIONS UTILES + OÙ ME TROUVER ============ */}
+      <section className="sb-section" data-testid="contact-faq-section">
+        <div className="sb-container grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <Reveal className="lg:col-span-6">
+            <h2 className="font-serif text-4xl sm:text-[44px] leading-[1.12]">
+              Informations <span className="text-cognac">utiles</span>
+            </h2>
+            <span className="block h-[2px] w-9 bg-cognac mt-5 mb-6" aria-hidden="true" />
+            <FAQAccordion items={FAQ_CONTACT} plus testid="contact-faq-accordion" />
+            <Link href="/prestations" className="btn-primary !rounded-none !py-3.5 !px-6 !text-[11px] mt-8" data-testid="contact-prestations-link">
+              Voir les prestations <span aria-hidden="true">→</span>
+            </Link>
+          </Reveal>
+          <Reveal delay={0.1} className="lg:col-span-6" data-testid="contact-map-section">
+            <h2 className="font-serif text-4xl sm:text-[44px] leading-[1.12]">
+              Où me <span className="text-cognac">trouver</span>
+            </h2>
+            <div className="mt-8">
+              <MapEmbed settings={settings} />
             </div>
           </Reveal>
-          <Reveal delay={0.1} className="lg:col-span-5">
-            <h2 className="font-serif text-3xl sm:text-4xl leading-[1.05]">Restons en contact</h2>
-            <p className="mt-4 text-[15.5px] leading-[1.7] text-charbon/75">
-              Je suis à votre écoute pour échanger au sujet de votre mariage, de reportages, portraits ou événements.
-            </p>
-            <p className="mt-4 inline-flex items-center gap-2 bg-cuir/5 border border-cuir/20 text-cuir rounded-full px-4 py-2.5 text-[14px] font-medium" data-testid="contact-response-promise">
-              <Clock className="h-4 w-4" />
-              {settings.response_delay || 'Réponse sous 24h garantie'}
-            </p>
-            <dl className="mt-8 space-y-5">
-              <div className="flex gap-4" data-testid="contact-info-email">
-                <span className="h-11 w-11 rounded-full border border-cognac/40 flex items-center justify-center text-cognac shrink-0"><Mail className="h-4.5 w-4.5" /></span>
-                <div>
-                  <dt className="label-caps !text-[10.5px] text-pierre">Email</dt>
-                  <dd className="mt-1"><a href={`mailto:${settings.email}`} className="text-[15.5px] font-medium hover:text-cuir transition-colors">{settings.email}</a></dd>
-                </div>
-              </div>
-              <div className="flex gap-4" data-testid="contact-info-phone">
-                <span className="h-11 w-11 rounded-full border border-cognac/40 flex items-center justify-center text-cognac shrink-0"><Phone className="h-4.5 w-4.5" /></span>
-                <div>
-                  <dt className="label-caps !text-[10.5px] text-pierre">Téléphone</dt>
-                  <dd className="mt-1"><a href={`tel:${(settings.phone || '').replace(/\s/g, '')}`} className="text-[15.5px] font-medium hover:text-cuir transition-colors">{settings.phone}</a></dd>
-                </div>
-              </div>
-              <div className="flex gap-4" data-testid="contact-info-address">
-                <span className="h-11 w-11 rounded-full border border-cognac/40 flex items-center justify-center text-cognac shrink-0"><MapPin className="h-4.5 w-4.5" /></span>
-                <div>
-                  <dt className="label-caps !text-[10.5px] text-pierre">Adresse</dt>
-                  <dd className="mt-1 text-[15.5px] font-medium">{settings.address}</dd>
-                </div>
-              </div>
-              {settings.instagram && (
-                <div className="flex gap-4" data-testid="contact-info-instagram">
-                  <span className="h-11 w-11 rounded-full border border-cognac/40 flex items-center justify-center text-cognac shrink-0"><Instagram className="h-4.5 w-4.5" /></span>
-                  <div>
-                    <dt className="label-caps !text-[10.5px] text-pierre">Instagram</dt>
-                    <dd className="mt-1"><a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="text-[15.5px] font-medium hover:text-cuir transition-colors">@samuelbocquillon</a></dd>
-                  </div>
-                </div>
-              )}
-              {settings.facebook && (
-                <div className="flex gap-4" data-testid="contact-info-facebook">
-                  <span className="h-11 w-11 rounded-full border border-cognac/40 flex items-center justify-center text-cognac shrink-0"><Facebook className="h-4.5 w-4.5" /></span>
-                  <div>
-                    <dt className="label-caps !text-[10.5px] text-pierre">Facebook</dt>
-                    <dd className="mt-1"><a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="text-[15.5px] font-medium hover:text-cuir transition-colors">Samuel Bocquillon</a></dd>
-                  </div>
-                </div>
-              )}
-            </dl>
-          </Reveal>
         </div>
       </section>
 
-      {/* OÙ ME TROUVER — carte + itinéraire (élément 20) */}
-      <section className="bg-white py-14 sm:py-20" data-testid="contact-map-section">
-        <div className="sb-container">
-          <Reveal>
-            <p className="label-caps text-cognac">Où me trouver</p>
-            <h2 className="font-serif text-4xl sm:text-5xl leading-[1.05] mt-4">Basé à {settings.city}, disponible partout.</h2>
-            <p className="mt-4 text-[15.5px] leading-[1.7] text-charbon/75 max-w-2xl">
-              Basé à {settings.city} ({settings.region}), je me déplace dans toute la France et à l'international.
-              Déplacement offert dans un rayon de 50 km — Lille, Douai, Cambrai et tout le Hainaut.
-            </p>
-          </Reveal>
-          <div className="mt-8">
-            <MapEmbed settings={settings} />
-          </div>
+      {/* ============ CTA FINAL — bande sombre sur photo ============ */}
+      <section className="relative py-16 sm:py-20" data-testid="contact-photo-cta">
+        <div className="absolute inset-0 overflow-hidden">
+          <SmartImage img={images['contact-cta-fond']} className="h-full w-full object-cover" sizes="100vw" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charbon/85 via-charbon/55 to-charbon/25" />
         </div>
-      </section>
-
-      {/* INFORMATIONS UTILES */}
-      <section className="sb-section" data-testid="contact-faq-section">
-        <div className="sb-container max-w-3xl">
-          <Reveal>
-            <p className="label-caps text-cognac">Informations utiles</p>
-            <h2 className="font-serif text-4xl sm:text-5xl leading-[1.05] mt-4">Avant de m'écrire…</h2>
-          </Reveal>
-          <div className="mt-9">
-            <FAQAccordion items={FAQ_CONTACT} testid="contact-faq-accordion" />
-          </div>
+        <div className="relative sb-container">
+          <h2 className="font-serif font-medium text-ivoire text-4xl sm:text-5xl leading-[1.08] max-w-md">
+            Prêt à écrire
+            <br />
+            <span className="text-cognac">votre histoire ?</span>
+          </h2>
+          <p className="mt-4 text-ivoire/80 text-[14.5px] leading-[1.75] max-w-xs">
+            Discutons de votre mariage et créons ensemble
+            <br className="hidden sm:block" /> des souvenirs intemporels.
+          </p>
+          <Link href="#contact-name" className="btn-primary !rounded-none mt-7" data-testid="contact-photo-cta-button">
+            Prenons rendez-vous <span aria-hidden="true">→</span>
+          </Link>
         </div>
       </section>
     </main>

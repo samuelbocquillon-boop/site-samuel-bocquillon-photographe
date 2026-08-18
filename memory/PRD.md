@@ -60,3 +60,11 @@ Accueil, À propos, Portfolio (filtres + reportage à la une), Prestations (hub 
 - Bande témoignage sur photo avec voile ivoire central + carrousel "– AUTEUR –" sans accent cognac
 - CTA final fond ivoire : "PRÊTS À ÉCRIRE VOTRE HISTOIRE ?" + appareil photo en mix-blend-multiply (slot portfolio-cta-camera)
 - 67 slots images au total
+
+## Itération 5 — Contact refait selon maquette + audit couleurs (validé par screenshots)
+- Audit palette : suppression des teintes hors-charte (hover #4a3025→cuir/90, cartes #EDE8E0/#e6e1d8→ivoire/pierre-25, admin bg→ivoire). Palette stricte : #5A3A2E #8A5A44 #EFECE8 #FFFFFF #1A1A1A #B9B4AE
+- Hero split : CONTACT + "Parlons de / votre mariage." (cognac) + trait + 3 lignes, photo fondue ivoire
+- Carte blanche : formulaire complet (nom+email/téléphone/date/lieu/message, placeholders maquette, bouton ENVOYER LE MESSAGE →, mention RGPD) + "Restons en contact" à icônes rondes cuir pleines
+- Bande 3 items (RÉPONSE RAPIDE/DISPONIBILITÉS/RENCONTRE) séparés par traits verticaux sur fond pierre/15
+- "Informations utiles" : accordéon à "+" (5 questions maquette, FAQ #3 renommée "à l'international") + bouton VOIR LES PRESTATIONS ; "Où me trouver" : carte beige à épingle brune (Maps RGPD) + texte + itinéraire
+- CTA sombre "Prêt à écrire / votre histoire ?" + PRENONS RENDEZ-VOUS (nouveau slot contact-cta-fond) — 68 slots au total

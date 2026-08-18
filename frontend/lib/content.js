@@ -68,9 +68,9 @@ export const FAQ_PRESTATIONS = [
 ];
 
 export const FAQ_CONTACT = [
-  { q: 'Comment réserver votre date ?', a: 'Contactez-moi via le formulaire avec votre date : je vous confirme ma disponibilité sous 24h. Un acompte de 30 % bloque définitivement votre date.' },
+  { q: 'Comment réserver votre date ?', a: 'Contactez-moi via le formulaire avec votre date : je vous confirme ma disponibilité sous 24 à 48h. Un acompte de 30 % et un contrat signé bloquent définitivement votre date.' },
   { q: 'Où êtes-vous basé ?', a: 'Je suis basé à Valenciennes, dans le Nord (59). J\'interviens régulièrement à Lille, Douai, Cambrai et dans tous les Hauts-de-France.' },
-  { q: 'Travaillez-vous à l\'étranger ?', a: 'Oui, votre histoire m\'emmène où elle veut : destination weddings et élopements partout en Europe et au-delà.' },
+  { q: 'Travaillez-vous à l\'international ?', a: 'Oui, votre histoire m\'emmène où elle veut : destination weddings et élopements partout en Europe et à l\'international.' },
   { q: 'Proposez-vous des séances engagement ?', a: 'Oui — une séance couple avant le mariage, idéale pour apprivoiser l\'objectif. Offerte dans la Collection Premium.' },
   { q: 'Combien de photos livrez-vous ?', a: 'De 400 à 900+ photos retouchées selon la collection choisie, toutes en haute définition et sans filigrane.' },
 ];

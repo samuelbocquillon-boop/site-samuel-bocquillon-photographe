@@ -76,7 +76,7 @@ export default async function PortfolioPage() {
             </Link>
           </Reveal>
           <Reveal delay={0.15} className="lg:col-span-4">
-            <div className="bg-[#EDE8E0] px-8 sm:px-10 py-12 sm:py-14" data-testid="portfolio-quote-card">
+            <div className="bg-ivoire px-8 sm:px-10 py-12 sm:py-14" data-testid="portfolio-quote-card">
               <span className="font-serif text-cognac text-6xl leading-none select-none" aria-hidden="true">“</span>
               <p className="font-serif text-[21px] sm:text-[23px] leading-[1.45] text-charbon mt-1">
                 Chaque mariage est unique. Mon rôle est d'en raconter l'essence avec sincérité et discrétion.

@@ -101,7 +101,7 @@ export default function AdminPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f6f4f1]" data-testid="admin-dashboard">
+    <main className="min-h-screen bg-ivoire" data-testid="admin-dashboard">
       <header className="bg-white border-b border-charbon/10 sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-5 flex items-center justify-between h-16">
           <div className="flex items-center gap-3">

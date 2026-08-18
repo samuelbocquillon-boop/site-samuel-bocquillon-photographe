@@ -1,10 +1,16 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Send } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { PUBLIC_API } from '@/lib/api';
 
-// Formulaire de contact — variante complète (page Contact), courte (Accueil) ou minimale (maquette accueil)
+const inputClass =
+  'w-full bg-white border border-charbon/20 rounded-none px-3.5 py-3 font-sans text-[14.5px] text-charbon placeholder:text-pierre focus:border-cognac focus:outline-none focus:ring-0 transition-colors duration-200';
+const underlineClass =
+  'w-full bg-transparent border-0 border-b border-charbon/25 rounded-none px-0 py-2.5 font-sans text-[15px] text-charbon placeholder:text-pierre focus:border-cognac focus:outline-none focus:ring-0 transition-colors duration-200';
+const labelClass = 'label-caps !text-[10.5px] text-charbon/60 block mb-2';
+
+// Formulaire de contact — « full » (page Contact, maquette) ou « minimal » (accueil, maquette)
 export const ContactForm = ({ full = false, minimal = false, testidPrefix = 'contact' }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -35,70 +41,79 @@ export const ContactForm = ({ full = false, minimal = false, testidPrefix = 'con
     }
   };
 
+  /* ---------- Variante minimale (accueil) ---------- */
+  if (minimal) {
+    return (
+      <form onSubmit={submit} className="space-y-4" data-testid={`${testidPrefix}-form`} noValidate>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label htmlFor={`${testidPrefix}-name`} className={labelClass}>Votre nom</label>
+            <input id={`${testidPrefix}-name`} data-testid={`${testidPrefix}-name-input`} className={underlineClass} value={form.name} onChange={set('name')} required />
+          </div>
+          <div>
+            <label htmlFor={`${testidPrefix}-email`} className={labelClass}>Votre email</label>
+            <input id={`${testidPrefix}-email`} data-testid={`${testidPrefix}-email-input`} type="email" className={underlineClass} value={form.email} onChange={set('email')} required />
+          </div>
+        </div>
+        <div className="pt-2">
+          <label htmlFor={`${testidPrefix}-message`} className={labelClass}>Votre message</label>
+          <textarea id={`${testidPrefix}-message`} data-testid={`${testidPrefix}-message-input`} rows={4} className={`${inputClass} resize-y`} value={form.message} onChange={set('message')} required />
+        </div>
+        {error && <p className="text-[#a03526] text-[14px]" role="alert" data-testid={`${testidPrefix}-form-error`}>{error}</p>}
+        <button type="submit" className="btn-primary !rounded-none" disabled={loading} data-testid={`${testidPrefix}-submit-button`}>
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+          {loading ? 'Envoi en cours…' : 'Envoyer ma demande'} {!loading && <span aria-hidden="true">→</span>}
+        </button>
+      </form>
+    );
+  }
+
+  /* ---------- Variante complète (page Contact — maquette) ---------- */
   return (
-    <form onSubmit={submit} className="space-y-4" data-testid={`${testidPrefix}-form`} noValidate>
-      {minimal ? (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label htmlFor={`${testidPrefix}-name`} className="label-caps !text-[10.5px] text-charbon/55 block mb-2">Votre nom</label>
-              <input id={`${testidPrefix}-name`} data-testid={`${testidPrefix}-name-input`} className="w-full bg-transparent border-0 border-b border-charbon/25 rounded-none px-0 py-2.5 font-sans text-[15px] text-charbon placeholder:text-pierre focus:border-cognac focus:outline-none focus:ring-0 transition-colors duration-200" value={form.name} onChange={set('name')} required />
-            </div>
-            <div>
-              <label htmlFor={`${testidPrefix}-email`} className="label-caps !text-[10.5px] text-charbon/55 block mb-2">Votre email</label>
-              <input id={`${testidPrefix}-email`} data-testid={`${testidPrefix}-email-input`} type="email" className="w-full bg-transparent border-0 border-b border-charbon/25 rounded-none px-0 py-2.5 font-sans text-[15px] text-charbon placeholder:text-pierre focus:border-cognac focus:outline-none focus:ring-0 transition-colors duration-200" value={form.email} onChange={set('email')} required />
-            </div>
-          </div>
-          <div className="pt-2">
-            <label htmlFor={`${testidPrefix}-message`} className="label-caps !text-[10.5px] text-charbon/55 block mb-2">Votre message</label>
-            <textarea id={`${testidPrefix}-message`} data-testid={`${testidPrefix}-message-input`} rows={4} className="w-full bg-transparent border border-charbon/25 rounded-none px-3.5 py-3 font-sans text-[15px] text-charbon placeholder:text-pierre focus:border-cognac focus:outline-none focus:ring-0 transition-colors duration-200 resize-y" value={form.message} onChange={set('message')} required />
-          </div>
-          {error && <p className="text-[#a03526] text-[14px]" role="alert" data-testid={`${testidPrefix}-form-error`}>{error}</p>}
-          <button type="submit" className="btn-primary !rounded-none" disabled={loading} data-testid={`${testidPrefix}-submit-button`}>
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-            {loading ? 'Envoi en cours…' : 'Envoyer ma demande'} {!loading && <span aria-hidden="true">→</span>}
-          </button>
-        </>
-      ) : (
-      <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <form onSubmit={submit} className="space-y-5" data-testid={`${testidPrefix}-form`} noValidate>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-          <label htmlFor={`${testidPrefix}-name`} className="label-caps text-charbon/60 block mb-2">Votre nom *</label>
-          <input id={`${testidPrefix}-name`} data-testid={`${testidPrefix}-name-input`} className="sb-input" placeholder="Prénom & nom" value={form.name} onChange={set('name')} required />
+          <label htmlFor={`${testidPrefix}-name`} className={labelClass}>Votre nom</label>
+          <input id={`${testidPrefix}-name`} data-testid={`${testidPrefix}-name-input`} className={inputClass} placeholder="Votre nom" value={form.name} onChange={set('name')} required />
         </div>
         <div>
-          <label htmlFor={`${testidPrefix}-email`} className="label-caps text-charbon/60 block mb-2">Votre email *</label>
-          <input id={`${testidPrefix}-email`} data-testid={`${testidPrefix}-email-input`} type="email" className="sb-input" placeholder="vous@exemple.fr" value={form.email} onChange={set('email')} required />
+          <label htmlFor={`${testidPrefix}-email`} className={labelClass}>Votre email</label>
+          <input id={`${testidPrefix}-email`} data-testid={`${testidPrefix}-email-input`} type="email" className={inputClass} placeholder="votre@email.com" value={form.email} onChange={set('email')} required />
         </div>
       </div>
-      {full && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label htmlFor="contact-phone" className="label-caps text-charbon/60 block mb-2">Téléphone</label>
-            <input id="contact-phone" data-testid="contact-phone-input" type="tel" className="sb-input" placeholder="06 …" value={form.phone} onChange={set('phone')} />
-          </div>
-          <div>
-            <label htmlFor="contact-date" className="label-caps text-charbon/60 block mb-2">Date du mariage</label>
-            <input id="contact-date" data-testid="contact-date-input" type="date" className="sb-input" value={form.wedding_date} onChange={set('wedding_date')} />
-          </div>
-          <div>
-            <label htmlFor="contact-location" className="label-caps text-charbon/60 block mb-2">Lieu du mariage</label>
-            <input id="contact-location" data-testid="contact-location-input" className="sb-input" placeholder="Ville, lieu de réception…" value={form.wedding_location} onChange={set('wedding_location')} />
-          </div>
-        </div>
-      )}
       <div>
-        <label htmlFor={`${testidPrefix}-message`} className="label-caps text-charbon/60 block mb-2">Votre message *</label>
-        <textarea id={`${testidPrefix}-message`} data-testid={`${testidPrefix}-message-input`} className="sb-input min-h-[140px] resize-y" placeholder="Racontez-moi votre histoire, votre projet…" value={form.message} onChange={set('message')} required />
+        <label htmlFor="contact-phone" className={labelClass}>Votre téléphone</label>
+        <input id="contact-phone" data-testid="contact-phone-input" type="tel" className={inputClass} placeholder="06 00 00 00 00" value={form.phone} onChange={set('phone')} />
+      </div>
+      <div>
+        <label htmlFor="contact-date" className={labelClass}>Date de votre mariage</label>
+        <input id="contact-date" data-testid="contact-date-input" type="date" className={inputClass} value={form.wedding_date} onChange={set('wedding_date')} />
+      </div>
+      <div>
+        <label htmlFor="contact-location" className={labelClass}>Lieu du mariage</label>
+        <input id="contact-location" data-testid="contact-location-input" className={inputClass} placeholder="Ville, région ou lieu précis" value={form.wedding_location} onChange={set('wedding_location')} />
+      </div>
+      <div>
+        <label htmlFor={`${testidPrefix}-message`} className={labelClass}>Votre message</label>
+        <textarea
+          id={`${testidPrefix}-message`}
+          data-testid={`${testidPrefix}-message-input`}
+          rows={4}
+          className={`${inputClass} resize-y`}
+          placeholder="Parlez-moi de votre mariage, de vos envies, de votre histoire…"
+          value={form.message}
+          onChange={set('message')}
+          required
+        />
       </div>
       {error && <p className="text-[#a03526] text-[14px]" role="alert" data-testid={`${testidPrefix}-form-error`}>{error}</p>}
-      <button type="submit" className="btn-primary w-full md:w-auto" disabled={loading} data-testid={`${testidPrefix}-submit-button`}>
-        {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-        {loading ? 'Envoi en cours…' : 'Envoyer ma demande'}
+      <button type="submit" className="btn-primary !rounded-none !py-3.5 !px-6 !text-[11px]" disabled={loading} data-testid={`${testidPrefix}-submit-button`}>
+        {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+        {loading ? 'Envoi en cours…' : 'Envoyer le message'} {!loading && <span aria-hidden="true">→</span>}
       </button>
-      <p className="text-pierre text-[13px]">Réponse garantie sous 24h — vos données restent confidentielles.</p>
-      </>
-      )}
+      <p className="text-pierre text-[12px] leading-relaxed max-w-sm">
+        En envoyant ce formulaire, vous acceptez que vos informations soient utilisées afin de vous répondre.
+      </p>
     </form>
   );
 };
