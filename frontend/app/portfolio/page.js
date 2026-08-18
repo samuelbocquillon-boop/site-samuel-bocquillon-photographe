@@ -81,7 +81,7 @@ export default async function PortfolioPage() {
               <p className="font-serif text-[21px] sm:text-[23px] leading-[1.45] text-charbon mt-1">
                 Chaque mariage est unique. Mon rôle est d'en raconter l'essence avec sincérité et discrétion.
               </p>
-              <p className="font-script text-3xl text-charbon/85 mt-7">Samuel B.</p>
+              <img src="/signature-samuel-b.webp" alt="Signature de Samuel B." className="h-10 w-auto opacity-85 mt-7" loading="lazy" decoding="async" />
             </div>
           </Reveal>
         </div>

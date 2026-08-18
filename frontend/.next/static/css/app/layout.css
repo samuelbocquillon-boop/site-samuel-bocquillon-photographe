@@ -2092,6 +2092,12 @@ video {
 .opacity-\[0\.16\] {
   opacity: 0.16;
 }
+.opacity-80 {
+  opacity: 0.8;
+}
+.opacity-85 {
+  opacity: 0.85;
+}
 .mix-blend-multiply {
   mix-blend-mode: multiply;
 }

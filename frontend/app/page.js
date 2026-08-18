@@ -89,7 +89,7 @@ export default async function HomePage() {
               <br className="hidden sm:block" /> Pour raconter ce qui compte, avec vérité, sincérité.
               <br className="hidden sm:block" /> Des images nettes, pour des souvenirs qui le restent.
             </p>
-            <p className="font-script text-4xl text-charbon/85 mt-8" data-testid="home-about-signature">Samuel B.</p>
+            <img src="/signature-samuel-b.webp" alt="Signature de Samuel B." className="h-12 w-auto opacity-85 mt-8" loading="lazy" decoding="async" data-testid="home-about-signature" />
           </Reveal>
         </div>
       </section>

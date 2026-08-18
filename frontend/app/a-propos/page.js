@@ -58,7 +58,7 @@ export default async function AProposPage() {
                 <p className="font-serif text-[19px] leading-[1.4] text-charbon -mt-3">
                   Il ne s'agit pas de prendre des photos, mais de <strong className="font-medium">ressentir</strong> l'instant pour le révéler.
                 </p>
-                <p className="font-script text-3xl text-charbon/80 mt-4">Samuel B.</p>
+                <img src="/signature-samuel-b.webp" alt="Signature de Samuel B." className="h-10 w-auto opacity-80 mt-4" loading="lazy" decoding="async" />
               </div>
             </div>
           </Reveal>
@@ -84,7 +84,7 @@ export default async function AProposPage() {
               Mon style est naturel, lumineux et intemporel. Chaque reportage est une création sur mesure,
               fidèle à votre personnalité.
             </p>
-            <p className="font-script text-5xl text-charbon/85 mt-8">Samuel B.</p>
+            <img src="/signature-samuel-b.webp" alt="Signature de Samuel B." className="h-14 w-auto opacity-85 mt-8" loading="lazy" decoding="async" />
           </Reveal>
           <Reveal delay={0.1} className="lg:col-span-7">
             <SmartImage

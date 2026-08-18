@@ -88,3 +88,7 @@ Accueil, À propos, Portfolio (filtres + reportage à la une), Prestations (hub 
 ## Itération 8 — Badge circulaire hero statique
 - Badge rond fourni par le client (7.webp) : fond blanc circulaire ajouté (intérieur transparent illisible sur photo), recadré et exporté en /public/badge-samuel-bocquillon.webp (30 Ko)
 - Composant CircularBadge : remplacé par l'image statique (rotation supprimée), affiché bas-droite du hero accueil
+
+## Itération 9 — Signature manuscrite réelle
+- Signature fournie (Copie de the end.webp) recadrée (bbox alpha) → /public/signature-samuel-b.webp (15 Ko, transparent)
+- Remplace la signature typographique 'Samuel B.' (font-script) aux 4 emplacements : À propos (carte citation + section Mon approche), Accueil (section À propos), Portfolio (carte citation)
