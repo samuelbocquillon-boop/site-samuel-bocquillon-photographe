@@ -79,3 +79,8 @@ Accueil, À propos, Portfolio (filtres + reportage à la une), Prestations (hub 
 - **Nav** : BLOG entre Prestations et Contact + lien footer. 72 slots images au total.
 - **Tests** : iteration_2.json — 100% (50 tests passés, 0 bug). Flux E2E admin validé : création→publication→affichage public→suppression.
 - **Toujours en attente (client)** : NAP réel, SMTP Gmail, Cloudinary, GA ID.
+
+## Itération 7 — Logo officiel intégré
+- Logo fourni par le client (5.webp, monogramme SB + filet cognac + nom + baseline) recadré automatiquement (Pillow, bbox alpha) et exporté en /public/logo-samuel-bocquillon.webp (23 Ko, fond transparent, retina x3)
+- Composant Logo.js remplacé par l'image officielle — header desktop (h-52px), menu mobile (h-10), toutes pages publiques
+- Vérifié par screenshots : accueil, blog, mobile

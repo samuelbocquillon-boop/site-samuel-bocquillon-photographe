@@ -19,17 +19,18 @@ export const ScriptMonogram = ({ className = '', color = 'currentColor' }) => (
   </svg>
 );
 
-// Logo texte deux lignes (header — maquette accueil)
+// Logo texte deux lignes (header — logo officiel fourni par le client)
 export const Logo = ({ dark = false, compact = false }) => (
-  <Link href="/" className="group inline-block" aria-label="Samuel Bocquillon — Photographe de mariage, retour à l'accueil" data-testid="site-logo">
-    <span className={`block font-serif text-[19px] sm:text-[22px] tracking-[0.18em] uppercase leading-none ${dark ? 'text-ivoire' : 'text-charbon'}`}>
-      Samuel Bocquillon
-    </span>
-    {!compact && (
-      <span className={`block font-sans font-semibold text-[8.5px] sm:text-[9.5px] tracking-[0.34em] uppercase mt-1.5 ${dark ? 'text-ivoire/65' : 'text-charbon/55'}`}>
-        Photographe de mariage
-      </span>
-    )}
+  <Link href="/" className="inline-flex items-center" aria-label="Samuel Bocquillon — Photographe de mariage, retour à l'accueil" data-testid="site-logo">
+    <img
+      src="/logo-samuel-bocquillon.webp"
+      alt="Samuel Bocquillon — Photographe de mariage"
+      width="744"
+      height="240"
+      className={`w-auto ${compact ? 'h-10' : 'h-11 sm:h-[52px]'} ${dark ? 'brightness-0 invert' : ''}`}
+      loading="eager"
+      decoding="async"
+    />
   </Link>
 );
 
