@@ -1,12 +1,9 @@
 import Link from 'next/link';
-import { Camera, Heart, Gem } from 'lucide-react';
-import { getImages, getTestimonials } from '@/lib/api';
-import { VALEURS, PARCOURS } from '@/lib/content';
+import { Leaf, Heart, Gem } from 'lucide-react';
+import { getImages } from '@/lib/api';
+import { PARCOURS } from '@/lib/content';
 import { SmartImage } from '@/components/SmartImage';
 import { Reveal } from '@/components/Reveal';
-import { PageHero } from '@/components/PageHero';
-import { CTASection } from '@/components/CTASection';
-import { TestimonialBlock } from '@/components/TestimonialBlock';
 
 export const metadata = {
   title: 'À propos — Un observateur discret',
@@ -15,106 +12,108 @@ export const metadata = {
   alternates: { canonical: '/a-propos' },
 };
 
-const ICONS = { Camera, Heart, Gem };
+const VALEURS_APROPOS = [
+  { icon: Leaf, title: 'Authenticité', text: "Des images vraies, prises sur le vif, loin des poses figées. Je cherche l'essentiel : vous." },
+  { icon: Heart, title: 'Émotion', text: "Chaque mariage est unique et chargé d'émotions. Je capture l'invisible pour en faire un souvenir tangible." },
+  { icon: Gem, title: 'Élégance', text: 'Une attention portée aux détails, à la lumière et à la composition pour des images intemporelles.' },
+];
 
 export default async function AProposPage() {
-  const [images, testimonials] = await Promise.all([getImages(), getTestimonials()]);
-  const featured = testimonials.find((t) => t.featured && t.category === 'mariage') || testimonials[0];
+  const images = await getImages();
 
   return (
     <main>
-      <PageHero
-        img={images['apropos-hero']}
-        label="À propos"
-        title="Un observateur discret."
-        subtitle="Photographe de mariage basé à Valenciennes, disponible partout où votre histoire m'emmène."
-        testid="apropos-hero"
-      />
-
-      {/* Résumé extractible (GEO) */}
-      <section className="sb-section" data-testid="apropos-intro">
-        <div className="sb-container grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-          <Reveal className="lg:col-span-7 order-2 lg:order-1">
-            <p className="label-caps text-cognac">Qui suis-je ?</p>
-            <h2 className="font-serif text-4xl sm:text-5xl leading-[1.05] mt-4">
-              Être là, au bon moment. <span className="italic">Et laisser l'instant parler.</span>
-            </h2>
-            <p className="mt-6 text-[16px] sm:text-[17px] leading-[1.7] text-charbon/80">
-              Je suis Samuel, photographe de mariage basé à Valenciennes, dans le Nord, et disponible partout où votre
-              histoire m'emmène. Ma boussole est simple : être là, au bon moment, au bon endroit — et laisser l'instant
-              parler. Pour raconter ce qui compte, avec vérité et sincérité. Des images nettes, pour des souvenirs qui le restent.
-            </p>
-            <p className="font-serif italic text-2xl text-cognac mt-7">Samuel B.</p>
-          </Reveal>
-          <Reveal delay={0.1} className="lg:col-span-5 order-1 lg:order-2">
-            <SmartImage img={images['apropos-portrait']} className="w-full aspect-[4/5] object-cover rounded-[6px] border border-charbon/10" sizes="(max-width: 1024px) 100vw, 40vw" />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* MON APPROCHE */}
-      <section className="bg-white py-14 sm:py-20 lg:py-24" data-testid="apropos-approche">
-        <div className="sb-container grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+      {/* HERO ÉDITORIAL — 2 colonnes : texte à gauche, portrait + carte citation à droite */}
+      <section className="sb-container pt-10 sm:pt-16 pb-14 sm:pb-20" data-testid="apropos-hero">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           <Reveal className="lg:col-span-5">
-            <SmartImage img={images['apropos-approche']} className="w-full aspect-[4/5] object-cover rounded-[6px] border border-charbon/10" sizes="(max-width: 1024px) 100vw, 40vw" />
+            <p className="label-caps text-charbon/60">Plus qu'un photographe,</p>
+            <h1 className="font-serif font-medium text-6xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-[-0.02em] mt-3">
+              À propos
+            </h1>
+            <p className="label-caps !text-[13px] sm:!text-[14px] text-cognac mt-5">Un observateur discret.</p>
+            <span className="block h-[2px] w-10 bg-cognac mt-4" aria-hidden="true" />
+            <p className="mt-7 text-[15.5px] sm:text-[16px] leading-[1.7] text-charbon/80 max-w-sm">
+              Je suis Samuel, photographe de mariage basé en France et disponible pour raconter votre histoire,
+              là où elle se vit, avec sincérité et élégance.
+            </p>
+            <p className="mt-4 text-[15.5px] sm:text-[16px] leading-[1.7] text-charbon/80 max-w-sm">
+              Ma mission : créer des images vraies, intemporelles et profondément humaines.
+            </p>
+            <Link href="/contact" className="btn-primary mt-8" data-testid="apropos-hero-cta-button">
+              Discutons de votre histoire <span aria-hidden="true">→</span>
+            </Link>
           </Reveal>
           <Reveal delay={0.1} className="lg:col-span-7">
-            <p className="label-caps text-cognac">Mon approche</p>
-            <h2 className="font-serif text-4xl sm:text-5xl leading-[1.05] mt-4">
-              L'art de la discrétion, <span className="italic">la force du vrai.</span>
-            </h2>
-            <p className="mt-6 text-[16px] leading-[1.7] text-charbon/80 max-w-xl">
-              Pas de poses interminables ni de mises en scène artificielles. Je travaille en reportage : j'observe,
-              j'anticipe, je capture. Les rires échangés pendant les préparatifs, la main serrée pendant la cérémonie,
-              les larmes des discours — tout ce qui fait la vérité de votre journée.
-            </p>
-            <p className="mt-4 text-[16px] leading-[1.7] text-charbon/80 max-w-xl">
-              Mon style ? Chaleureux, contrasté, intemporel. Des peaux naturelles, des noirs profonds, cette lumière
-              dorée de fin de journée que j'aime tant. Et toujours : vous, avant tout.
-            </p>
+            <div className="relative lg:pr-16 lg:pb-16">
+              <SmartImage
+                img={images['apropos-portrait']}
+                eager
+                className="w-full aspect-[4/5] sm:aspect-[5/6] object-cover"
+                sizes="(max-width: 1024px) 100vw, 55vw"
+              />
+              {/* Carte citation superposée */}
+              <div className="lg:absolute lg:bottom-0 lg:right-0 bg-white shadow-[var(--sb-shadow)] p-7 sm:p-8 max-w-[300px] mt-[-3rem] ml-auto mr-4 relative lg:mt-0 lg:mr-0" data-testid="apropos-quote-card">
+                <span className="font-serif text-cognac text-5xl leading-none select-none" aria-hidden="true">“</span>
+                <p className="font-serif text-[19px] leading-[1.4] text-charbon -mt-3">
+                  Il ne s'agit pas de prendre des photos, mais de <strong className="font-medium">ressentir</strong> l'instant pour le révéler.
+                </p>
+                <p className="font-serif italic text-xl text-charbon/80 mt-4">Samuel B.</p>
+              </div>
+            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* MES VALEURS */}
+      {/* MON APPROCHE — texte à gauche, photo couple à droite */}
+      <section className="bg-white py-14 sm:py-20" data-testid="apropos-approche">
+        <div className="sb-container grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          <Reveal className="lg:col-span-5">
+            <p className="label-caps text-charbon/60 flex items-center gap-3">
+              Mon approche <span className="h-px w-8 bg-cognac inline-block" aria-hidden="true" />
+            </p>
+            <h2 className="font-serif text-4xl sm:text-5xl leading-[1.05] mt-5">
+              L'art de la discrétion,
+              <span className="block text-cognac italic">la force du vrai.</span>
+            </h2>
+            <p className="mt-6 text-[15.5px] leading-[1.7] text-charbon/80 max-w-md">
+              J'avance à vos côtés avec discrétion et bienveillance. Je capte les regards, les gestes, les rires
+              et les silences. Ces instants simples qui racontent votre histoire.
+            </p>
+            <p className="mt-4 text-[15.5px] leading-[1.7] text-charbon/80 max-w-md">
+              Mon style est naturel, lumineux et intemporel. Chaque reportage est une création sur mesure,
+              fidèle à votre personnalité.
+            </p>
+            <p className="font-serif italic text-3xl text-charbon/85 mt-8">Samuel B.</p>
+          </Reveal>
+          <Reveal delay={0.1} className="lg:col-span-7">
+            <SmartImage
+              img={images['apropos-approche']}
+              className="w-full aspect-[4/3] object-cover"
+              sizes="(max-width: 1024px) 100vw, 58vw"
+            />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* MES VALEURS — 3 colonnes minimalistes avec icônes cerclées */}
       <section className="sb-section" data-testid="apropos-valeurs">
         <div className="sb-container">
           <Reveal>
-            <p className="label-caps text-cognac text-center">Mes valeurs</p>
-            <h2 className="font-serif text-4xl sm:text-5xl leading-[1.05] mt-4 text-center">Ce qui guide chaque image.</h2>
+            <p className="label-caps text-charbon/60 flex items-center gap-3">
+              Mes valeurs <span className="h-px w-8 bg-cognac inline-block" aria-hidden="true" />
+            </p>
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            {VALEURS.map((v, idx) => {
-              const Icon = ICONS[v.icon];
-              return (
-                <Reveal key={v.title} delay={idx * 0.08}>
-                  <div className="bg-white rounded-[12px] border border-charbon/10 p-8 h-full text-center" data-testid={`valeur-${v.title.toLowerCase()}`}>
-                    <span className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-cognac/40 text-cognac">
-                      <Icon className="h-6 w-6" />
-                    </span>
-                    <h3 className="label-caps !text-[13px] mt-5 text-charbon">{v.title}</h3>
-                    <p className="mt-3 text-[15px] leading-[1.65] text-charbon/75">{v.text}</p>
-                  </div>
-                </Reveal>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* MON PARCOURS — timeline */}
-      <section className="bg-charbon text-ivoire py-14 sm:py-20 lg:py-24" data-testid="apropos-parcours">
-        <div className="sb-container">
-          <Reveal>
-            <p className="label-caps text-cognac">Mon parcours</p>
-            <h2 className="font-serif text-4xl sm:text-5xl leading-[1.05] mt-4 text-ivoire">Plus de dix ans d'histoires vraies.</h2>
-          </Reveal>
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-9">
-            {PARCOURS.map((p, idx) => (
-              <Reveal key={p.year} delay={idx * 0.05}>
-                <div className="border-l border-cognac/50 pl-5" data-testid={`parcours-${p.year}`}>
-                  <p className="font-serif text-3xl text-cognac">{p.year}</p>
-                  <p className="mt-2 text-[15px] leading-[1.65] text-ivoire/75">{p.text}</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 mt-12">
+            {VALEURS_APROPOS.map((v, idx) => (
+              <Reveal key={v.title} delay={idx * 0.08}>
+                <div className="text-center px-4" data-testid={`valeur-${v.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')}`}>
+                  <span className="inline-flex h-16 w-16 items-center justify-center rounded-full border border-cognac/50 text-cognac">
+                    <v.icon className="h-6 w-6" strokeWidth={1.5} />
+                  </span>
+                  <h3 className="font-serif text-2xl mt-6 tracking-wide">{v.title.toUpperCase()}</h3>
+                  <p className="mt-4 text-[14.5px] leading-[1.7] text-charbon/70 max-w-[280px] mx-auto">{v.text}</p>
+                  <span className="block h-[2px] w-8 bg-cognac/70 mx-auto mt-6" aria-hidden="true" />
                 </div>
               </Reveal>
             ))}
@@ -122,15 +121,86 @@ export default async function AProposPage() {
         </div>
       </section>
 
-      {featured && <TestimonialBlock quote={featured.text} author={featured.author} role={featured.role} testid="apropos-testimonial" />}
+      {/* MON PARCOURS — timeline horizontale sur fond clair */}
+      <section className="pb-14 sm:pb-20" data-testid="apropos-parcours">
+        <div className="sb-container">
+          <Reveal>
+            <p className="label-caps text-charbon/60 flex items-center gap-3">
+              Mon parcours <span className="h-px w-8 bg-cognac inline-block" aria-hidden="true" />
+            </p>
+          </Reveal>
+          <div className="mt-12 relative">
+            {/* Ligne horizontale (desktop) */}
+            <div className="hidden lg:block absolute top-[46px] left-0 right-0 h-px bg-cognac/30" aria-hidden="true" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-10">
+              {PARCOURS.map((p, idx) => (
+                <Reveal key={p.year} delay={idx * 0.05}>
+                  <div className="text-center" data-testid={`parcours-${p.year}`}>
+                    <p className="font-serif text-3xl text-charbon">{p.year}</p>
+                    <span className="relative z-10 block h-2.5 w-2.5 rounded-full bg-cognac mx-auto mt-3.5 ring-4 ring-ivoire" aria-hidden="true" />
+                    <p className="mt-4 text-[13.5px] leading-[1.6] text-charbon/70">{p.text}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <CTASection
-        img={images['apropos-cta-fond']}
-        title="Parlons de votre histoire."
-        text="Prêts à écrire votre histoire ? Créons ensemble des souvenirs qui vous ressemblent."
-        ctaLabel="Réserver une date"
-        testid="apropos-cta"
-      />
+      {/* DANS LES COULISSES — bande de 5 photos */}
+      <section className="pb-4" data-testid="apropos-coulisses">
+        <div className="sb-container">
+          <Reveal>
+            <p className="label-caps text-charbon/60 flex items-center gap-3">
+              Dans les coulisses <span className="h-px w-8 bg-cognac inline-block" aria-hidden="true" />
+            </p>
+          </Reveal>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 mt-8 px-2.5">
+          {[1, 2, 3, 4, 5].map((i, idx) => (
+            <Reveal key={i} delay={idx * 0.05} className={i === 5 ? 'hidden lg:block' : i === 4 ? 'hidden sm:block' : ''}>
+              <SmartImage
+                img={images[`apropos-coulisses-${i}`]}
+                className="w-full aspect-[4/5] object-cover"
+                sizes="(max-width: 640px) 50vw, 20vw"
+              />
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* CITATION CENTRÉE */}
+      <section className="py-16 sm:py-24" data-testid="apropos-citation">
+        <div className="sb-container text-center max-w-3xl">
+          <Reveal>
+            <span className="font-serif text-cognac text-7xl leading-none select-none" aria-hidden="true">“</span>
+            <p className="font-serif text-3xl sm:text-4xl leading-[1.25] text-charbon -mt-5">
+              Le jour passe, les émotions restent,
+              <br className="hidden sm:block" /> mes images vous les rendent.
+            </p>
+            <span className="block h-[2px] w-10 bg-cognac mx-auto mt-8" aria-hidden="true" />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* CTA FINAL — aligné à gauche sur photo */}
+      <section className="relative py-20 sm:py-28" data-testid="apropos-cta">
+        <div className="absolute inset-0 overflow-hidden">
+          <SmartImage img={images['apropos-cta-fond']} className="h-full w-full object-cover" sizes="100vw" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charbon/70 via-charbon/40 to-charbon/10" />
+        </div>
+        <div className="relative sb-container">
+          <h2 className="font-serif font-medium text-ivoire text-4xl sm:text-5xl lg:text-6xl leading-[1.02] max-w-md">
+            Parlons de <span className="italic">votre histoire.</span>
+          </h2>
+          <p className="mt-5 text-ivoire/85 text-[15.5px] leading-[1.7] max-w-sm">
+            Chaque histoire mérite d'être racontée avec sincérité et passion.
+          </p>
+          <Link href="/contact" className="btn-light mt-8" data-testid="apropos-cta-button">
+            Écrivons la vôtre <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </section>
     </main>
   );
 }

@@ -1,8 +1,6 @@
 {
   "/page": "app/page.js",
-  "/photographe-mariage-valenciennes/page": "app/photographe-mariage-valenciennes/page.js",
-  "/prestations/page": "app/prestations/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/avis/page": "app/avis/page.js",
-  "/admin/page": "app/admin/page.js"
+  "/portfolio/page": "app/portfolio/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/a-propos/page": "app/a-propos/page.js"
 }
