@@ -39,11 +39,9 @@ export const MapEmbed = ({ settings }) => {
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
             {/* Texture discrète façon carte */}
             <div className="absolute inset-0 opacity-[0.16]" aria-hidden="true" style={{ backgroundImage: 'radial-gradient(circle at 25% 35%, #8A5A44 0.5px, transparent 1px), radial-gradient(circle at 70% 60%, #8A5A44 0.5px, transparent 1px)', backgroundSize: '46px 46px, 62px 62px' }} />
-            <span className="relative inline-flex h-12 w-12 items-center justify-center rounded-full bg-cuir text-ivoire">
-              <MapPin className="h-5 w-5" />
-            </span>
-            <button onClick={accept} className="relative label-caps !text-[10.5px] text-cuir underline underline-offset-4 decoration-cognac/60 hover:decoration-cognac transition-colors min-h-[44px]" data-testid="map-consent-button">
-              Afficher la carte interactive (cookies Google Maps)
+            <MapPin className="relative h-11 w-11 text-cuir fill-cuir [&>circle]:fill-ivoire" strokeWidth={1.2} />
+            <button onClick={accept} className="relative label-caps !text-[10px] text-charbon/45 hover:text-cuir underline underline-offset-4 decoration-charbon/20 hover:decoration-cognac transition-colors min-h-[44px]" data-testid="map-consent-button">
+              Afficher la carte interactive
             </button>
           </div>
         )}

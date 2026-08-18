@@ -84,8 +84,14 @@ IMAGE_SLOTS = [
     {'slot_key': 'formation-image-2', 'page': 'Présentation — Formation', 'label': 'Formation — En images 2', 'description': 'Section Apprendre. Pratiquer. Partager. — image 2', 'default_url': f'{U}1452587925148-ce544e77e70d{QS}', 'default_alt': 'Pratique photo en extérieur — atelier lumière naturelle'},
     {'slot_key': 'formation-image-3', 'page': 'Présentation — Formation', 'label': 'Formation — En images 3', 'description': 'Section Apprendre. Pratiquer. Partager. — image 3', 'default_url': f'{U}1502920917128-1aa500764cbd{QS}', 'default_alt': 'Stagiaire photographe en situation réelle — formation terrain'},
 
+    # ---------- BLOG ----------
+    {'slot_key': 'blog-hero', 'page': 'Blog', 'label': 'Blog — Bannière (photo de droite)', 'description': 'Grande photographie du hero de la page Blog', 'default_url': f'{U}1519741497674-611481863552{Q}', 'default_alt': 'Baiser des mariés sous une arche de pierre — blog du photographe Samuel Bocquillon'},
+    {'slot_key': 'blog-prefooter-1', 'page': 'Blog', 'label': 'Blog — Bandeau éditorial image 1', 'description': 'Bandeau brun avant le footer — image 1', 'default_url': f'{U}1481653125770-b78c206c59d4{QS}', 'default_alt': 'Portrait de la mariée sous son voile — reportage de mariage'},
+    {'slot_key': 'blog-prefooter-2', 'page': 'Blog', 'label': 'Blog — Bandeau éditorial image 2', 'description': 'Bandeau brun avant le footer — image 2', 'default_url': f'{U}1519225421980-715cb0215aed{QS}', 'default_alt': 'Table de réception élégante — décoration de mariage'},
+    {'slot_key': 'blog-prefooter-3', 'page': 'Blog', 'label': 'Blog — Bandeau éditorial image 3', 'description': 'Bandeau brun avant le footer — image 3', 'default_url': f'{U}1606800052052-a08af7148866{QS}', 'default_alt': 'Détail des alliances des mariés — souvenirs précieux'},
+
     # ---------- CONTACT ----------
-    {'slot_key': 'contact-hero', 'page': 'Contact', 'label': 'Contact — Bannière (photo de droite)', 'description': "Photo du hero, fondue vers l'ivoire à gauche", 'default_url': f'{U}1465495976277-4387d4b0b4c6{Q}', 'default_alt': 'Couple de mariés face au coucher du soleil — contactez votre photographe de mariage'},
+    {'slot_key': 'contact-hero', 'page': 'Contact', 'label': 'Contact — Bannière (photo de droite)', 'description': "Photo du hero, fondue vers l'ivoire à gauche", 'default_url': f'{U}1646380911979-615ba6cc9826{Q}', 'default_alt': 'Couple de mariés face au coucher du soleil — contactez votre photographe de mariage'},
     {'slot_key': 'contact-cta-fond', 'page': 'Contact', 'label': 'Contact — Fond section « Prêt à écrire votre histoire ? »', 'description': "Photo de fond de l'appel à l'action final", 'default_url': f'{U}1583939003579-730e3918a45a{Q}', 'default_alt': 'Baiser tendre des jeunes mariés — prêt à écrire votre histoire'},
 
     # ---------- AVIS ----------
@@ -98,7 +104,7 @@ IMAGE_SLOTS = [
     {'slot_key': 'ville-cambrai-hero', 'page': 'Villes — SEO local', 'label': 'Ville — Cambrai (bannière)', 'description': 'Bannière de la page Photographe de mariage à Cambrai', 'default_url': f'{U}1532712938310-34cb3982ef74{Q}', 'default_alt': 'Photographe de mariage à Cambrai — mariés en balade champêtre'},
 ]
 
-PAGE_ORDER = ['Accueil', 'À propos', 'Portfolio', 'Prestations', 'Présentation — Mariage', 'Présentation — Corporate', 'Présentation — Photobooth', 'Présentation — Formation', 'Contact', 'Avis clients', 'Villes — SEO local']
+PAGE_ORDER = ['Accueil', 'À propos', 'Portfolio', 'Prestations', 'Présentation — Mariage', 'Présentation — Corporate', 'Présentation — Photobooth', 'Présentation — Formation', 'Blog', 'Contact', 'Avis clients', 'Villes — SEO local']
 
 DEFAULT_TESTIMONIALS = [
     {'id': 'seed-1', 'author': 'Clara & Julien', 'role': 'Mariés en Provence', 'text': 'Il ne regarde pas ses photos. On les ressent.', 'rating': 5, 'category': 'mariage', 'featured': True},

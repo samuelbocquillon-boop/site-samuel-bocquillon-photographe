@@ -421,6 +421,403 @@ def main():
         )
     
     # ============================================================
+    # 6. BLOG TESTS (NEW FEATURE)
+    # ============================================================
+    print("\n" + "="*60)
+    print("📝 BLOG TESTS (NEW FEATURE)")
+    print("="*60)
+    
+    # Test 19: Get blog posts (public, should auto-seed 9 demo posts)
+    success, blog_data = tester.test(
+        "GET /blog/posts - List published blog posts (should return 9 seeded posts)",
+        "GET",
+        "/blog/posts",
+        200,
+        auth=False
+    )
+    
+    if success:
+        posts_count = len(blog_data.get('posts', []))
+        total = blog_data.get('total', 0)
+        pages = blog_data.get('pages', 0)
+        tester.log("📋", f"Found {posts_count} posts (total: {total}, pages: {pages})")
+        
+        if total == 9:
+            tester.log("✅", "Correct: 9 demo posts seeded")
+        else:
+            tester.log("⚠️", f"Expected 9 posts, found {total}")
+        
+        # Verify pagination (limit=9 should give 1 page)
+        if pages == 1:
+            tester.log("✅", "Correct: 1 page with limit=9")
+        else:
+            tester.log("⚠️", f"Expected 1 page, found {pages}")
+        
+        # Verify post structure
+        if posts_count > 0:
+            first_post = blog_data['posts'][0]
+            required_fields = ['title', 'slug', 'excerpt', 'category', 'cover', 'date', 'location']
+            missing = [f for f in required_fields if f not in first_post]
+            if not missing:
+                tester.log("✅", "Post structure correct (title/slug/excerpt/category/cover/date/location)")
+            else:
+                tester.log("⚠️", f"Missing fields in post: {missing}")
+    
+    # Test 20: Filter by category 'mariages' (should return 7 posts)
+    success, mariages_data = tester.test(
+        "GET /blog/posts?category=mariages - Filter by category (should return 7 posts)",
+        "GET",
+        "/blog/posts?category=mariages",
+        200,
+        auth=False
+    )
+    
+    if success:
+        count = mariages_data.get('total', 0)
+        if count == 7:
+            tester.log("✅", f"Correct: 7 'mariages' posts")
+        else:
+            tester.log("⚠️", f"Expected 7 'mariages' posts, found {count}")
+    
+    # Test 21: Filter by category 'inspiration' (should return 1 post)
+    success, inspiration_data = tester.test(
+        "GET /blog/posts?category=inspiration - Filter by category (should return 1 post)",
+        "GET",
+        "/blog/posts?category=inspiration",
+        200,
+        auth=False
+    )
+    
+    if success:
+        count = inspiration_data.get('total', 0)
+        if count == 1:
+            tester.log("✅", f"Correct: 1 'inspiration' post")
+        else:
+            tester.log("⚠️", f"Expected 1 'inspiration' post, found {count}")
+    
+    # Test 22: Filter by lieu 'Lens' (should return 1 post)
+    success, lens_data = tester.test(
+        "GET /blog/posts?lieu=Lens - Filter by location (should return 1 post)",
+        "GET",
+        "/blog/posts?lieu=Lens",
+        200,
+        auth=False
+    )
+    
+    if success:
+        count = lens_data.get('total', 0)
+        if count == 1:
+            tester.log("✅", f"Correct: 1 post in 'Lens'")
+        else:
+            tester.log("⚠️", f"Expected 1 post in 'Lens', found {count}")
+    
+    # Test 23: Search by keyword 'aubry' (should return 1 post)
+    success, search_data = tester.test(
+        "GET /blog/posts?q=aubry - Search by keyword (should return 1 post)",
+        "GET",
+        "/blog/posts?q=aubry",
+        200,
+        auth=False
+    )
+    
+    if success:
+        count = search_data.get('total', 0)
+        if count == 1:
+            tester.log("✅", f"Correct: 1 post matching 'aubry'")
+        else:
+            tester.log("⚠️", f"Expected 1 post matching 'aubry', found {count}")
+    
+    # Test 24: Combined filters (category + lieu)
+    success, combined_data = tester.test(
+        "GET /blog/posts?category=mariages&lieu=Lens - Combined filters",
+        "GET",
+        "/blog/posts?category=mariages&lieu=Lens",
+        200,
+        auth=False
+    )
+    
+    if success:
+        count = combined_data.get('total', 0)
+        tester.log("📋", f"Combined filter returned {count} posts")
+    
+    # Test 25: Get single blog post by slug
+    success, post_detail = tester.test(
+        "GET /blog/posts/mariage-chateau-aubry-aubry-du-hainaut - Get post by slug",
+        "GET",
+        "/blog/posts/mariage-chateau-aubry-aubry-du-hainaut",
+        200,
+        auth=False
+    )
+    
+    if success:
+        post = post_detail.get('post', {})
+        related = post_detail.get('related', [])
+        discover = post_detail.get('discover', [])
+        blocks = post.get('blocks', [])
+        
+        tester.log("📋", f"Post has {len(blocks)} blocks, {len(related)} related, {len(discover)} discover")
+        
+        # Verify blocks count (should be 16 for this specific post)
+        if len(blocks) == 16:
+            tester.log("✅", "Correct: 16 blocks in post")
+        else:
+            tester.log("⚠️", f"Expected 16 blocks, found {len(blocks)}")
+        
+        # Verify related count (should be 3)
+        if len(related) == 3:
+            tester.log("✅", "Correct: 3 related posts")
+        else:
+            tester.log("⚠️", f"Expected 3 related posts, found {len(related)}")
+        
+        # Verify discover count (should be 3)
+        if len(discover) == 3:
+            tester.log("✅", "Correct: 3 discover posts")
+        else:
+            tester.log("⚠️", f"Expected 3 discover posts, found {len(discover)}")
+    
+    # Test 26: Get non-existent post (should return 404)
+    tester.test(
+        "GET /blog/posts/non-existent-slug - Non-existent post (should return 404)",
+        "GET",
+        "/blog/posts/non-existent-slug-xyz",
+        404,
+        auth=False
+    )
+    
+    # Test 27: Get blog locations
+    success, locations = tester.test(
+        "GET /blog/locations - Get all locations (venues/cities/departments)",
+        "GET",
+        "/blog/locations",
+        200,
+        auth=False
+    )
+    
+    if success:
+        venues = locations.get('venues', [])
+        cities = locations.get('cities', [])
+        departments = locations.get('departments', [])
+        tester.log("📋", f"Locations: {len(venues)} venues, {len(cities)} cities, {len(departments)} departments")
+    
+    # Test 28: Get blog sitemap
+    success, sitemap = tester.test(
+        "GET /blog/sitemap - Get sitemap data (slugs + page count)",
+        "GET",
+        "/blog/sitemap",
+        200,
+        auth=False
+    )
+    
+    if success:
+        posts = sitemap.get('posts', [])
+        pages = sitemap.get('pages', 0)
+        tester.log("📋", f"Sitemap: {len(posts)} posts, {pages} pages")
+        
+        if len(posts) == 9:
+            tester.log("✅", "Correct: 9 posts in sitemap")
+        else:
+            tester.log("⚠️", f"Expected 9 posts in sitemap, found {len(posts)}")
+    
+    # ============================================================
+    # 7. BLOG ADMIN TESTS (requires auth)
+    # ============================================================
+    print("\n" + "="*60)
+    print("🔐 BLOG ADMIN TESTS (requires auth)")
+    print("="*60)
+    
+    if not tester.token:
+        tester.log("⚠️", "Skipping admin blog tests - no auth token")
+    else:
+        # Test 29: Get admin blog posts
+        success, admin_posts = tester.test(
+            "GET /blog/admin/posts - List all posts (admin, should return 9)",
+            "GET",
+            "/blog/admin/posts",
+            200,
+            auth=True
+        )
+        
+        if success:
+            count = len(admin_posts)
+            if count == 9:
+                tester.log("✅", f"Correct: 9 posts in admin list")
+            else:
+                tester.log("⚠️", f"Expected 9 posts, found {count}")
+        
+        # Test 30: Create new blog post
+        new_post = {
+            "title": "Test Wedding Samuel",
+            "slug": "",  # Should auto-generate
+            "excerpt": "This is a test article created by the testing agent.",
+            "category": "mariages",
+            "cover": {"url": "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1600", "alt": "Test cover"},
+            "date": "",  # Should auto-generate
+            "author": "Samuel Bocquillon",
+            "tags": ["test", "automated"],
+            "location": {
+                "venue": "Test Venue",
+                "city": "Test City",
+                "postal_code": "59000",
+                "department": "Nord – 59",
+                "region": "Hauts-de-France",
+                "country": "France"
+            },
+            "seo": {
+                "meta_title": "Test Wedding Samuel",
+                "meta_description": "Test description",
+                "keyword": "test wedding",
+                "og_image": "",
+                "canonical": "",
+                "noindex": False
+            },
+            "blocks": [
+                {"type": "heading", "text": "Test Heading"},
+                {"type": "text", "text": "This is test content for the automated test."}
+            ],
+            "status": "published"
+        }
+        
+        created_post_id = None
+        success, created = tester.test(
+            "POST /blog/admin/posts - Create new post (should auto-generate slug)",
+            "POST",
+            "/blog/admin/posts",
+            200,
+            json_data=new_post,
+            auth=True
+        )
+        
+        if success:
+            created_post_id = created.get('id')
+            created_slug = created.get('slug')
+            tester.log("📝", f"Post created with ID: {created_post_id}, slug: {created_slug}")
+            
+            # Verify slug was auto-generated
+            if created_slug and created_slug.startswith('test-wedding-samuel'):
+                tester.log("✅", "Slug auto-generated correctly")
+            else:
+                tester.log("⚠️", f"Unexpected slug: {created_slug}")
+        
+        # Test 31: Verify created post appears in public list
+        if created_post_id:
+            success, public_check = tester.test(
+                "GET /blog/posts - Verify new published post appears in public list",
+                "GET",
+                "/blog/posts",
+                200,
+                auth=False
+            )
+            
+            if success:
+                total = public_check.get('total', 0)
+                if total == 10:  # 9 demo + 1 new
+                    tester.log("✅", "New post appears in public list (10 total)")
+                else:
+                    tester.log("⚠️", f"Expected 10 posts, found {total}")
+        
+        # Test 32: Update post
+        if created_post_id:
+            updated_post = new_post.copy()
+            updated_post['title'] = "Test Wedding Samuel (Updated)"
+            updated_post['excerpt'] = "Updated excerpt"
+            
+            tester.test(
+                "PUT /blog/admin/posts/{id} - Update post",
+                "PUT",
+                f"/blog/admin/posts/{created_post_id}",
+                200,
+                json_data=updated_post,
+                auth=True
+            )
+        
+        # Test 33: Change status to draft (should NOT appear in public list)
+        if created_post_id:
+            success, status_change = tester.test(
+                "PUT /blog/admin/posts/{id}/status - Change status to draft",
+                "PUT",
+                f"/blog/admin/posts/{created_post_id}/status",
+                200,
+                json_data={"status": "draft"},
+                auth=True
+            )
+            
+            if success:
+                # Verify it doesn't appear in public list
+                success, public_check = tester.test(
+                    "GET /blog/posts - Verify draft post does NOT appear in public list",
+                    "GET",
+                    "/blog/posts",
+                    200,
+                    auth=False
+                )
+                
+                if success:
+                    total = public_check.get('total', 0)
+                    if total == 9:  # Back to 9 (draft excluded)
+                        tester.log("✅", "Draft post correctly excluded from public list")
+                    else:
+                        tester.log("⚠️", f"Expected 9 posts (draft excluded), found {total}")
+        
+        # Test 34: Duplicate post
+        duplicate_id = None
+        if created_post_id:
+            success, duplicated = tester.test(
+                "POST /blog/admin/posts/{id}/duplicate - Duplicate post (should create draft with -copie slug)",
+                "POST",
+                f"/blog/admin/posts/{created_post_id}/duplicate",
+                200,
+                auth=True
+            )
+            
+            if success:
+                duplicate_id = duplicated.get('id')
+                duplicate_slug = duplicated.get('slug')
+                duplicate_status = duplicated.get('status')
+                tester.log("📝", f"Duplicate created with ID: {duplicate_id}, slug: {duplicate_slug}, status: {duplicate_status}")
+                
+                # Verify it's a draft
+                if duplicate_status == 'draft':
+                    tester.log("✅", "Duplicate correctly created as draft")
+                else:
+                    tester.log("⚠️", f"Expected draft status, got {duplicate_status}")
+                
+                # Verify slug contains 'copie'
+                if 'copie' in duplicate_slug:
+                    tester.log("✅", "Duplicate slug contains 'copie'")
+                else:
+                    tester.log("⚠️", f"Expected 'copie' in slug, got {duplicate_slug}")
+        
+        # Test 35: Delete duplicate
+        if duplicate_id:
+            tester.test(
+                "DELETE /blog/admin/posts/{id} - Delete duplicate post",
+                "DELETE",
+                f"/blog/admin/posts/{duplicate_id}",
+                200,
+                auth=True
+            )
+        
+        # Test 36: Delete test post
+        if created_post_id:
+            tester.test(
+                "DELETE /blog/admin/posts/{id} - Delete test post",
+                "DELETE",
+                f"/blog/admin/posts/{created_post_id}",
+                200,
+                auth=True
+            )
+        
+        # Test 37: Blog upload (admin, requires auth)
+        # Note: We're not testing actual file upload here, just auth protection
+        tester.test(
+            "POST /blog/upload - Upload without auth (should return 401/403)",
+            "POST",
+            "/blog/upload",
+            401,
+            auth=False
+        )
+    
+    # ============================================================
     # SUMMARY
     # ============================================================
     success = tester.print_summary()

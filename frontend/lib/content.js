@@ -16,6 +16,7 @@ export const NAV_LINKS = [
       { href: '/prestations/formation', label: 'Formation' },
     ],
   },
+  { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ];
 

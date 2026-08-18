@@ -77,7 +77,7 @@ export default async function ContactPage() {
       </section>
 
       {/* ============ FORMULAIRE + RESTONS EN CONTACT ============ */}
-      <section className="pb-14 sm:pb-20" data-testid="contact-main">
+      <section className="pb-14 sm:pb-20 sb-grain" data-testid="contact-main">
         <div className="sb-container">
           <div className="bg-white px-6 sm:px-10 lg:px-14 py-12 sm:py-16 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             <Reveal className="lg:col-span-6">
@@ -86,8 +86,9 @@ export default async function ContactPage() {
                 <br />
                 un <span className="text-cognac">message</span>
               </h2>
-              <span className="block h-[2px] w-9 bg-cognac mt-5 mb-9" aria-hidden="true" />
-              <ContactForm full testidPrefix="contact" />
+              <div className="mt-9">
+                <ContactForm full testidPrefix="contact" />
+              </div>
             </Reveal>
             <Reveal delay={0.1} className="lg:col-span-6 lg:pl-6">
               <h2 className="font-serif text-4xl sm:text-[44px] leading-[1.12]">

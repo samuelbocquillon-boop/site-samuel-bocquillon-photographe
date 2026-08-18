@@ -1,15 +1,17 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
-import { Images, Inbox, MessageSquareQuote, Settings, LogOut, Loader2, Lock } from 'lucide-react';
+import { Images, Inbox, MessageSquareQuote, Settings, LogOut, Loader2, Lock, Newspaper } from 'lucide-react';
 import { Monogram } from '@/components/Logo';
 import { apiFetch, getToken, setToken, clearToken } from '@/lib/adminApi';
 import { AdminImages } from '@/components/admin/AdminImages';
 import { AdminInbox } from '@/components/admin/AdminInbox';
 import { AdminTestimonials } from '@/components/admin/AdminTestimonials';
 import { AdminSettings } from '@/components/admin/AdminSettings';
+import { AdminBlog } from '@/components/admin/AdminBlog';
 
 const TABS = [
   { id: 'images', label: 'Images du site', icon: Images },
+  { id: 'blog', label: 'Blog', icon: Newspaper },
   { id: 'inbox', label: 'Demandes reçues', icon: Inbox },
   { id: 'testimonials', label: 'Témoignages', icon: MessageSquareQuote },
   { id: 'settings', label: 'Réglages', icon: Settings },
@@ -136,6 +138,7 @@ export default function AdminPage() {
       </header>
       <div className="max-w-6xl mx-auto px-5 py-8">
         {tab === 'images' && <AdminImages />}
+        {tab === 'blog' && <AdminBlog />}
         {tab === 'inbox' && <AdminInbox />}
         {tab === 'testimonials' && <AdminTestimonials />}
         {tab === 'settings' && <AdminSettings />}

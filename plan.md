@@ -1,13 +1,20 @@
 # plan.md
 
 ## 1. Objectives
-- Livrer un site vitrine **Samuel Bocquillon** (FR) **fidèle aux maquettes** et à la **charte graphique** (palette cuir/cognac/ivoire, typographies Cormorant Garamond + Manrope, logo monogramme SB).
-- Assurer un **SEO/GEO natif** : HTML SSR/SSG lisible sans JS, métadonnées uniques, sitemap/robots, Schema.org, **llms.txt**.
-- Maximiser le **SEO local** : cohérence NAP, JSON-LD LocalBusiness, page Contact avec **carte + itinéraire**, + pages villes (Valenciennes/Lille/Douai/Cambrai).
-- Mettre en place une **zone admin** simple pour gérer **toutes les images + alt**, avec **optimisation à l’upload** (pipeline **Pillow** opérationnel ; **Cloudinary** auto-activable quand les clés seront fournies).
-- Formulaire de contact : stockage en DB + page **/merci** + notification email (code présent, **désactivé tant que SMTP Gmail non fourni**).
+- Livrer un site vitrine **Samuel Bocquillon** (FR) **fidèle aux maquettes** et à la **charte graphique** (palette cuir/cognac/ivoire, typographies Cormorant Garamond + Manrope, logo monogramme SB) — **sans retoucher les pages existantes**.
+- Assurer un **SEO/GEO natif** : rendu SSR/SSG lisible sans JS, métadonnées uniques, sitemap/robots, JSON-LD, **llms.txt**.
+- Maximiser le **SEO local** : cohérence NAP, JSON-LD LocalBusiness, pages villes, contenu géolocalisé.
+- Maintenir une **zone admin** pour gérer **toutes les images + alt** avec **optimisation automatique** (Pillow WebP multi-tailles + fallback JPEG, Cloudinary activable via env).
+- Assurer un **tunnel de contact** complet : page Contact (map + FAQ), enregistrement DB, page **/merci**, notification email (active uniquement si SMTP fourni).
+- **BLOG (journal/reportages) — Objectif SEO local majeur** : 
+  - Page listing et pages articles conformes à la maquette, cohérentes avec l’identité du site.
+  - Articles enrichis (lieu/ville/département/région/pays) pour renforcer le référencement local.
+  - Admin « sans code » via éditeur par blocs + gestion des slugs + alt par image.
 
-**Statut global :** Phases 1 et 2 terminées (site complet + admin complet + SEO complet). Phase 3 = stabilisation/tests + activation des identifiants réels.
+**Statut global :**
+- Phases 1 et 2 : ✅ terminées (site complet + admin + SEO + pages villes)
+- Phase 3 : 🔄 stabilisation / qualité prod + activation credentials (en attente)
+- **Phase 4 : ✅ BLOG — COMPLETED (implémenté + testé 100%)**
 
 ---
 
@@ -37,7 +44,7 @@
 - Redirection `/merci`.
 
 **Résultat Phase 1**
-- Suite de tests POC : **17/17 PASS** (auth, upload, webp/srcset, alt, contact, settings).
+- Suite de tests POC : **PASS** (auth, upload, webp/srcset, alt, contact, settings).
 
 ---
 
@@ -50,7 +57,6 @@
 
 2) **Contenu** — ✅
 - Seed contenu conforme aux maquettes (textes, prix, CTA, FAQ, témoignages).
-- Résumés « extractibles » en tête des pages clés (GEO).
 - Étude de cas (Portfolio : « Clara & Julien — mariage en Provence »).
 
 3) **SEO/GEO complet** — ✅
@@ -61,73 +67,154 @@
   - **FAQPage** (Prestations, Contact, Villes)
   - **Service + BreadcrumbList** (pages villes)
   - **AggregateRating + Review** (page Avis)
-- `sitemap.xml` (généré via Next), `robots.txt` (autorise crawlers IA), `llms.txt`.
-- SSR vérifié sur les pages (contenu HTML complet côté serveur).
+- `sitemap.xml` (via `app/sitemap.js`), `robots.txt`, `llms.txt`.
 
 4) **Backend FastAPI** — ✅
 - MongoDB : Settings (NAP/socials/GA), Images (overrides), Contacts, Testimonials.
-- Registre d’emplacements images : **53 slots** regroupés en **11 groupes/pages** (exigence admin slot-by-slot).
-- Endpoints CRUD nécessaires pour admin + public fetch.
+- Registre d’emplacements images : slots regroupés par pages.
 
 5) **Admin V1 (images + inbox + témoignages + settings)** — ✅
-- Login sécurisé (JWT) — identifiants actuels : `admin / SamuelB2025!` (à changer en prod).
-- Écran “Images” : page par page/slot par slot, drag&drop, preview avant/après, alt, reset vers défaut.
-- Écran “Demandes” : inbox + actions.
-- Écran “Témoignages” : CRUD.
-- Écran “Réglages” : NAP, réseaux, GA ID.
+- Login sécurisé (JWT) — identifiants actuels à changer en prod.
+- “Images” : par page/slot, upload, alt, reset.
+- “Demandes” : inbox + actions.
+- “Témoignages” : CRUD.
+- “Réglages” : NAP, réseaux, GA ID.
 
 6) **RGPD** — ✅
 - Bandeau consentement cookies : bloque GA + Google Maps tant que refus.
-- (Polish ajouté) : bandeau cookies **masqué sur /admin**.
+- Bandeau cookies masqué sur `/admin`.
 
 **Validation Phase 2**
-- 18 routes testées **200 OK**.
+- Routes principales testées **200 OK**.
 - SSR confirmé via `curl`.
-- Captures d’écran : rendu conforme à la charte (typos/couleurs/structure).
 
 ---
 
 ### Phase 3 — Stabilisation + compléments (qualité prod) — 🔄 EN COURS / NEXT
-1) **Tests end-to-end & qualité**
-- Lancer l’agent de test complet (frontend + backend) :
-  - navigation (desktop/mobile), menu dropdown, hamburger + CTA mobile
-  - formulaires (validation, erreurs, redirection /merci)
-  - admin : upload image, alt, reset, inbox, settings
-  - SSR (HTML rendu) pour pages clés
-  - accessibilité (focus visible, tailles tactiles, contraste)
+1) **Contact : conformité maquette** — 🔄
+- Vérifier visuellement `/contact` après dernières retouches.
+- Ajuster alignements/typo/espacements si nécessaire.
+- Validation via captures d’écran.
 
-2) **Performance / Core Web Vitals**
-- Vérifier poids des images, lazy load, tailles, CLS sur hero.
-- Ajuster `sizes` images + préchargement des assets critiques si nécessaire.
+> Note : la route `/contact` répond **200** et le formulaire fonctionne, mais la validation « pixel-perfect » finale reste à confirmer par comparaison stricte à la maquette.
 
-3) **Activation des identifiants réels (dépend du client)**
-- **Cloudinary** : renseigner `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` → activer stockage/optimisation via CDN.
-- **SMTP Gmail** : renseigner `SMTP_USER` + `SMTP_PASSWORD` (mot de passe d’application) → activer notifications email.
-- **Google Analytics** : renseigner `ga_id` via Réglages admin (toujours RGPD-gated).
-- **NAP réel** : renseigner business_name/adresse/téléphone/email via Réglages admin pour cohérence SEO local.
+2) **Tests end-to-end & qualité** — 🔄
+- Campagne tests (frontend + backend) : navigation, CTA, formulaires, admin, SSR, accessibilité.
 
-4) **Durcissement SEO**
-- Vérifier OG images (placeholder vs assets réels), valider JSON-LD, contrôler sitemap/robots/llms.
-- Vérifier maillage interne + ancres/CTA.
+3) **Performance / Core Web Vitals** — 🔄
+- Vérifier poids images, lazy load, `sizes`, CLS sur hero.
 
-**Fin de phase :** nouveau round de tests end-to-end et corrections.
+4) **Activation des identifiants réels (dépend du client)** — ⏳
+- **NAP réel** via Réglages admin (footer + JSON-LD cohérents).
+- **SMTP Gmail** : `SMTP_USER` + `SMTP_PASSWORD` → activer notifications.
+- **Cloudinary** : `CLOUDINARY_*` si souhaité.
+- **GA ID** via réglages (RGPD-gated).
+
+---
+
+### Phase 4 — Rubrique BLOG (journal / SEO local) — ✅ COMPLETED
+**Objectif :** reproduire **fidèlement** la maquette Blog fournie, conserver l’identité existante, créer un système d’articles administrables par blocs, SSR/SEO complet, pagination indexable, données structurées.
+
+> Statut : **implémenté + testé à 100%** (voir `/app/test_reports/iteration_2.json` : **50 tests passés, 0 bug**).
+
+#### 4.1 Backend (FastAPI + MongoDB `blog_posts`) — ✅
+1) **Collection + modèle** — ✅
+- `blog_posts` :
+  - `id` (uuid)
+  - `title`, `slug` (unique, modifiable), `excerpt`
+  - `category` ∈ {mariages, corporate, photobooth, formations, conseils, inspiration}
+  - `cover`: { `url`, `alt` }
+  - `date`, `author`, `tags[]`
+  - `location`: { `venue`, `city`, `postal_code`, `department`, `region`, `country` }
+  - `seo`: { `meta_title`, `meta_description`, `keyword`, `og_image`, `canonical`, `noindex` }
+  - `blocks[]`: (heading/text/image/image_full/images_2/images_3/gallery/quote/spacer/button/video)
+  - `status`: draft|published
+  - timestamps.
+
+2) **Routes publiques** — ✅
+- `GET /api/blog/posts` (filtres : `category`, `lieu`, `q`, `page`, `limit=9`).
+- `GET /api/blog/posts/{slug}` : article + **related 3** (lieu/ville/région/catégorie) + **discover 3**.
+- `GET /api/blog/locations` : liste dynamique lieux/villes/départements.
+- `GET /api/blog/sitemap` : slugs publiés + nombre de pages (pour sitemap dynamique).
+
+3) **Routes admin (JWT)** — ✅
+- CRUD : `GET/POST/PUT/DELETE /api/blog/admin/posts`.
+- Actions : duplication, publish/unpublish (`/status`), suppression.
+- Upload images bloc/cover : `POST /api/blog/upload` (optimisation WebP multi-tailles).
+
+4) **Seed démonstration** — ✅
+- Seed ~9 articles démo (supprimables) pour valider visuel grille + pagination.
+
+5) **Slots images** — ✅
+- Ajout de slots Blog : `blog-hero` + `blog-prefooter-1..3`.
+- `PAGE_ORDER` mis à jour.
+
+#### 4.2 Frontend (Next.js SSR) — ✅
+1) **Navigation** — ✅
+- Ajout **BLOG** dans le menu principal **entre Prestations et Contact**.
+- Ajout lien **Blog** dans le footer.
+
+2) **Route `/blog` (listing)** — ✅
+- Hero conforme maquette (label BLOG + H1 + texte + photo droite via slot `blog-hero`).
+- Filtres conformes maquette : catégorie / lieu (dynamique) / recherche (titre + lieu + ville + contenu + tags + catégorie).
+- Grille 3/2/1 + cartes sobres (filet fin, hover discret).
+- Pagination conforme maquette.
+
+3) **Pagination indexable** — ✅
+- Route `/blog/page/[num]` (SSR) pour pages 2+.
+- Canonical correct : page 1 → `/blog`, page n → `/blog/page/n`.
+
+4) **Route `/blog/[slug]` (article)** — ✅
+- Template éditorial : breadcrumb, hero, cover, blocs magazine (11 types), CTA local.
+- Fin d’article : « Vous aimerez également » (3), « D’autres histoires à découvrir » (3), CTA bandeau photo, liens internes.
+
+5) **Pré-footer Blog** — ✅
+- Ajout d’une zone éditoriale brun cuir **uniquement sur les pages Blog** (cohérente maquette).
+
+6) **SEO Blog** — ✅
+- `generateMetadata` par article (title/description/canonical/OG/noindex).
+- JSON-LD : `Blog`, `BlogPosting`, `BreadcrumbList`.
+- Sitemap dynamique : articles publiés + pages de pagination.
+- SSR vérifié.
+
+#### 4.3 Admin (Dashboard) — ✅
+1) **Nouvel onglet “BLOG”** — ✅
+- Liste articles : statut (draft/published), date, catégorie, actions (éditer/dupliquer/supprimer/publier/dépublier).
+
+2) **Éditeur d’article (sans code)** — ✅
+- Informations principales : titre, slug, résumé, catégorie, image principale + ALT, date, auteur.
+- SEO local : lieu/ville/CP/département/région/pays.
+- SEO : meta title/description/keyword/OG/canonical/index/noindex.
+- **Blocs** : ajout/retrait, réordonnancement **drag & drop + flèches**, upload images optimisées + ALT par image.
+- Flux E2E validé : création → publication → visible côté public → suppression.
+
+#### 4.4 Tests & validation visuelle — ✅
+- Captures d’écran : `/blog` et `/blog/[slug]`.
+- Tests automatisés : **100%** (iteration_2.json).
+- Régression confirmée : pages existantes intactes.
 
 ---
 
 ## 3. Next Actions
-1) Lancer **Phase 3** : campagne de tests end-to-end (frontend + backend + admin).
-2) Corriger bugs/UX si détectés (responsive, overlays, CTA mobile, focus).
-3) Une fois reçus :
-   - Ajouter clés Cloudinary (optionnel) et valider pipeline.
-   - Ajouter SMTP Gmail et valider l’envoi.
-   - Renseigner GA ID et NAP réel via Admin → vérifier cohérence partout.
+1) **Stabilisation Contact (pixel-perfect)**
+- Faire/valider une comparaison stricte à la maquette (screenshots) et ajuster si nécessaire.
+
+2) **Données de production (dépend du client)**
+- Mettre les **vraies coordonnées NAP** (Nom/Adresse/Téléphone/Email).
+- Fournir **SMTP Gmail** (app password) pour activer les notifications de contact.
+- (Optionnel) activer **Cloudinary**.
+- (Optionnel) renseigner **GA ID**.
+
+3) **Qualité prod**
+- Audit performance (images, CLS, LCP) + accessibilité.
+- Vérifier sitemap/robots en environnement prod.
 
 ---
 
 ## 4. Success Criteria
-- Conformité visuelle : structure/sections/CTA identiques aux maquettes + charte (couleurs/typos).
-- SEO : SSR/SSG, meta uniques, sitemap/robots/llms, JSON-LD (LocalBusiness/FAQ/Service/Breadcrumb/Review).
-- Local SEO : NAP cohérent partout + Contact (map + itinéraire) + pages villes.
-- Admin : gestion complète des images/alt par slot + optimisation automatique (Pillow) + Cloudinary optionnel.
-- RGPD : consentement avant GA/Maps + pas d’affichage sur /admin.
-- Qualité : responsive sans overflow, images WebP/srcset/lazy, pages rapides.
+- Conformité visuelle : pages existantes inchangées ; Blog **indiscernable** d’une page prévue dès le départ (maquette respectée : hero, filtres, cartes, pagination, pré-footer).
+- SEO : SSR/SSG, meta uniques, canonical, sitemap/robots/llms, JSON-LD (LocalBusiness + Blog + BlogPosting + BreadcrumbList).
+- Local SEO : articles enrichis (lieu/ville/département/région/pays) + maillage interne + recommandations d’articles liés.
+- Admin : création/modification/publication d’articles + éditeur blocs + ALT par image + slugs modifiables.
+- Performance : images optimisées WebP/srcset/lazy, animations discrètes, pages rapides.
+- RGPD : pas de régression (maps/GA gated, admin isolé).

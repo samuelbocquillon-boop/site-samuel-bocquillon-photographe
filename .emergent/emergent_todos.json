@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Backend: modèle blog_posts, routes publiques + admin, upload, seed 9 articles — testé 100%",
+    "status": "completed"
+  },
+  {
+    "content": "Backend: slot 'blog-hero' + 3 slots pré-footer dans slots.py + PAGE_ORDER",
+    "status": "completed"
+  },
+  {
+    "content": "Frontend: nav BLOG + lien footer + helpers lib/api.js",
+    "status": "completed"
+  },
+  {
+    "content": "Frontend: page /blog + /blog/page/[num] — vérifié screenshots + tests",
+    "status": "completed"
+  },
+  {
+    "content": "Frontend: page article /blog/[slug] complète — vérifié screenshots + tests",
+    "status": "completed"
+  },
+  {
+    "content": "Frontend: BlogPreFooter éditorial brun",
+    "status": "completed"
+  },
+  {
+    "content": "SEO: JSON-LD BlogPosting + BreadcrumbList, generateMetadata, sitemap.js dynamique",
+    "status": "completed"
+  },
+  {
+    "content": "Admin: onglet BLOG — liste + éditeur par blocs drag & drop — flux E2E validé",
+    "status": "completed"
+  },
+  {
+    "content": "Testing agent complet: 100% (0 bug) + PRD.md mis à jour",
+    "status": "completed"
+  }
+]

@@ -21,6 +21,7 @@ from PIL import Image, ImageOps
 import smtplib
 from email.mime.text import MIMEText
 from slots import IMAGE_SLOTS, PAGE_ORDER, DEFAULT_TESTIMONIALS
+from blog_seed import DEMO_POSTS
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -414,6 +415,285 @@ async def update_testimonial(tid: str, payload: TestimonialIn, admin: str = Depe
 async def delete_testimonial(tid: str, admin: str = Depends(get_current_admin)):
     await db.testimonials.delete_one({'id': tid})
     return {'ok': True}
+
+
+# ---------------- Routes: blog ----------------
+import re
+import math
+import unicodedata
+
+BLOG_PAGE_SIZE = 9
+BLOG_CATEGORIES = ['mariages', 'corporate', 'photobooth', 'formations', 'conseils', 'inspiration']
+
+
+def slugify(text: str) -> str:
+    text = unicodedata.normalize('NFKD', text or '').encode('ascii', 'ignore').decode('ascii')
+    text = re.sub(r"[^a-zA-Z0-9]+", '-', text).strip('-').lower()
+    return text or uuid.uuid4().hex[:8]
+
+
+class BlogLocation(BaseModel):
+    venue: str = ''
+    city: str = ''
+    postal_code: str = ''
+    department: str = ''
+    region: str = 'Hauts-de-France'
+    country: str = 'France'
+
+
+class BlogSeo(BaseModel):
+    meta_title: str = ''
+    meta_description: str = ''
+    keyword: str = ''
+    og_image: str = ''
+    canonical: str = ''
+    noindex: bool = False
+
+
+class BlogPostIn(BaseModel):
+    title: str
+    slug: str = ''
+    excerpt: str = ''
+    category: str = 'mariages'
+    cover: dict = Field(default_factory=lambda: {'url': '', 'alt': ''})
+    date: str = ''
+    author: str = 'Samuel Bocquillon'
+    tags: List[str] = Field(default_factory=list)
+    location: BlogLocation = Field(default_factory=BlogLocation)
+    seo: BlogSeo = Field(default_factory=BlogSeo)
+    blocks: List[dict] = Field(default_factory=list)
+    status: str = 'draft'
+
+
+async def ensure_blog_seed():
+    count = await db.blog_posts.count_documents({})
+    if count == 0:
+        now = datetime.now(timezone.utc)
+        for p in DEMO_POSTS:
+            doc = dict(p)
+            doc['created_at'] = now
+            doc['updated_at'] = now
+            doc['published_at'] = now
+            await db.blog_posts.insert_one(doc)
+
+
+def build_blog_query(category: Optional[str], lieu: Optional[str], q: Optional[str], status: str = 'published'):
+    clauses = [{'status': status}]
+    if category and category not in ('tous', ''):
+        clauses.append({'category': category})
+    if lieu and lieu not in ('tous', ''):
+        rx = {'$regex': f'^{re.escape(lieu)}$', '$options': 'i'}
+        clauses.append({'$or': [
+            {'location.venue': rx}, {'location.city': rx},
+            {'location.department': rx}, {'location.region': rx},
+        ]})
+    if q:
+        rx = {'$regex': re.escape(q.strip()), '$options': 'i'}
+        clauses.append({'$or': [
+            {'title': rx}, {'excerpt': rx}, {'tags': rx}, {'category': rx},
+            {'location.venue': rx}, {'location.city': rx}, {'location.department': rx}, {'location.region': rx},
+            {'blocks.text': rx},
+        ]})
+    return {'$and': clauses} if len(clauses) > 1 else clauses[0]
+
+
+def blog_card(doc: dict) -> dict:
+    """Version allégée pour les listes (sans blocs)."""
+    d = serialize_doc(doc)
+    d.pop('blocks', None)
+    return d
+
+
+@api_router.get('/blog/posts')
+async def blog_list(category: Optional[str] = None, lieu: Optional[str] = None, q: Optional[str] = None, page: int = 1, limit: int = BLOG_PAGE_SIZE):
+    await ensure_blog_seed()
+    limit = max(1, min(limit, 24))
+    page = max(1, page)
+    query = build_blog_query(category, lieu, q)
+    total = await db.blog_posts.count_documents(query)
+    docs = await db.blog_posts.find(query).sort([('date', -1), ('created_at', -1)]).skip((page - 1) * limit).to_list(limit)
+    return {
+        'posts': [blog_card(d) for d in docs],
+        'total': total,
+        'page': page,
+        'pages': max(1, math.ceil(total / limit)),
+        'categories': BLOG_CATEGORIES,
+    }
+
+
+@api_router.get('/blog/locations')
+async def blog_locations():
+    await ensure_blog_seed()
+    docs = await db.blog_posts.find({'status': 'published'}).to_list(1000)
+    venues, cities, departments = [], [], []
+    for d in docs:
+        loc = d.get('location') or {}
+        if loc.get('venue') and loc['venue'] not in venues:
+            venues.append(loc['venue'])
+        if loc.get('city') and loc['city'] not in cities:
+            cities.append(loc['city'])
+        if loc.get('department') and loc['department'] not in departments:
+            departments.append(loc['department'])
+    return {'venues': sorted(venues), 'cities': sorted(cities), 'departments': sorted(departments)}
+
+
+@api_router.get('/blog/sitemap')
+async def blog_sitemap():
+    await ensure_blog_seed()
+    docs = await db.blog_posts.find({'status': 'published', 'seo.noindex': {'$ne': True}}).sort('date', -1).to_list(2000)
+    total = await db.blog_posts.count_documents({'status': 'published'})
+    return {
+        'posts': [{'slug': d['slug'], 'updated_at': serialize_doc(d.get('updated_at')), 'date': d.get('date')} for d in docs],
+        'pages': max(1, math.ceil(total / BLOG_PAGE_SIZE)),
+    }
+
+
+def score_related(post: dict, other: dict) -> int:
+    score = 0
+    pl, ol = post.get('location') or {}, other.get('location') or {}
+    if pl.get('venue') and pl.get('venue') == ol.get('venue'):
+        score += 8
+    if pl.get('city') and pl.get('city') == ol.get('city'):
+        score += 4
+    if pl.get('region') and pl.get('region') == ol.get('region'):
+        score += 2
+    if post.get('category') == other.get('category'):
+        score += 1
+    return score
+
+
+@api_router.get('/blog/posts/{slug}')
+async def blog_detail(slug: str):
+    await ensure_blog_seed()
+    doc = await db.blog_posts.find_one({'slug': slug, 'status': 'published'})
+    if not doc:
+        raise HTTPException(status_code=404, detail='Article introuvable')
+    others = await db.blog_posts.find({'status': 'published', 'slug': {'$ne': slug}}).sort([('date', -1)]).to_list(200)
+    ranked = sorted(others, key=lambda o: -score_related(doc, o))  # tri stable : garde date desc à score égal
+    related = ranked[:3]
+    related_slugs = {r['slug'] for r in related}
+    discover = [o for o in others if o['slug'] not in related_slugs][:3]
+    return {
+        'post': serialize_doc(doc),
+        'related': [blog_card(r) for r in related],
+        'discover': [blog_card(d) for d in discover],
+    }
+
+
+# ---- Admin blog ----
+@api_router.get('/blog/admin/posts')
+async def blog_admin_list(admin: str = Depends(get_current_admin)):
+    await ensure_blog_seed()
+    docs = await db.blog_posts.find().sort([('date', -1), ('created_at', -1)]).to_list(1000)
+    return [blog_card(d) for d in docs]
+
+
+@api_router.get('/blog/admin/posts/{pid}')
+async def blog_admin_get(pid: str, admin: str = Depends(get_current_admin)):
+    doc = await db.blog_posts.find_one({'id': pid})
+    if not doc:
+        raise HTTPException(status_code=404, detail='Article introuvable')
+    return serialize_doc(doc)
+
+
+async def unique_slug(base: str, exclude_id: Optional[str] = None) -> str:
+    slug = slugify(base)
+    candidate = slug
+    i = 2
+    while True:
+        query = {'slug': candidate}
+        if exclude_id:
+            query['id'] = {'$ne': exclude_id}
+        exists = await db.blog_posts.find_one(query)
+        if not exists:
+            return candidate
+        candidate = f'{slug}-{i}'
+        i += 1
+
+
+@api_router.post('/blog/admin/posts')
+async def blog_admin_create(payload: BlogPostIn, admin: str = Depends(get_current_admin)):
+    doc = payload.model_dump()
+    doc['id'] = str(uuid.uuid4())
+    doc['slug'] = await unique_slug(doc['slug'] or doc['title'])
+    if not doc['date']:
+        doc['date'] = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+    now = datetime.now(timezone.utc)
+    doc['created_at'] = now
+    doc['updated_at'] = now
+    doc['published_at'] = now if doc['status'] == 'published' else None
+    await db.blog_posts.insert_one(dict(doc))
+    return serialize_doc(doc)
+
+
+@api_router.put('/blog/admin/posts/{pid}')
+async def blog_admin_update(pid: str, payload: BlogPostIn, admin: str = Depends(get_current_admin)):
+    existing = await db.blog_posts.find_one({'id': pid})
+    if not existing:
+        raise HTTPException(status_code=404, detail='Article introuvable')
+    doc = payload.model_dump()
+    doc['slug'] = await unique_slug(doc['slug'] or doc['title'], exclude_id=pid)
+    doc['updated_at'] = datetime.now(timezone.utc)
+    if doc['status'] == 'published' and not existing.get('published_at'):
+        doc['published_at'] = datetime.now(timezone.utc)
+    await db.blog_posts.update_one({'id': pid}, {'$set': doc})
+    out = await db.blog_posts.find_one({'id': pid})
+    return serialize_doc(out)
+
+
+@api_router.put('/blog/admin/posts/{pid}/status')
+async def blog_admin_status(pid: str, payload: dict, admin: str = Depends(get_current_admin)):
+    status = payload.get('status')
+    if status not in ('published', 'draft'):
+        raise HTTPException(status_code=400, detail='Statut invalide')
+    update = {'status': status, 'updated_at': datetime.now(timezone.utc)}
+    if status == 'published':
+        update['published_at'] = datetime.now(timezone.utc)
+    res = await db.blog_posts.update_one({'id': pid}, {'$set': update})
+    if res.matched_count == 0:
+        raise HTTPException(status_code=404, detail='Article introuvable')
+    return {'ok': True, 'status': status}
+
+
+@api_router.post('/blog/admin/posts/{pid}/duplicate')
+async def blog_admin_duplicate(pid: str, admin: str = Depends(get_current_admin)):
+    doc = await db.blog_posts.find_one({'id': pid})
+    if not doc:
+        raise HTTPException(status_code=404, detail='Article introuvable')
+    doc.pop('_id', None)
+    doc['id'] = str(uuid.uuid4())
+    doc['title'] = f"{doc.get('title', '')} (copie)"
+    doc['slug'] = await unique_slug(f"{doc.get('slug', '')}-copie")
+    doc['status'] = 'draft'
+    doc['demo'] = False
+    now = datetime.now(timezone.utc)
+    doc['created_at'] = now
+    doc['updated_at'] = now
+    doc['published_at'] = None
+    await db.blog_posts.insert_one(dict(doc))
+    return serialize_doc(doc)
+
+
+@api_router.delete('/blog/admin/posts/{pid}')
+async def blog_admin_delete(pid: str, admin: str = Depends(get_current_admin)):
+    await db.blog_posts.delete_one({'id': pid})
+    return {'ok': True}
+
+
+@api_router.post('/blog/upload')
+async def blog_upload(file: UploadFile = File(...), alt: str = Form(''), admin: str = Depends(get_current_admin)):
+    """Upload d'une image d'article — optimisation WebP identique aux slots."""
+    if not file.content_type or not file.content_type.startswith('image/'):
+        raise HTTPException(status_code=400, detail='Le fichier doit être une image')
+    raw = await file.read()
+    if len(raw) > 40 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail='Image trop lourde (max 40 Mo)')
+    try:
+        result = optimize_image(raw, f'blog-{uuid.uuid4().hex[:8]}')
+    except Exception as e:
+        logger.error(f'Blog image optimization failed: {e}')
+        raise HTTPException(status_code=400, detail="Format d'image non supporté")
+    return {'url': result['url'], 'srcset': result['srcset'], 'fallback': result['fallback'], 'width': result['width'], 'height': result['height'], 'alt': alt}
 
 
 # ---------------- Mount ----------------
