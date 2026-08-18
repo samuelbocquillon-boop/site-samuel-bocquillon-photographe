@@ -99,15 +99,18 @@ export const PORTFOLIO_FILTERS = [
 ];
 
 export const PORTFOLIO_ITEMS = [
-  { slot: 'portfolio-galerie-1', category: 'france', caption: 'Cérémonie — Nord' },
-  { slot: 'portfolio-galerie-2', category: 'elopements', caption: 'Élopement — côte d\'Opale' },
-  { slot: 'portfolio-galerie-3', category: 'france', caption: 'Mariage champêtre — Hauts-de-France' },
-  { slot: 'portfolio-galerie-4', category: 'petits-comites', caption: 'Petit comité — Lille' },
-  { slot: 'portfolio-galerie-5', category: 'etranger', caption: 'Destination wedding — Italie' },
-  { slot: 'portfolio-galerie-6', category: 'france', caption: 'Réception — Valenciennes' },
-  { slot: 'portfolio-galerie-7', category: 'petits-comites', caption: 'Préparatifs — Douai' },
-  { slot: 'portfolio-galerie-8', category: 'elopements', caption: 'Élopement — Provence' },
-  { slot: 'portfolio-galerie-9', category: 'etranger', caption: 'Mariage — Espagne' },
+  { slot: 'portfolio-galerie-1', category: 'petits-comites', aspect: 'aspect-[4/3]' },
+  { slot: 'portfolio-galerie-2', category: 'france', aspect: 'aspect-[3/4]' },
+  { slot: 'portfolio-galerie-3', category: 'etranger', aspect: 'aspect-[4/3]' },
+  { slot: 'portfolio-galerie-4', category: 'france', aspect: 'aspect-[4/3]' },
+  { slot: 'portfolio-galerie-5', category: 'france', aspect: 'aspect-[3/4]' },
+  { slot: 'portfolio-galerie-6', category: 'etranger', aspect: 'aspect-[4/5]' },
+  { slot: 'portfolio-galerie-7', category: 'elopements', aspect: 'aspect-[3/4]' },
+  { slot: 'portfolio-galerie-8', category: 'elopements', aspect: 'aspect-[4/3]' },
+  { slot: 'portfolio-galerie-9', category: 'petits-comites', aspect: 'aspect-[3/4]' },
+  { slot: 'portfolio-galerie-10', category: 'france', aspect: 'aspect-[4/3]' },
+  { slot: 'portfolio-galerie-11', category: 'petits-comites', aspect: 'aspect-[4/3]' },
+  { slot: 'portfolio-galerie-12', category: 'etranger', aspect: 'aspect-[3/4]' },
 ];
 
 export const CORPORATE_PRESTATIONS = [

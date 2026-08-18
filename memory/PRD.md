@@ -51,3 +51,12 @@ Accueil, À propos, Portfolio (filtres + reportage à la une), Prestations (hub 
 - Contact accueil : formulaire minimal (inputs soulignés) + photo (slot accueil-contact-image)
 - Police script Great Vibes ajoutée pour signatures "Samuel B." (accueil + à propos)
 - 62 slots images au total
+
+## Itération 4 — Portfolio refait selon maquette (validé par screenshots)
+- Hero split : "Portfolio" + trait cognac + paragraphe 4 lignes + bouton "RÉSERVER UNE DATE →", photo fondue vers l'ivoire
+- Filtres séparés par traits verticaux, actif cognac souligné (fonctionnels)
+- Galerie mosaïque 4 colonnes, 12 photos formats variés, sans légendes (slots portfolio-galerie-1..12)
+- Reportage à la une 3 colonnes : photo photographe | Clara & Julien / Un mariage en Provence (cognac) | carte citation beige #EDE8E0 + signature script
+- Bande témoignage sur photo avec voile ivoire central + carrousel "– AUTEUR –" sans accent cognac
+- CTA final fond ivoire : "PRÊTS À ÉCRIRE VOTRE HISTOIRE ?" + appareil photo en mix-blend-multiply (slot portfolio-cta-camera)
+- 67 slots images au total

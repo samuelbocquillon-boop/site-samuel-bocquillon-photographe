@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
-// Carrousel de témoignages avec points de navigation (maquette accueil)
-export const TestimonialCarousel = ({ testimonials }) => {
+// Carrousel de témoignages avec points de navigation (maquettes)
+export const TestimonialCarousel = ({ testimonials, accent = true, framedAuthor = false, light = false }) => {
   const [index, setIndex] = useState(0);
   const reduce = useReducedMotion();
   const items = testimonials.slice(0, 3);
@@ -34,9 +34,15 @@ export const TestimonialCarousel = ({ testimonials }) => {
             transition={{ duration: 0.45 }}
           >
             <blockquote className="font-serif text-3xl sm:text-4xl lg:text-[40px] leading-[1.2] text-charbon">
-              “{words.join(' ')} <span className="text-cognac">{lastWord}”</span>
+              {accent ? (
+                <>“{words.join(' ')} <span className="text-cognac">{lastWord}”</span></>
+              ) : (
+                <>“{words.join(' ')} {lastWord}”</>
+              )}
             </blockquote>
-            <figcaption className="label-caps text-charbon/60 mt-6">— {current.author}</figcaption>
+            <figcaption className="label-caps text-charbon/60 mt-6">
+              {framedAuthor ? `– ${current.author} –` : `— ${current.author}`}
+            </figcaption>
           </motion.figure>
         </AnimatePresence>
       </div>

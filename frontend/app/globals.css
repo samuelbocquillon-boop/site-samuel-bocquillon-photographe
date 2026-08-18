@@ -107,6 +107,22 @@ select:focus-visible {
   margin-bottom: 1.25rem;
 }
 
+/* Mosaïque portfolio 4 colonnes (maquette) */
+.masonry-portfolio {
+  columns: 1;
+  column-gap: 1rem;
+}
+@media (min-width: 640px) {
+  .masonry-portfolio { columns: 2; }
+}
+@media (min-width: 1024px) {
+  .masonry-portfolio { columns: 4; }
+}
+.masonry-portfolio > * {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+}
+
 /* No horizontal overflow */
 html, body {
   overflow-x: hidden;
