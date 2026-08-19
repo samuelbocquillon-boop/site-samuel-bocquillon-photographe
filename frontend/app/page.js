@@ -28,7 +28,7 @@ export default async function HomePage() {
       <section className="relative min-h-[86svh] lg:min-h-[92svh] overflow-hidden" data-testid="home-hero">
         {/* Photo à droite avec fondu de transparence vers l'ivoire */}
         <div className="absolute inset-y-0 right-0 w-full sm:w-[78%] lg:w-[68%]">
-          <SmartImage img={images['accueil-hero']} eager className="h-full w-full object-cover" sizes="70vw" />
+          <SmartImage img={images['accueil-hero']} eager className="h-full w-full object-cover object-[center_62%]" sizes="70vw" />
           {/* Fondu ivoire depuis la gauche (effet maquette) */}
           <div className="absolute inset-0 bg-gradient-to-r from-ivoire via-ivoire/40 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-ivoire to-transparent" />

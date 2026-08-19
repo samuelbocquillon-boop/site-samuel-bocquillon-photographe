@@ -92,3 +92,8 @@ Accueil, À propos, Portfolio (filtres + reportage à la une), Prestations (hub 
 ## Itération 9 — Signature manuscrite réelle
 - Signature fournie (Copie de the end.webp) recadrée (bbox alpha) → /public/signature-samuel-b.webp (15 Ko, transparent)
 - Remplace la signature typographique 'Samuel B.' (font-script) aux 4 emplacements : À propos (carte citation + section Mon approche), Accueil (section À propos), Portfolio (carte citation)
+
+## Itération 10 — Nouvelle photo hero accueil
+- Photo Cloudinary fournie (ld-export-2c6c3456, 3333x5000 portrait) téléchargée puis injectée dans le slot 'accueil-hero' via le pipeline WebP existant (4 tailles responsive) — reste remplaçable dans l'admin
+- Cadrage affiné : object-[center_62%] pour centrer le couple (photo portrait dans hero large)
+- ALT mis à jour, vérifié par screenshots desktop + mobile

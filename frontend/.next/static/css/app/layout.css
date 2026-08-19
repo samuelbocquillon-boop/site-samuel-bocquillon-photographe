@@ -619,12 +619,6 @@ video {
   margin-left: auto;
   margin-right: auto;
 }
-.-mb-1 {
-  margin-bottom: -0.25rem;
-}
-.-mt-0\.5 {
-  margin-top: -0.125rem;
-}
 .-mt-3 {
   margin-top: -0.75rem;
 }
@@ -1022,15 +1016,6 @@ video {
 .rotate-180 {
   --tw-rotate: 180deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-@keyframes spin {
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-.animate-\[spin_28s_linear_infinite\] {
-  animation: spin 28s linear infinite;
 }
 @keyframes spin {
 
@@ -1502,6 +1487,9 @@ video {
 .object-cover {
   object-fit: cover;
 }
+.object-\[center_62\%\] {
+  object-position: center 62%;
+}
 .p-10 {
   padding: 2.5rem;
 }
@@ -1714,9 +1702,6 @@ video {
 .font-sans {
   font-family: var(--font-manrope), Manrope, sans-serif;
 }
-.font-script {
-  font-family: var(--font-script), Great Vibes, cursive;
-}
 .font-serif {
   font-family: var(--font-cormorant), Cormorant Garamond, serif;
 }
@@ -1828,9 +1813,6 @@ video {
 }
 .text-\[22px\] {
   font-size: 22px;
-}
-.text-\[38px\] {
-  font-size: 38px;
 }
 .text-\[9px\] {
   font-size: 9px;
@@ -2089,14 +2071,14 @@ video {
 .opacity-60 {
   opacity: 0.6;
 }
-.opacity-\[0\.16\] {
-  opacity: 0.16;
-}
 .opacity-80 {
   opacity: 0.8;
 }
 .opacity-85 {
   opacity: 0.85;
+}
+.opacity-\[0\.16\] {
+  opacity: 0.16;
 }
 .mix-blend-multiply {
   mix-blend-mode: multiply;
