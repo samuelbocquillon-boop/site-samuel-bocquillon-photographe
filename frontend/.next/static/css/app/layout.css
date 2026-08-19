@@ -3190,6 +3190,10 @@ html, body {
     justify-self: end;
   }
 
+  .lg\:object-\[center_80\%\] {
+    object-position: center 80%;
+  }
+
   .lg\:px-14 {
     padding-left: 3.5rem;
     padding-right: 3.5rem;
