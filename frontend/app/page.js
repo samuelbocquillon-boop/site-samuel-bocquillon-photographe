@@ -38,18 +38,16 @@ export default async function HomePage() {
 
         {/* Texte à gauche */}
         <div className="relative sb-container flex min-h-[86svh] lg:min-h-[92svh] items-center max-sm:items-stretch">
-          <div className="max-w-xl py-24 max-sm:flex max-sm:w-full max-sm:flex-col max-sm:pt-16 max-sm:pb-7">
+          <div className="max-w-3xl py-24 max-sm:flex max-sm:w-full max-sm:flex-col max-sm:pt-16 max-sm:pb-7">
             <h1 className="font-serif font-medium text-6xl sm:text-7xl lg:text-[92px] leading-[0.98] tracking-[-0.02em] text-charbon">
-              Des histoires
+              L'émotion se capte.
               <br />
-              vraies.
-              <br />
-              <span className="text-cognac">Sans filtre.</span>
+              <span className="text-cognac">L'image se crée.</span>
             </h1>
             <p className="label-caps text-charbon/70 mt-8 !leading-[2] max-sm:mt-auto">
               Photographe de mariage
               <br />
-              pour les moments qui vivent <span className="text-cognac">à fond.</span>
+              Des moments inoubliables, des souvenirs éternels
             </p>
             <Link href="/portfolio" className="btn-primary !rounded-none mt-9 max-sm:mt-5 max-sm:self-start" data-testid="home-hero-discover-work-button">
               Découvrir mon travail <span aria-hidden="true">→</span>
