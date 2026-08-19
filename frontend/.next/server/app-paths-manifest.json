@@ -1,4 +1,9 @@
 {
+  "/icon.png/route": "app/icon.png/route.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/page": "app/page.js",
-  "/portfolio/page": "app/portfolio/page.js"
+  "/prestations/mariage/page": "app/prestations/mariage/page.js",
+  "/contact/page": "app/contact/page.js",
+  "/a-propos/page": "app/a-propos/page.js",
+  "/prestations/page": "app/prestations/page.js"
 }

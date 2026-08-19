@@ -106,3 +106,12 @@ Accueil, À propos, Portfolio (filtres + reportage à la une), Prestations (hub 
 - H1 : « L'émotion se capte. » (charbon) / « L'image se crée. » (cognac) — 2 lignes (conteneur élargi max-w-3xl pour éviter la césure à 92px)
 - Sous-titre : « PHOTOGRAPHE DE MARIAGE / DES MOMENTS INOUBLIABLES, DES SOUVENIRS ÉTERNELS »
 - Bouton et tout le reste inchangés
+
+## Itération 13 — Section Mon approche (prestations/mariage) : 3 → 6 cartes
+- Rangée 1 (démarche) : Approche créative & bienveillante (Sparkles), Une vraie complicité (HeartHandshake), Matériel haut de gamme (Aperture, inchangée)
+- Rangée 2 (accompagnement) : La séance engagement (Gem), Le jour J de A à Z (Clock), L'after-day (Camera)
+- Style de cartes strictement identique, grille 3 colonnes, titre de section inchangé
+
+## Itération 14 — Favicon monogramme SB
+- Fichier client 'Favicon 2.PNG' recadré + fond ivoire (lisible sur onglets clairs/sombres)
+- Exports Next App Router : app/favicon.ico (16/32/48), app/icon.png (512), app/apple-icon.png (180) — balises <link> auto-injectées, vérifié 200 + HTML

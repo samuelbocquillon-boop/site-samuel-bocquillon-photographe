@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FileHeart, EyeOff, Aperture, Check } from 'lucide-react';
+import { Sparkles, HeartHandshake, Aperture, Gem, Clock, Camera, Check } from 'lucide-react';
 import { getImages, getTestimonials } from '@/lib/api';
 import { MARIAGE_COLLECTIONS, ACCOMPAGNEMENT_STEPS } from '@/lib/content';
 import { SmartImage } from '@/components/SmartImage';
@@ -17,9 +17,14 @@ export const metadata = {
 };
 
 const APPROCHE = [
-  { icon: FileHeart, title: 'Approche documentaire & émotionnelle', text: "Je raconte votre journée comme elle se vit : sans poses forcées, au plus près des émotions vraies." },
-  { icon: EyeOff, title: 'Discrétion & bienveillance', text: 'Une présence atténuée, attentive et rassurante — vos invités m\'oublient, vos photos s\'en souviennent.' },
+  // Rangée 1 — Ma démarche
+  { icon: Sparkles, title: 'Approche créative & bienveillante', text: "Je capte un maximum d'émotions et de vrais instants, tout en y apportant ma patte créative. Je vous conseille avec bienveillance : proposer, jamais imposer." },
+  { icon: HeartHandshake, title: 'Une vraie complicité', text: "Discret dans l'émotion, présent dans les moments décisifs. Les plus belles images se créent ensemble, dans la complicité — jamais le photographe seul." },
   { icon: Aperture, title: 'Matériel haut de gamme', text: 'Boîtiers professionnels doublés, optiques lumineuses et sauvegarde immédiate : vos souvenirs sont en sécurité.' },
+  // Rangée 2 — L'accompagnement
+  { icon: Gem, title: 'La séance engagement', text: "Avant le grand jour, une séance pour apprivoiser l'objectif et tisser une vraie complicité. Le jour J, tout devient naturel." },
+  { icon: Clock, title: 'Le jour J, de A à Z', text: "Une présence complète, du matin jusqu'à 1h. Je vis chaque étape de votre journée avec vous, pour ne rien laisser passer." },
+  { icon: Camera, title: "L'after-day", text: "Pour les gourmands d'images : une séance après le mariage, dans des lieux d'exception, pour des photographies encore plus créatives et travaillées." },
 ];
 
 export default async function MariagePage() {
