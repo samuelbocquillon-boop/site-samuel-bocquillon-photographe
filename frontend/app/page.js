@@ -28,17 +28,17 @@ export default async function HomePage() {
       <section className="relative min-h-[86svh] lg:min-h-[92svh] overflow-hidden" data-testid="home-hero">
         {/* Photo à droite avec fondu de transparence vers l'ivoire */}
         <div className="absolute inset-y-0 right-0 w-full sm:w-[78%] lg:w-[68%]">
-          <SmartImage img={images['accueil-hero']} eager className="h-full w-full object-cover object-[center_62%] lg:object-[center_80%]" sizes="70vw" />
+          <SmartImage img={images['accueil-hero']} eager className="h-full w-full object-cover object-[center_62%] lg:object-[center_80%] max-sm:scale-110" sizes="70vw" />
           {/* Fondu ivoire depuis la gauche (effet maquette) */}
           <div className="absolute inset-0 bg-gradient-to-r from-ivoire via-ivoire/40 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-ivoire to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-44 sm:h-28 bg-gradient-to-t from-ivoire to-transparent" />
         </div>
         {/* Badge circulaire tournant (bas droite) */}
         <CircularBadge className="hidden md:block absolute bottom-10 right-10 h-36 w-36 lg:h-40 lg:w-40 drop-shadow-md" />
 
         {/* Texte à gauche */}
-        <div className="relative sb-container flex min-h-[86svh] lg:min-h-[92svh] items-center">
-          <div className="max-w-xl py-24">
+        <div className="relative sb-container flex min-h-[86svh] lg:min-h-[92svh] items-center max-sm:items-stretch">
+          <div className="max-w-xl py-24 max-sm:flex max-sm:w-full max-sm:flex-col max-sm:pt-16 max-sm:pb-7">
             <h1 className="font-serif font-medium text-6xl sm:text-7xl lg:text-[92px] leading-[0.98] tracking-[-0.02em] text-charbon">
               Des histoires
               <br />
@@ -46,12 +46,12 @@ export default async function HomePage() {
               <br />
               <span className="text-cognac">Sans filtre.</span>
             </h1>
-            <p className="label-caps text-charbon/70 mt-8 !leading-[2]">
+            <p className="label-caps text-charbon/70 mt-8 !leading-[2] max-sm:mt-auto">
               Photographe de mariage
               <br />
               pour les moments qui vivent <span className="text-cognac">à fond.</span>
             </p>
-            <Link href="/portfolio" className="btn-primary !rounded-none mt-9" data-testid="home-hero-discover-work-button">
+            <Link href="/portfolio" className="btn-primary !rounded-none mt-9 max-sm:mt-5 max-sm:self-start" data-testid="home-hero-discover-work-button">
               Découvrir mon travail <span aria-hidden="true">→</span>
             </Link>
           </div>

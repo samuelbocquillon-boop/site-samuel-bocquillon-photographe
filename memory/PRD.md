@@ -97,3 +97,7 @@ Accueil, À propos, Portfolio (filtres + reportage à la une), Prestations (hub 
 - Photo Cloudinary fournie (ld-export-2c6c3456, 3333x5000 portrait) téléchargée puis injectée dans le slot 'accueil-hero' via le pipeline WebP existant (4 tailles responsive) — reste remplaçable dans l'admin
 - Cadrage affiné : object-[center_62%] pour centrer le couple (photo portrait dans hero large)
 - ALT mis à jour, vérifié par screenshots desktop + mobile
+
+## Itération 11 — Hero mobile affiné
+- Mobile (<640px) : zoom léger sur la photo (scale-110), sous-titre 'Photographe de mariage…' + bouton 'Découvrir mon travail' repositionnés SOUS les personnages (flex-col + mt-auto), fondu ivoire bas renforcé (h-44) pour la lisibilité
+- Desktop inchangé (object-position 80%, couple entier) — vérifié screenshots
