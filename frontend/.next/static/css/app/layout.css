@@ -732,6 +732,12 @@ video {
 .ml-5 {
   margin-left: 1.25rem;
 }
+.-mt-0\.5 {
+  margin-top: -0.125rem;
+}
+.mr-1 {
+  margin-right: 0.25rem;
+}
 .line-clamp-2 {
   overflow: hidden;
   display: -webkit-box;
@@ -743,6 +749,9 @@ video {
 }
 .inline-block {
   display: inline-block;
+}
+.inline {
+  display: inline;
 }
 .flex {
   display: flex;
@@ -2890,6 +2899,9 @@ html, body {
 }
 .disabled\:opacity-30:disabled {
   opacity: 0.3;
+}
+.disabled\:opacity-50:disabled {
+  opacity: 0.5;
 }
 .group:focus-within .group-focus-within\:visible {
   visibility: visible;

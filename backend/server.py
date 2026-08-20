@@ -417,6 +417,47 @@ async def delete_testimonial(tid: str, admin: str = Depends(get_current_admin)):
     return {'ok': True}
 
 
+import re
+
+CLOUDINARY_URL_RE = re.compile(r'^(https?://res\.cloudinary\.com/[^/]+/image/upload/)(.+)$')
+
+
+def url_image_optimized(url: str) -> dict:
+    """Prépare l'override d'un slot à partir d'une URL.
+    Si l'URL est Cloudinary, injecte f_auto,q_auto + largeurs responsives (srcset)
+    via les transformations d'URL — aucune image stockée localement."""
+    m = CLOUDINARY_URL_RE.match(url)
+    if m:
+        base, rest = m.groups()
+        def variant(w):
+            return f'{base}f_auto,q_auto,w_{w}/{rest}'
+        srcset = ', '.join(f'{variant(w)} {w}w' for w in (480, 960, 1600, 2400))
+        return {'url': variant(1600), 'srcset': srcset, 'fallback': variant(1600), 'width': None, 'height': None}
+    return {'url': url, 'srcset': None, 'fallback': url, 'width': None, 'height': None}
+
+
+@api_router.put('/images/{slot_key}/url')
+async def set_image_url(slot_key: str, payload: dict, admin: str = Depends(get_current_admin)):
+    """Remplace l'image d'un emplacement par un lien (Cloudinary recommandé) — sans upload."""
+    slot = next((s for s in IMAGE_SLOTS if s['slot_key'] == slot_key), None)
+    if not slot:
+        raise HTTPException(status_code=404, detail='Emplacement introuvable')
+    url = str(payload.get('url') or '').strip()
+    if not url.lower().startswith(('http://', 'https://')):
+        raise HTTPException(status_code=400, detail='URL invalide — elle doit commencer par http(s)://')
+    alt = str(payload.get('alt') or '').strip() or slot['default_alt']
+    doc = {
+        'slot_key': slot_key,
+        'alt': alt,
+        'source': 'url',
+        'original_name': url.split('?')[0].split('/')[-1][:120],
+        'optimized': url_image_optimized(url),
+        'updated_at': datetime.now(timezone.utc),
+    }
+    await db.images.update_one({'slot_key': slot_key}, {'$set': doc}, upsert=True)
+    return merge_slot(slot, doc)
+
+
 # ---------------- Routes: blog ----------------
 import re
 import math

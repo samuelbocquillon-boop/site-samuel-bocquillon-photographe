@@ -127,3 +127,9 @@ Accueil, À propos, Portfolio (filtres + reportage à la une), Prestations (hub 
 - Assets : /public/monogramme-sb.webp (transparent)
 - Tests iteration_3.json : backend 94,2% (3 faux négatifs 403-vs-401 = comportement FastAPI standard), frontend admin 100%, régression site public 100%
 - PHASES SUIVANTES : B médiathèque+sélecteur universel, C éditeur sections DB→public, D rubriques complètes, E builder+versions. Cloudinary keys toujours en attente.
+
+## Itération 16 — Lien Cloudinary pour les images (bug utilisateur corrigé)
+- AdminImages : champ 'Lien de l'image — Cloudinary recommandé' + bouton Utiliser en OPTION PRINCIPALE sur chaque emplacement ; upload fichier relégué en secondaire ('ou envoyez un fichier…')
+- Backend PUT /api/images/{slot}/url : override par URL sans stockage local ; si URL Cloudinary → injection automatique f_auto,q_auto + srcset responsive 480/960/1600/2400 via transformations d'URL
+- Validations : URL http(s) requise (400), slot inexistant (404), JWT requis
+- Tests iteration_4.json : frontend 100% (15/15), backend 93,3% (4 notes 403-vs-401 sans impact) — slot de test restauré

@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Loader2, UploadCloud, Trash2, Check, RefreshCw, ImageIcon } from 'lucide-react';
+import { Loader2, UploadCloud, Trash2, Check, RefreshCw, ImageIcon, Link2 } from 'lucide-react';
 import { apiFetch, getToken, API } from '@/lib/adminApi';
 
 // Gestion des images — page par page, emplacement par emplacement (cahier des charges §7)
@@ -78,6 +78,8 @@ const SlotCard = ({ slot, onChanged }) => {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [alt, setAlt] = useState(slot.alt || '');
+  const [url, setUrl] = useState('');
+  const [linking, setLinking] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [savingAlt, setSavingAlt] = useState(false);
   const [msg, setMsg] = useState('');
@@ -86,6 +88,28 @@ const SlotCard = ({ slot, onChanged }) => {
   const inputRef = useRef(null);
 
   useEffect(() => setAlt(slot.alt || ''), [slot.alt]);
+
+  const applyUrl = async () => {
+    const clean = url.trim();
+    if (!/^https?:\/\//i.test(clean)) {
+      setErr('Collez un lien complet commençant par https://');
+      return;
+    }
+    setLinking(true);
+    setErr('');
+    try {
+      await apiFetch(`/images/${slot.slot_key}/url`, { method: 'PUT', json: { url: clean, alt: alt || slot.default_alt } });
+      const isCloudinary = /res\.cloudinary\.com/.test(clean);
+      setMsg(isCloudinary ? 'Image liée ✓ — optimisation Cloudinary automatique (f_auto, q_auto, tailles responsives)' : 'Image liée ✓');
+      setUrl('');
+      onChanged();
+      setTimeout(() => setMsg(''), 5000);
+    } catch {
+      setErr("Impossible d'enregistrer ce lien. Vérifiez l'URL et réessayez.");
+    } finally {
+      setLinking(false);
+    }
+  };
 
   const pick = (f) => {
     if (!f) return;
@@ -175,9 +199,40 @@ const SlotCard = ({ slot, onChanged }) => {
         )}
       </div>
 
-      {/* Zone de dépôt */}
+      {/* Lien Cloudinary (recommandé — aucune image stockée sur le serveur) */}
+      <div className="mt-4">
+        <label className="label-caps !text-[9.5px] text-cognac block mb-1.5" htmlFor={`url-${slot.slot_key}`}>
+          <Link2 className="h-3 w-3 inline mr-1 -mt-0.5" />
+          Lien de l'image — Cloudinary recommandé
+        </label>
+        <div className="flex gap-2">
+          <input
+            id={`url-${slot.slot_key}`}
+            className="sb-input !py-2.5 text-[13px]"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && applyUrl()}
+            placeholder="https://res.cloudinary.com/…/image/upload/v…/photo.jpg"
+            data-testid={`admin-url-input-${slot.slot_key}`}
+          />
+          <button
+            onClick={applyUrl}
+            disabled={linking || !url.trim()}
+            className="shrink-0 inline-flex items-center gap-1.5 bg-cognac text-white rounded-[8px] px-4 text-[12.5px] font-semibold hover:bg-cuir disabled:opacity-50 transition-colors"
+            data-testid={`admin-url-apply-${slot.slot_key}`}
+          >
+            {linking ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Check className="h-3.5 w-3.5" />}
+            Utiliser
+          </button>
+        </div>
+        <p className="text-[11.5px] text-charbon/45 mt-1">
+          Les liens Cloudinary sont optimisés automatiquement (format, compression, tailles responsives).
+        </p>
+      </div>
+
+      {/* Zone de dépôt — alternative locale */}
       <div
-        className={`mt-4 rounded-[10px] border-2 border-dashed p-4 text-center cursor-pointer transition-colors ${dragOver ? 'border-cognac bg-cognac/5' : 'border-charbon/15 hover:border-charbon/35'}`}
+        className={`mt-3 rounded-[10px] border-2 border-dashed p-3 text-center cursor-pointer transition-colors ${dragOver ? 'border-cognac bg-cognac/5' : 'border-charbon/15 hover:border-charbon/35'}`}
         onClick={() => inputRef.current?.click()}
         onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
         onDragLeave={() => setDragOver(false)}
@@ -185,9 +240,9 @@ const SlotCard = ({ slot, onChanged }) => {
         data-testid={`admin-dropzone-${slot.slot_key}`}
       >
         <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={(e) => pick(e.target.files?.[0])} data-testid={`admin-file-input-${slot.slot_key}`} />
-        <UploadCloud className="h-5 w-5 text-cognac mx-auto" />
-        <p className="text-[13px] text-charbon/70 mt-1.5">
-          {file ? file.name : 'Glissez-déposez une image ici, ou cliquez pour parcourir'}
+        <p className="text-[12px] text-charbon/55 inline-flex items-center gap-1.5">
+          <UploadCloud className="h-4 w-4 text-charbon/40" />
+          {file ? file.name : 'ou envoyez un fichier depuis votre ordinateur'}
         </p>
       </div>
 

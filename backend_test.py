@@ -233,6 +233,152 @@ def main():
         )
     
     # ============================================================
+    # NEW FEATURE: IMAGE URL LINKING (CLOUDINARY)
+    # ============================================================
+    print("\n" + "="*60)
+    print("🔗 IMAGE URL LINKING TESTS (NEW FEATURE)")
+    print("="*60)
+    
+    # Test 8a: PUT /images/{slot}/url with Cloudinary URL (requires auth)
+    cloudinary_url = "https://res.cloudinary.com/dvsqwrbc3/image/upload/v1787171314/ld-export-2c6c3456-12142025_mqx2xr.jpg"
+    if tester.token:
+        success, cloudinary_result = tester.test(
+            "PUT /images/blog-hero/url - Link Cloudinary URL (should optimize with f_auto,q_auto + srcset)",
+            "PUT",
+            "/images/blog-hero/url",
+            200,
+            json_data={"url": cloudinary_url, "alt": "Test Cloudinary Image"},
+            auth=True
+        )
+        
+        if success:
+            # Verify custom:true
+            if cloudinary_result.get('custom') == True:
+                tester.log("✅", "custom=true (image is customized)")
+            else:
+                tester.log("⚠️", f"Expected custom=true, got {cloudinary_result.get('custom')}")
+            
+            # Verify URL contains f_auto,q_auto,w_1600
+            url = cloudinary_result.get('url', '')
+            if 'f_auto' in url and 'q_auto' in url and 'w_1600' in url:
+                tester.log("✅", "URL contains Cloudinary optimizations (f_auto,q_auto,w_1600)")
+            else:
+                tester.log("⚠️", f"URL missing optimizations: {url}")
+            
+            # Verify srcset has 4 sizes (480, 960, 1600, 2400)
+            srcset = cloudinary_result.get('srcset', '')
+            if srcset:
+                sizes = ['480w', '960w', '1600w', '2400w']
+                missing = [s for s in sizes if s not in srcset]
+                if not missing:
+                    tester.log("✅", "srcset contains all 4 sizes (480/960/1600/2400)")
+                else:
+                    tester.log("⚠️", f"srcset missing sizes: {missing}")
+            else:
+                tester.log("⚠️", "srcset is empty or null")
+    
+    # Test 8b: GET /images/blog-hero - Verify URL was saved
+    success, blog_hero = tester.test(
+        "GET /images/blog-hero - Verify Cloudinary URL was saved",
+        "GET",
+        "/images/blog-hero",
+        200,
+        auth=False
+    )
+    
+    if success:
+        url = blog_hero.get('url', '')
+        if 'res.cloudinary.com' in url and 'f_auto' in url:
+            tester.log("✅", "Cloudinary URL persisted correctly")
+        else:
+            tester.log("⚠️", f"URL not persisted correctly: {url}")
+    
+    # Test 8c: PUT /images/{slot}/url with non-Cloudinary URL (requires auth)
+    unsplash_url = "https://images.unsplash.com/photo-1519741497674-611481863552?w=800"
+    if tester.token:
+        success, unsplash_result = tester.test(
+            "PUT /images/blog-hero/url - Link non-Cloudinary URL (should NOT optimize, srcset=null)",
+            "PUT",
+            "/images/blog-hero/url",
+            200,
+            json_data={"url": unsplash_url, "alt": "Test Unsplash Image"},
+            auth=True
+        )
+        
+        if success:
+            # Verify URL is unchanged
+            url = unsplash_result.get('url', '')
+            if url == unsplash_url:
+                tester.log("✅", "Non-Cloudinary URL unchanged")
+            else:
+                tester.log("⚠️", f"Expected {unsplash_url}, got {url}")
+            
+            # Verify srcset is null or empty
+            srcset = unsplash_result.get('srcset')
+            if srcset is None or srcset == '':
+                tester.log("✅", "srcset is null (no optimization for non-Cloudinary)")
+            else:
+                tester.log("⚠️", f"Expected srcset=null, got {srcset}")
+    
+    # Test 8d: PUT /images/{slot}/url with invalid URL (should return 400)
+    if tester.token:
+        tester.test(
+            "PUT /images/blog-hero/url - Invalid URL 'pas-une-url' (should return 400)",
+            "PUT",
+            "/images/blog-hero/url",
+            400,
+            json_data={"url": "pas-une-url", "alt": "Test"},
+            auth=True
+        )
+    
+    # Test 8e: PUT /images/{slot}/url with non-existent slot (should return 404)
+    if tester.token:
+        tester.test(
+            "PUT /images/non-existent-slot/url - Non-existent slot (should return 404)",
+            "PUT",
+            "/images/non-existent-slot-xyz/url",
+            404,
+            json_data={"url": cloudinary_url, "alt": "Test"},
+            auth=True
+        )
+    
+    # Test 8f: PUT /images/{slot}/url without auth (should return 401/403)
+    tester.test(
+        "PUT /images/blog-hero/url - Without auth (should return 401/403)",
+        "PUT",
+        "/images/blog-hero/url",
+        401,
+        json_data={"url": cloudinary_url, "alt": "Test"},
+        auth=False
+    )
+    
+    # Test 8g: DELETE /images/blog-hero - Restore default (cleanup)
+    if tester.token:
+        success, delete_result = tester.test(
+            "DELETE /images/blog-hero - Restore default (cleanup after URL tests)",
+            "DELETE",
+            "/images/blog-hero",
+            200,
+            auth=True
+        )
+        
+        if success:
+            # Verify it's back to default
+            success, restored = tester.test(
+                "GET /images/blog-hero - Verify restored to default",
+                "GET",
+                "/images/blog-hero",
+                200,
+                auth=False
+            )
+            
+            if success:
+                if restored.get('custom') == False:
+                    tester.log("✅", "Slot restored to default (custom=false)")
+                else:
+                    tester.log("⚠️", f"Expected custom=false, got {restored.get('custom')}")
+    
+    # ============================================================
     # 3. CONTACT TESTS
     # ============================================================
     print("\n" + "="*60)
