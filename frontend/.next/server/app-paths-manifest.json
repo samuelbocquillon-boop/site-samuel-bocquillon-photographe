@@ -1,9 +1,13 @@
 {
-  "/icon.png/route": "app/icon.png/route.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/prestations/formation/page": "app/prestations/formation/page.js",
   "/page": "app/page.js",
-  "/prestations/mariage/page": "app/prestations/mariage/page.js",
+  "/blog/page": "app/blog/page.js",
+  "/blog/[slug]/page": "app/blog/[slug]/page.js",
   "/contact/page": "app/contact/page.js",
-  "/a-propos/page": "app/a-propos/page.js",
-  "/prestations/page": "app/prestations/page.js"
+  "/merci/page": "app/merci/page.js",
+  "/portfolio/page": "app/portfolio/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/admin/blog/page": "app/admin/blog/page.js",
+  "/admin/medias/page": "app/admin/medias/page.js",
+  "/admin/seo-local/page": "app/admin/seo-local/page.js"
 }

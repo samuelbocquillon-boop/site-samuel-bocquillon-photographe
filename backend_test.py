@@ -818,6 +818,265 @@ def main():
         )
     
     # ============================================================
+    # 8. ADMIN DASHBOARD (PHASE A CMS) TESTS
+    # ============================================================
+    print("\n" + "="*60)
+    print("🎛️  ADMIN DASHBOARD (PHASE A CMS) TESTS")
+    print("="*60)
+    
+    if not tester.token:
+        tester.log("⚠️", "Skipping admin dashboard tests - no auth token")
+    else:
+        # Test 38: Get admin stats
+        success, stats = tester.test(
+            "GET /admin/stats - Get dashboard KPIs (requires auth)",
+            "GET",
+            "/admin/stats",
+            200,
+            auth=True
+        )
+        
+        if success:
+            tester.log("📊", f"Articles published: {stats.get('articles_published', 'N/A')}")
+            tester.log("📊", f"Articles this month: {stats.get('articles_month', 'N/A')}")
+            tester.log("📊", f"Pages active: {stats.get('pages_active', 'N/A')}")
+            tester.log("📊", f"Demandes total: {stats.get('demandes_total', 'N/A')}")
+            tester.log("📊", f"Demandes unread: {stats.get('demandes_unread', 'N/A')}")
+            tester.log("📊", f"Images total: {stats.get('images_total', 'N/A')}")
+            tester.log("📊", f"Images this month: {stats.get('images_month', 'N/A')}")
+            
+            # Verify pages_active is 17
+            if stats.get('pages_active') == 17:
+                tester.log("✅", "Correct: 17 pages active")
+            else:
+                tester.log("⚠️", f"Expected 17 pages active, found {stats.get('pages_active')}")
+        
+        # Test 39: Get admin pages
+        success, pages_data = tester.test(
+            "GET /admin/pages - Get all pages (requires auth, should return 17)",
+            "GET",
+            "/admin/pages",
+            200,
+            auth=True
+        )
+        
+        if success:
+            pages = pages_data.get('pages', [])
+            if len(pages) == 17:
+                tester.log("✅", f"Correct: 17 pages returned")
+            else:
+                tester.log("⚠️", f"Expected 17 pages, found {len(pages)}")
+        
+        # Test 40: Get admin sections (should auto-seed 7 sections)
+        success, sections = tester.test(
+            "GET /admin/sections - Get home sections (requires auth, should return 7)",
+            "GET",
+            "/admin/sections",
+            200,
+            auth=True
+        )
+        
+        section_ids = []
+        if success:
+            if len(sections) == 7:
+                tester.log("✅", f"Correct: 7 sections returned")
+            else:
+                tester.log("⚠️", f"Expected 7 sections, found {len(sections)}")
+            
+            # Verify expected sections
+            expected_keys = ['hero', 'a-propos', 'portfolio', 'prestations', 'temoignages', 'cta', 'contact']
+            found_keys = [s.get('key') for s in sections]
+            section_ids = [s.get('id') for s in sections]
+            
+            if set(found_keys) == set(expected_keys):
+                tester.log("✅", "All expected sections present")
+            else:
+                missing = set(expected_keys) - set(found_keys)
+                extra = set(found_keys) - set(expected_keys)
+                if missing:
+                    tester.log("⚠️", f"Missing sections: {missing}")
+                if extra:
+                    tester.log("⚠️", f"Extra sections: {extra}")
+            
+            # Verify all sections are active by default
+            all_active = all(s.get('actif') for s in sections)
+            if all_active:
+                tester.log("✅", "All sections active by default")
+            else:
+                tester.log("⚠️", "Some sections not active by default")
+        
+        # Test 41: Reorder sections
+        if section_ids and len(section_ids) >= 2:
+            # Reverse the order
+            reversed_ids = list(reversed(section_ids))
+            success, reorder_result = tester.test(
+                "PUT /admin/sections/order - Reorder sections (requires auth)",
+                "PUT",
+                "/admin/sections/order",
+                200,
+                json_data={"ids": reversed_ids},
+                auth=True
+            )
+            
+            if success:
+                # Verify new order
+                success, sections_after = tester.test(
+                    "GET /admin/sections - Verify new order",
+                    "GET",
+                    "/admin/sections",
+                    200,
+                    auth=True
+                )
+                
+                if success:
+                    new_ids = [s.get('id') for s in sections_after]
+                    if new_ids == reversed_ids:
+                        tester.log("✅", "Section order persisted correctly")
+                    else:
+                        tester.log("⚠️", "Section order not persisted correctly")
+                    
+                    # Restore original order
+                    tester.test(
+                        "PUT /admin/sections/order - Restore original order",
+                        "PUT",
+                        "/admin/sections/order",
+                        200,
+                        json_data={"ids": section_ids},
+                        auth=True
+                    )
+        
+        # Test 42: Toggle section active status
+        if section_ids:
+            first_section_id = section_ids[0]
+            
+            # Toggle to inactive
+            success, toggle_result = tester.test(
+                "PUT /admin/sections/{id} - Toggle section to inactive (requires auth)",
+                "PUT",
+                f"/admin/sections/{first_section_id}",
+                200,
+                json_data={"actif": False},
+                auth=True
+            )
+            
+            if success:
+                if toggle_result.get('actif') == False:
+                    tester.log("✅", "Section toggled to inactive")
+                else:
+                    tester.log("⚠️", "Section not toggled to inactive")
+                
+                # Toggle back to active
+                success, restore_result = tester.test(
+                    "PUT /admin/sections/{id} - Toggle section back to active",
+                    "PUT",
+                    f"/admin/sections/{first_section_id}",
+                    200,
+                    json_data={"actif": True},
+                    auth=True
+                )
+                
+                if success and restore_result.get('actif') == True:
+                    tester.log("✅", "Section restored to active")
+        
+        # Test 43: Get recent media
+        success, media = tester.test(
+            "GET /admin/media/recent - Get recent media (requires auth, should return 6)",
+            "GET",
+            "/admin/media/recent?limit=6",
+            200,
+            auth=True
+        )
+        
+        if success:
+            if len(media) == 6:
+                tester.log("✅", f"Correct: 6 media items returned")
+            else:
+                tester.log("⚠️", f"Expected 6 media items, found {len(media)}")
+        
+        # Test 44: Pipeline status update (create a contact first)
+        contact_data = {
+            "name": "Test Pipeline User",
+            "email": "pipeline@test.com",
+            "phone": "0612345678",
+            "wedding_date": "2025-10-20",
+            "wedding_location": "Valenciennes",
+            "message": "Test message for pipeline testing."
+        }
+        
+        success, contact_response = tester.test(
+            "POST /contact - Create contact for pipeline testing",
+            "POST",
+            "/contact",
+            200,
+            json_data=contact_data,
+            auth=False
+        )
+        
+        pipeline_contact_id = None
+        if success:
+            pipeline_contact_id = contact_response.get('id')
+            tester.log("📬", f"Pipeline test contact created with ID: {pipeline_contact_id}")
+        
+        # Test 45: Update pipeline status to 'confirmee'
+        if pipeline_contact_id:
+            success, pipeline_result = tester.test(
+                "PUT /contacts/{id}/pipeline - Update pipeline status to 'confirmee' (requires auth)",
+                "PUT",
+                f"/contacts/{pipeline_contact_id}/pipeline",
+                200,
+                json_data={"status": "confirmee", "note": "test note", "amount": "1500"},
+                auth=True
+            )
+            
+            if success:
+                if pipeline_result.get('pipeline_status') == 'confirmee':
+                    tester.log("✅", "Pipeline status updated to 'confirmee'")
+                else:
+                    tester.log("⚠️", f"Expected status 'confirmee', got {pipeline_result.get('pipeline_status')}")
+                
+                if pipeline_result.get('pipeline_note') == 'test note':
+                    tester.log("✅", "Pipeline note persisted")
+                else:
+                    tester.log("⚠️", "Pipeline note not persisted")
+                
+                if pipeline_result.get('pipeline_amount') == '1500':
+                    tester.log("✅", "Pipeline amount persisted")
+                else:
+                    tester.log("⚠️", "Pipeline amount not persisted")
+        
+        # Test 46: Invalid pipeline status (should return 400)
+        if pipeline_contact_id:
+            tester.test(
+                "PUT /contacts/{id}/pipeline - Invalid status (should return 400)",
+                "PUT",
+                f"/contacts/{pipeline_contact_id}/pipeline",
+                400,
+                json_data={"status": "invalid_status"},
+                auth=True
+            )
+        
+        # Test 47: Pipeline without auth (should return 401/403)
+        if pipeline_contact_id:
+            tester.test(
+                "PUT /contacts/{id}/pipeline - Without auth (should return 401/403)",
+                "PUT",
+                f"/contacts/{pipeline_contact_id}/pipeline",
+                401,
+                json_data={"status": "nouvelle"},
+                auth=False
+            )
+        
+        # Cleanup: Delete pipeline test contact
+        if pipeline_contact_id:
+            tester.test(
+                "DELETE /contacts/{id} - Delete pipeline test contact",
+                "DELETE",
+                f"/contacts/{pipeline_contact_id}",
+                200,
+                auth=True
+            )
+    
+    # ============================================================
     # SUMMARY
     # ============================================================
     success = tester.print_summary()

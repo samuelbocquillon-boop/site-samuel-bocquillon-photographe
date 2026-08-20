@@ -127,3 +127,74 @@ select:focus-visible {
 html, body {
   overflow-x: hidden;
 }
+
+/* ============ ADMIN — Design tokens (maquette dashboard) ============ */
+:root {
+  --or-doux: #B08D5E;
+  --fond-app: #F7F4EF;
+  --fond-sidebar: #FBF9F6;
+  --fond-actif: #F2EDE4;
+  --bordure: #E8E2D9;
+  --bordure-douce: #F0EBE3;
+  --texte-secondaire: #8C8880;
+  --texte-tertiaire: #A8A49C;
+  --succes-bg: #E9F1E4;
+  --succes-txt: #5C7A50;
+  --ambre-bg: #F8EEDA;
+  --ambre-txt: #9A6B24;
+  --info-bg: #F2EDE4;
+  --info-txt: #8A5A44;
+  --erreur-bg: #F6E6E3;
+  --erreur-txt: #A04A38;
+  --ombre-menu: 0 4px 16px rgba(26, 26, 26, 0.06);
+}
+
+.adm-card {
+  background: #fff;
+  border: 1px solid var(--bordure);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.adm-title {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #1A1A1A;
+}
+
+.adm-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+/* Grille du tableau de bord (rangées 2-3, aperçu pleine hauteur à droite) */
+.adm-dash-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 1180px) {
+  .adm-dash-grid {
+    grid-template-columns: minmax(0, 1.72fr) minmax(0, 0.9fr) minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      'editeur constructeur apercu'
+      'recents medias apercu'
+      'recents seo apercu';
+  }
+  .adm-area-editeur { grid-area: editeur; }
+  .adm-area-constructeur { grid-area: constructeur; }
+  .adm-area-apercu { grid-area: apercu; }
+  .adm-area-recents { grid-area: recents; }
+  .adm-area-medias { grid-area: medias; }
+  .adm-area-seo { grid-area: seo; }
+}
+
+/* Scrollbar discrète pour la zone admin */
+.adm-scroll::-webkit-scrollbar { width: 8px; }
+.adm-scroll::-webkit-scrollbar-thumb { background: var(--bordure); border-radius: 8px; }

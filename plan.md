@@ -10,11 +10,17 @@
   - Page listing et pages articles conformes à la maquette, cohérentes avec l’identité du site.
   - Articles enrichis (lieu/ville/département/région/pays) pour renforcer le référencement local.
   - Admin « sans code » via éditeur par blocs + gestion des slugs + alt par image.
+- **CMS propriétaire (dashboard)** : fournir une admin premium, minimaliste, lumineuse, **fidèle à la maquette** + prompt MD (598 lignes).
+  - Navigation admin structurée (13 rubriques), preview live (iframe), KPI dynamiques.
+  - Réservations = pipeline sur demandes contact.
+  - SEO local éditable.
+  - Préparer les phases suivantes : médiathèque centralisée, éditeur de pages par sections, builder plein écran + versions.
 
 **Statut global :**
-- Phases 1 et 2 : ✅ terminées (site complet + admin + SEO + pages villes)
+- Phases 1 et 2 : ✅ terminées (site complet + admin V1 + SEO + pages villes)
 - Phase 3 : 🔄 stabilisation / qualité prod + activation credentials (en attente)
-- **Phase 4 : ✅ BLOG — COMPLETED (implémenté + testé 100%)**
+- Phase 4 : ✅ BLOG — COMPLETED (implémenté + testé 100%)
+- **Phase 5 : ✅ CMS / Dashboard propriétaire — Phase A COMPLETED (design + wiring + tests)**
 
 ---
 
@@ -53,7 +59,6 @@
 - Pages principales : Accueil, À propos, Portfolio, Prestations (hub), Mariage, Corporate, Photobooth, Formation, Contact.
 - Pages additionnelles : `/merci`, `/avis`, `/photographe-mariage-[valenciennes|lille|douai|cambrai]`, `/politique-de-confidentialite`, `/mentions-legales`, `404`.
 - Navigation : menu + dropdown Prestations + état actif + hamburger mobile.
-- CTA : above-the-fold + CTA mobile fixe bas d’écran.
 
 2) **Contenu** — ✅
 - Seed contenu conforme aux maquettes (textes, prix, CTA, FAQ, témoignages).
@@ -92,11 +97,8 @@
 
 ### Phase 3 — Stabilisation + compléments (qualité prod) — 🔄 EN COURS / NEXT
 1) **Contact : conformité maquette** — 🔄
-- Vérifier visuellement `/contact` après dernières retouches.
+- Vérifier visuellement `/contact` vs maquette (captures).
 - Ajuster alignements/typo/espacements si nécessaire.
-- Validation via captures d’écran.
-
-> Note : la route `/contact` répond **200** et le formulaire fonctionne, mais la validation « pixel-perfect » finale reste à confirmer par comparaison stricte à la maquette.
 
 2) **Tests end-to-end & qualité** — 🔄
 - Campagne tests (frontend + backend) : navigation, CTA, formulaires, admin, SSR, accessibilité.
@@ -117,104 +119,115 @@
 
 > Statut : **implémenté + testé à 100%** (voir `/app/test_reports/iteration_2.json` : **50 tests passés, 0 bug**).
 
-#### 4.1 Backend (FastAPI + MongoDB `blog_posts`) — ✅
-1) **Collection + modèle** — ✅
-- `blog_posts` :
-  - `id` (uuid)
-  - `title`, `slug` (unique, modifiable), `excerpt`
-  - `category` ∈ {mariages, corporate, photobooth, formations, conseils, inspiration}
-  - `cover`: { `url`, `alt` }
-  - `date`, `author`, `tags[]`
-  - `location`: { `venue`, `city`, `postal_code`, `department`, `region`, `country` }
-  - `seo`: { `meta_title`, `meta_description`, `keyword`, `og_image`, `canonical`, `noindex` }
-  - `blocks[]`: (heading/text/image/image_full/images_2/images_3/gallery/quote/spacer/button/video)
-  - `status`: draft|published
-  - timestamps.
+---
 
-2) **Routes publiques** — ✅
-- `GET /api/blog/posts` (filtres : `category`, `lieu`, `q`, `page`, `limit=9`).
-- `GET /api/blog/posts/{slug}` : article + **related 3** (lieu/ville/région/catégorie) + **discover 3**.
-- `GET /api/blog/locations` : liste dynamique lieux/villes/départements.
-- `GET /api/blog/sitemap` : slugs publiés + nombre de pages (pour sitemap dynamique).
+### Phase 5 — CMS propriétaire / Dashboard Admin (maquette fournie) — ✅ Phase A COMPLETED
+**Référence obligatoire** : image dashboard + prompt MD (598 lignes) :
+- `/tmp/dashboard_prompt.md`
+- URL : https://customer-assets-v7afamib.emergentagent.net/job_wedding-samuel/artifacts/m8oz2cwl_prompt-emergent-dashboard-samuel-bocquillon.md
 
-3) **Routes admin (JWT)** — ✅
-- CRUD : `GET/POST/PUT/DELETE /api/blog/admin/posts`.
-- Actions : duplication, publish/unpublish (`/status`), suppression.
-- Upload images bloc/cover : `POST /api/blog/upload` (optimisation WebP multi-tailles).
+**Décisions utilisateur validées :**
+- Ordre des phases : **A → B → C → D → E**
+- Cloudinary : **pas de clés pour l’instant** → support **collage d’URL + uploads locaux WebP**, synchro plus tard.
+- Réservations : **pipeline basé sur les demandes formulaire** (statuts : Nouvelle/À traiter/Confirmée/Payée/Terminée/Annulée)
+- Aperçu du site : **iframe réelle** + bascule desktop/tablette/mobile.
 
-4) **Seed démonstration** — ✅
-- Seed ~9 articles démo (supprimables) pour valider visuel grille + pagination.
+#### Phase A — Refonte visuelle du dashboard + branchement aux fonctionnalités existantes — ✅ COMPLETED
+**Objectif** : interface admin **visuellement indiscernable** de la maquette, en branchant Blog/Demandes/Témoignages/Images/Réglages existants, sans casser le site.
 
-5) **Slots images** — ✅
-- Ajout de slots Blog : `blog-hero` + `blog-prefooter-1..3`.
-- `PAGE_ORDER` mis à jour.
+1) **Design tokens Admin (globals)** — ✅
+- Variables CSS (fond-app/sidebar/actif, bordures, or doux, couleurs états) + classes utilitaires admin (cards sans ombre marquée).
 
-#### 4.2 Frontend (Next.js SSR) — ✅
-1) **Navigation** — ✅
-- Ajout **BLOG** dans le menu principal **entre Prestations et Contact**.
-- Ajout lien **Blog** dans le footer.
+2) **Shell Admin (layout global)** — ✅
+- Conteneur global arrondi ~14px + bordure 1px.
+- Sidebar fixe 236px + bloc compte ancré bas + Voir le site + Déconnexion.
+- Header contextuel : titre/sous-titre + autosave indicator + “Voir le site” + split button “+ Nouveau”.
 
-2) **Route `/blog` (listing)** — ✅
-- Hero conforme maquette (label BLOG + H1 + texte + photo droite via slot `blog-hero`).
-- Filtres conformes maquette : catégorie / lieu (dynamique) / recherche (titre + lieu + ville + contenu + tags + catégorie).
-- Grille 3/2/1 + cartes sobres (filet fin, hover discret).
-- Pagination conforme maquette.
+3) **Navigation 13 rubriques (routes)** — ✅
+- Routes App Router livrées :
+  - `/admin` dashboard
+  - `/admin/pages`
+  - `/admin/blog`
+  - `/admin/portfolio`
+  - `/admin/prestations`
+  - `/admin/medias`
+  - `/admin/temoignages`
+  - `/admin/reservations`
+  - `/admin/seo-local`
+  - `/admin/formulaires`
+  - `/admin/navigation`
+  - `/admin/branding`
+  - `/admin/parametres`
 
-3) **Pagination indexable** — ✅
-- Route `/blog/page/[num]` (SSR) pour pages 2+.
-- Canonical correct : page 1 → `/blog`, page n → `/blog/page/n`.
+4) **Dashboard grid fidèle maquette** — ✅
+- KPI dynamiques + Actions rapides.
+- Éditeur sections Accueil (7 sections) : **drag&drop + toggle Actif** persistés.
+- Constructeur placeholder (Phase E).
+- Aperçu du site (iframe) + toggles devices.
+- Contenus récents (tabs) + Bibliothèque médias (6) + carte SEO local.
 
-4) **Route `/blog/[slug]` (article)** — ✅
-- Template éditorial : breadcrumb, hero, cover, blocs magazine (11 types), CTA local.
-- Fin d’article : « Vous aimerez également » (3), « D’autres histoires à découvrir » (3), CTA bandeau photo, liens internes.
+5) **Backend (stats + sections + pages + media + pipeline)** — ✅
+- `GET /api/admin/stats`
+- `home_sections` seed + `PUT /api/admin/sections/order` + `PUT /api/admin/sections/{id}`
+- `GET /api/admin/pages`
+- `GET /api/admin/media/recent`
+- Pipeline réservations : `PUT /api/contacts/{id}/pipeline` (statut + note + montant)
 
-5) **Pré-footer Blog** — ✅
-- Ajout d’une zone éditoriale brun cuir **uniquement sur les pages Blog** (cohérente maquette).
+6) **Assets branding admin** — ✅
+- Monogramme SB transparent en `/public/monogramme-sb.webp`.
 
-6) **SEO Blog** — ✅
-- `generateMetadata` par article (title/description/canonical/OG/noindex).
-- JSON-LD : `Blog`, `BlogPosting`, `BreadcrumbList`.
-- Sitemap dynamique : articles publiés + pages de pagination.
-- SSR vérifié.
+**Tests Phase A**
+- `/app/test_reports/iteration_3.json` : **97,3% (71/74)**
+  - 0 bug réel : 3 faux négatifs **403 vs 401** (sémantique HTTPBearer FastAPI, accès bien refusé).
+  - Admin frontend : **100%**
+  - Régression site public : **100%**
 
-#### 4.3 Admin (Dashboard) — ✅
-1) **Nouvel onglet “BLOG”** — ✅
-- Liste articles : statut (draft/published), date, catégorie, actions (éditer/dupliquer/supprimer/publier/dépublier).
+#### Phase B — Médiathèque centralisée + sélecteur universel 3 options — ⏳ NOT STARTED
+- Collection `medias` + `media_usages`.
+- Sélecteur image universel : médiathèque / upload / coller URL Cloudinary.
+- Au collage URL : preview immédiat + ajout auto en bibliothèque + réutilisable.
+- Panneau d’édition image : ALT/tags/infos + remplacement global.
 
-2) **Éditeur d’article (sans code)** — ✅
-- Informations principales : titre, slug, résumé, catégorie, image principale + ALT, date, auteur.
-- SEO local : lieu/ville/CP/département/région/pays.
-- SEO : meta title/description/keyword/OG/canonical/index/noindex.
-- **Blocs** : ajout/retrait, réordonnancement **drag & drop + flèches**, upload images optimisées + ALT par image.
-- Flux E2E validé : création → publication → visible côté public → suppression.
+#### Phase C — Éditeur de sections (migration contenu en DB) — ⏳ NOT STARTED
+- Migration Accueil (puis autres pages) en DB en conservant un rendu public **strictement identique**.
+- Panneau slide-in 480px : champs (titre/sous-titre/texte/CTA/image/disposition/visibilité/espacement).
+- Autosave debounce ~800ms + indicateur header.
 
-#### 4.4 Tests & validation visuelle — ✅
-- Captures d’écran : `/blog` et `/blog/[slug]`.
-- Tests automatisés : **100%** (iteration_2.json).
-- Régression confirmée : pages existantes intactes.
+#### Phase D — Rubriques CMS complètes — ⏳ NOT STARTED
+- Pages, Portfolio (galeries + drag&drop), Prestations (tarifs/options/FAQ), Navigation (menu 2 niveaux), Branding (logos/couleurs/typos), Paramètres enrichis, SEO local (CRUD lieux + autocomplete + liaisons contenus).
+
+#### Phase E — Builder plein écran + versions — ⏳ NOT STARTED
+- Builder visuel plein écran (bibliothèque blocs / canvas / settings), blocs réels du site.
+- Historique de versions + restauration.
 
 ---
 
 ## 3. Next Actions
-1) **Stabilisation Contact (pixel-perfect)**
-- Faire/valider une comparaison stricte à la maquette (screenshots) et ajuster si nécessaire.
+1) **Phase 5B — Médiathèque centralisée (priorité)**
+- Concevoir la collection `medias`, l’UI “Bibliothèque” (liste/grille) et le sélecteur universel 3 options.
+- Mode “Cloudinary sans clés” : collage d’URL + stockage local metadata + usages.
 
-2) **Données de production (dépend du client)**
-- Mettre les **vraies coordonnées NAP** (Nom/Adresse/Téléphone/Email).
-- Fournir **SMTP Gmail** (app password) pour activer les notifications de contact.
-- (Optionnel) activer **Cloudinary**.
-- (Optionnel) renseigner **GA ID**.
+2) **Phase 5C — Éditeur de sections (Accueil d’abord)**
+- Rendre l’éditeur des 7 sections de l’accueil réellement éditable (contenu), tout en garantissant le rendu public identique.
 
-3) **Qualité prod**
-- Audit performance (images, CLS, LCP) + accessibilité.
-- Vérifier sitemap/robots en environnement prod.
+3) **Phase 3 — Stabilisation Contact (pixel-perfect)**
+- Comparaison stricte à la maquette + screenshots.
+
+4) **Données de production (dépend du client)**
+- Vraies coordonnées NAP.
+- SMTP Gmail.
+- Cloudinary keys (plus tard).
+- GA ID.
 
 ---
 
 ## 4. Success Criteria
-- Conformité visuelle : pages existantes inchangées ; Blog **indiscernable** d’une page prévue dès le départ (maquette respectée : hero, filtres, cartes, pagination, pré-footer).
+- Conformité visuelle : pages existantes inchangées ; Blog indiscernable ; **Dashboard indiscernable de la maquette** (Phase A ✅).
 - SEO : SSR/SSG, meta uniques, canonical, sitemap/robots/llms, JSON-LD (LocalBusiness + Blog + BlogPosting + BreadcrumbList).
-- Local SEO : articles enrichis (lieu/ville/département/région/pays) + maillage interne + recommandations d’articles liés.
-- Admin : création/modification/publication d’articles + éditeur blocs + ALT par image + slugs modifiables.
+- Local SEO : NAP cohérent + pages villes + articles enrichis + maillage interne.
+- Admin :
+  - V1 existante stable.
+  - Phase A ✅ : dashboard visuel + KPI + preview + navigation + réservations pipeline + SEO local éditable.
+  - Phases B–E : médiathèque, éditeur sections, rubriques complètes, builder, versions.
 - Performance : images optimisées WebP/srcset/lazy, animations discrètes, pages rapides.
 - RGPD : pas de régression (maps/GA gated, admin isolé).

@@ -115,3 +115,15 @@ Accueil, À propos, Portfolio (filtres + reportage à la une), Prestations (hub 
 ## Itération 14 — Favicon monogramme SB
 - Fichier client 'Favicon 2.PNG' recadré + fond ivoire (lisible sur onglets clairs/sombres)
 - Exports Next App Router : app/favicon.ico (16/32/48), app/icon.png (512), app/apple-icon.png (180) — balises <link> auto-injectées, vérifié 200 + HTML
+
+## Itération 15 — PHASE A Dashboard CMS (maquette) — TERMINÉE (97,3% tests, 0 bug réel)
+- Shell admin : conteneur arrondi 14px fond #F7F4EF, sidebar 236px (#FBF9F6, monogramme SB + marque entre filets, 13 rubriques Lucide stroke 1.5, actif = pilule #F2EDE4 + barre cognac 3px, bloc compte SB + Voir le site + Déconnexion), header contextuel (titre serif + sous-titre par route), indicateur autosave, split button + Nouveau (menu 6 entrées), drawer mobile
+- Tableau de bord : 4 KPI dynamiques (GET /api/admin/stats) + Actions rapides ; Éditeur page d'accueil (7 sections réelles seedées en DB, drag&drop ordre + toggle Actif persistés — rendu public branché en Phase C) ; Constructeur (zone pointillée, Phase E) ; Aperçu du site (iframe réelle scalée, toggles desktop/tablette/mobile, hauteur fixe) ; Contenus récents (onglets Articles/Pages/Demandes/Réservations avec vraies données) ; Bibliothèque médias (6 dernières) ; SEO local (depuis settings)
+- Routes : /admin + 12 sous-pages (pages, blog?new=1 ouvre l'éditeur, portfolio, prestations, medias, temoignages, reservations, seo-local, formulaires, navigation, branding, parametres) — composants existants réutilisés
+- NOUVEAU Réservations : pipeline sur les demandes contact (6 statuts + note + montant, PUT /api/contacts/{id}/pipeline, filtres)
+- NOUVEAU SEO local : form localisation (settings, champ department ajouté) + lieux du blog en badges
+- Backend : /api/admin/stats, /api/admin/pages (registre 17 pages), /api/admin/sections (+order/+toggle), /api/admin/media/recent, pipeline contacts
+- Design tokens admin dans globals.css (--or-doux, --fond-*, badges, .adm-card, .adm-dash-grid areas)
+- Assets : /public/monogramme-sb.webp (transparent)
+- Tests iteration_3.json : backend 94,2% (3 faux négatifs 403-vs-401 = comportement FastAPI standard), frontend admin 100%, régression site public 100%
+- PHASES SUIVANTES : B médiathèque+sélecteur universel, C éditeur sections DB→public, D rubriques complètes, E builder+versions. Cloudinary keys toujours en attente.

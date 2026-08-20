@@ -23,10 +23,10 @@ const fmtDate = (iso) => {
 };
 
 // Gestion du blog — liste des articles + accès à l'éditeur par blocs
-export const AdminBlog = () => {
+export const AdminBlog = ({ autoNew = false }) => {
   const [posts, setPosts] = useState(null);
   const [error, setError] = useState('');
-  const [editing, setEditing] = useState(null); // null | 'new' | post complet
+  const [editing, setEditing] = useState(autoNew ? 'new' : null); // null | 'new' | post complet
   const [busy, setBusy] = useState('');
 
   const load = useCallback(async () => {
@@ -118,13 +118,10 @@ export const AdminBlog = () => {
   return (
     <div data-testid="admin-blog-manager">
       <div className="flex items-start justify-between gap-4 flex-wrap">
-        <div>
-          <h2 className="font-serif text-3xl">Blog</h2>
-          <p className="text-charbon/60 text-[14px] mt-1.5 max-w-xl">
-            Créez et publiez vos reportages : lieu, ville, région, texte, galeries photos et informations SEO.
-            Chaque article publié est ajouté automatiquement au site et au sitemap.
-          </p>
-        </div>
+        <p className="text-charbon/60 text-[14px] max-w-xl">
+          Créez et publiez vos reportages : lieu, ville, région, texte, galeries photos et informations SEO.
+          Chaque article publié est ajouté automatiquement au site et au sitemap.
+        </p>
         <div className="flex items-center gap-2.5">
           <button onClick={load} className="inline-flex items-center gap-2 text-[13px] border border-charbon/15 rounded-[8px] px-3.5 py-2.5 hover:bg-white transition-colors" data-testid="admin-blog-refresh">
             <RefreshCw className="h-3.5 w-3.5" /> Actualiser

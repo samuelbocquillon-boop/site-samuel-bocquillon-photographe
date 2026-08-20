@@ -224,7 +224,7 @@ export const AdminBlogEditor = ({ post, onClose }) => {
   return (
     <div data-testid="admin-blog-editor">
       {/* Barre d'actions */}
-      <div className="flex items-center justify-between gap-3 flex-wrap sticky top-[120px] z-30 bg-ivoire/95 backdrop-blur-sm py-3 -my-3 rounded-[10px]">
+      <div className="flex items-center justify-between gap-3 flex-wrap sticky top-0 z-30 py-3 -my-3 rounded-[10px]" style={{ background: 'var(--fond-app)' }}>
         <button onClick={() => onClose(false)} className="inline-flex items-center gap-2 text-[13px] text-charbon/70 hover:text-charbon border border-charbon/15 rounded-[8px] px-3.5 py-2.5 transition-colors" data-testid="admin-blog-editor-back">
           <ArrowLeft className="h-4 w-4" /> Retour à la liste
         </button>

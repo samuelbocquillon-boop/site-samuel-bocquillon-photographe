@@ -696,6 +696,150 @@ async def blog_upload(file: UploadFile = File(...), alt: str = Form(''), admin: 
     return {'url': result['url'], 'srcset': result['srcset'], 'fallback': result['fallback'], 'width': result['width'], 'height': result['height'], 'alt': alt}
 
 
+# ---------------- Routes: admin dashboard (Phase A CMS) ----------------
+STATIC_PAGES_REGISTRY = [
+    {'title': 'Accueil', 'slug': '/', 'page_key': 'accueil'},
+    {'title': 'À propos', 'slug': '/a-propos', 'page_key': 'a-propos'},
+    {'title': 'Portfolio', 'slug': '/portfolio', 'page_key': 'portfolio'},
+    {'title': 'Prestations', 'slug': '/prestations', 'page_key': 'prestations'},
+    {'title': 'Mariage', 'slug': '/prestations/mariage', 'page_key': 'mariage'},
+    {'title': 'Corporate', 'slug': '/prestations/corporate', 'page_key': 'corporate'},
+    {'title': 'Photobooth', 'slug': '/prestations/photobooth', 'page_key': 'photobooth'},
+    {'title': 'Formation', 'slug': '/prestations/formation', 'page_key': 'formation'},
+    {'title': 'Blog', 'slug': '/blog', 'page_key': 'blog'},
+    {'title': 'Contact', 'slug': '/contact', 'page_key': 'contact'},
+    {'title': 'Avis clients', 'slug': '/avis', 'page_key': 'avis'},
+    {'title': 'Photographe mariage Valenciennes', 'slug': '/photographe-mariage-valenciennes', 'page_key': 'ville-valenciennes'},
+    {'title': 'Photographe mariage Lille', 'slug': '/photographe-mariage-lille', 'page_key': 'ville-lille'},
+    {'title': 'Photographe mariage Douai', 'slug': '/photographe-mariage-douai', 'page_key': 'ville-douai'},
+    {'title': 'Photographe mariage Cambrai', 'slug': '/photographe-mariage-cambrai', 'page_key': 'ville-cambrai'},
+    {'title': 'Mentions légales', 'slug': '/mentions-legales', 'page_key': 'mentions-legales'},
+    {'title': 'Politique de confidentialité', 'slug': '/politique-de-confidentialite', 'page_key': 'confidentialite'},
+]
+
+HOME_SECTIONS_SEED = [
+    {'key': 'hero', 'name': 'Hero — Accroche principale', 'type': 'Image de fond'},
+    {'key': 'a-propos', 'name': 'À propos', 'type': 'Texte + Image'},
+    {'key': 'portfolio', 'name': 'Portfolio — Sélection', 'type': 'Galerie'},
+    {'key': 'prestations', 'name': 'Prestations — Collections', 'type': 'Grille de services'},
+    {'key': 'temoignages', 'name': 'Témoignages', 'type': 'Slider'},
+    {'key': 'cta', 'name': 'Appel à l\'action', 'type': 'Texte + Bouton'},
+    {'key': 'contact', 'name': 'Formulaire de contact', 'type': 'Formulaire'},
+]
+
+
+async def ensure_home_sections():
+    count = await db.home_sections.count_documents({'page': 'accueil'})
+    if count == 0:
+        now = datetime.now(timezone.utc)
+        for i, s in enumerate(HOME_SECTIONS_SEED):
+            await db.home_sections.insert_one({
+                'id': str(uuid.uuid4()), 'page': 'accueil', 'key': s['key'],
+                'name': s['name'], 'type': s['type'], 'actif': True,
+                'ordre': i, 'created_at': now, 'updated_at': now,
+            })
+
+
+def month_start() -> datetime:
+    now = datetime.now(timezone.utc)
+    return now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+
+
+@api_router.get('/admin/stats')
+async def admin_stats(admin: str = Depends(get_current_admin)):
+    await ensure_blog_seed()
+    ms = month_start()
+    articles_published = await db.blog_posts.count_documents({'status': 'published'})
+    articles_month = await db.blog_posts.count_documents({'status': 'published', 'published_at': {'$gte': ms}})
+    demandes_total = await db.contacts.count_documents({})
+    demandes_unread = await db.contacts.count_documents({'read': {'$ne': True}})
+    uploads_total = await db.images.count_documents({})
+    uploads_month = await db.images.count_documents({'updated_at': {'$gte': ms}})
+    # Bibliothèque = slots du site + images d'articles uploadées
+    blog_uploads = 0
+    try:
+        blog_uploads = len([f for f in os.listdir(UPLOAD_DIR) if f.startswith('blog-') and f.endswith('.webp') and '-2400' in f])
+    except Exception:
+        pass
+    return {
+        'articles_published': articles_published,
+        'articles_month': articles_month,
+        'pages_active': len(STATIC_PAGES_REGISTRY),
+        'pages_up_to_date': True,
+        'demandes_total': demandes_total,
+        'demandes_unread': demandes_unread,
+        'images_total': len(IMAGE_SLOTS) + uploads_total + blog_uploads,
+        'images_month': uploads_month,
+    }
+
+
+@api_router.get('/admin/pages')
+async def admin_pages(admin: str = Depends(get_current_admin)):
+    return {'pages': STATIC_PAGES_REGISTRY}
+
+
+@api_router.get('/admin/sections')
+async def admin_sections(admin: str = Depends(get_current_admin)):
+    await ensure_home_sections()
+    docs = await db.home_sections.find({'page': 'accueil'}).sort('ordre', 1).to_list(50)
+    return [serialize_doc(d) for d in docs]
+
+
+@api_router.put('/admin/sections/order')
+async def admin_sections_order(payload: dict, admin: str = Depends(get_current_admin)):
+    ids = payload.get('ids') or []
+    for i, sid in enumerate(ids):
+        await db.home_sections.update_one({'id': sid}, {'$set': {'ordre': i, 'updated_at': datetime.now(timezone.utc)}})
+    return {'ok': True}
+
+
+@api_router.put('/admin/sections/{sid}')
+async def admin_section_update(sid: str, payload: dict, admin: str = Depends(get_current_admin)):
+    update = {k: v for k, v in payload.items() if k in ('actif', 'name', 'type')}
+    update['updated_at'] = datetime.now(timezone.utc)
+    res = await db.home_sections.update_one({'id': sid}, {'$set': update})
+    if res.matched_count == 0:
+        raise HTTPException(status_code=404, detail='Section introuvable')
+    doc = await db.home_sections.find_one({'id': sid})
+    return serialize_doc(doc)
+
+
+PIPELINE_STATUSES = ['nouvelle', 'a_traiter', 'confirmee', 'payee', 'terminee', 'annulee']
+
+
+@api_router.put('/contacts/{contact_id}/pipeline')
+async def contact_pipeline(contact_id: str, payload: dict, admin: str = Depends(get_current_admin)):
+    status = payload.get('status')
+    if status not in PIPELINE_STATUSES:
+        raise HTTPException(status_code=400, detail='Statut invalide')
+    update = {'pipeline_status': status, 'updated_at': datetime.now(timezone.utc)}
+    if 'note' in payload:
+        update['pipeline_note'] = str(payload.get('note') or '')
+    if 'amount' in payload:
+        update['pipeline_amount'] = str(payload.get('amount') or '')
+    res = await db.contacts.update_one({'id': contact_id}, {'$set': update})
+    if res.matched_count == 0:
+        raise HTTPException(status_code=404, detail='Demande introuvable')
+    doc = await db.contacts.find_one({'id': contact_id})
+    return serialize_doc(doc)
+
+
+@api_router.get('/admin/media/recent')
+async def admin_media_recent(limit: int = 6, admin: str = Depends(get_current_admin)):
+    docs = await db.images.find().sort('updated_at', -1).to_list(limit)
+    out = []
+    for d in docs:
+        opt = d.get('optimized') or {}
+        if opt.get('url'):
+            out.append({'url': opt['url'], 'alt': d.get('alt') or '', 'slot_key': d.get('slot_key')})
+    if len(out) < limit:
+        for s in IMAGE_SLOTS:
+            if len(out) >= limit:
+                break
+            out.append({'url': s['default_url'], 'alt': s['default_alt'], 'slot_key': s['slot_key']})
+    return out[:limit]
+
+
 # ---------------- Mount ----------------
 app.include_router(api_router)
 app.mount('/api/uploads', StaticFiles(directory=str(UPLOAD_DIR)), name='uploads')
