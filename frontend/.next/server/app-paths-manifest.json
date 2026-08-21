@@ -1,8 +1,3 @@
 {
-  "/page": "app/page.js",
-  "/blog/page": "app/blog/page.js",
-  "/admin/page": "app/admin/page.js",
-  "/admin/branding/page": "app/admin/branding/page.js",
-  "/admin/medias/page": "app/admin/medias/page.js",
-  "/admin/formulaires/page": "app/admin/formulaires/page.js"
+  "/page": "app/page.js"
 }
