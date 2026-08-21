@@ -189,7 +189,7 @@ export default async function HomePage() {
       {/* ============ CTA PHOTO — aligné à gauche ============ */}
       <section className="relative py-20 sm:py-28" data-testid="home-photo-cta">
         <div className="absolute inset-0 overflow-hidden">
-          <SmartImage img={images['accueil-cta-fond']} className="h-full w-full object-cover" sizes="100vw" />
+          <SmartImage img={images['accueil-cta-fond']} className="h-full w-full object-cover object-[center_82%]" sizes="100vw" />
           <div className="absolute inset-0 bg-gradient-to-r from-charbon/75 via-charbon/40 to-charbon/5" />
         </div>
         <div className="relative sb-container">

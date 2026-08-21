@@ -141,3 +141,6 @@ Accueil, À propos, Portfolio (filtres + reportage à la une), Prestations (hub 
 ## Itération 18 — Photo section « Parlons de votre mariage » (accueil)
 - Slot 'accueil-cta-fond' → lien Cloudinary client (After Abbaye de Vaucelles, Marine & Maxime) via PUT url
 - Optimisation auto f_auto,q_auto + srcset ; ALT SEO renseigné ; vérifié screenshots desktop+mobile
+
+## Itération 19 — Recadrage CTA accueil
+- Section 'Parlons de votre mariage' : object-[center_82%] pour montrer les mariés en pied (photo Abbaye de Vaucelles) — vérifié desktop+mobile
