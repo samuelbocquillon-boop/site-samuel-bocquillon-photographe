@@ -133,3 +133,11 @@ Accueil, À propos, Portfolio (filtres + reportage à la une), Prestations (hub 
 - Backend PUT /api/images/{slot}/url : override par URL sans stockage local ; si URL Cloudinary → injection automatique f_auto,q_auto + srcset responsive 480/960/1600/2400 via transformations d'URL
 - Validations : URL http(s) requise (400), slot inexistant (404), JWT requis
 - Tests iteration_4.json : frontend 100% (15/15), backend 93,3% (4 notes 403-vs-401 sans impact) — slot de test restauré
+
+## Itération 17 — Photo hero Portfolio remplacée
+- Slot 'portfolio-hero' → lien Cloudinary client (Shooting inspiration Château d'Aubry-245) via PUT /api/images/portfolio-hero/url
+- Optimisation auto f_auto,q_auto + srcset 4 tailles ; ALT SEO renseigné ; vérifié screenshots desktop+mobile
+
+## Itération 18 — Photo section « Parlons de votre mariage » (accueil)
+- Slot 'accueil-cta-fond' → lien Cloudinary client (After Abbaye de Vaucelles, Marine & Maxime) via PUT url
+- Optimisation auto f_auto,q_auto + srcset ; ALT SEO renseigné ; vérifié screenshots desktop+mobile
