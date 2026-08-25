@@ -2,5 +2,7 @@
   "/page": "app/page.js",
   "/a-propos/page": "app/a-propos/page.js",
   "/portfolio/page": "app/portfolio/page.js",
-  "/prestations/mariage/page": "app/prestations/mariage/page.js"
+  "/prestations/mariage/page": "app/prestations/mariage/page.js",
+  "/contact/page": "app/contact/page.js",
+  "/blog/page": "app/blog/page.js"
 }
