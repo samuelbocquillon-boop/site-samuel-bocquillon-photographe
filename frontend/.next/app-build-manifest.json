@@ -20,6 +20,16 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/a-propos/page.js"
+    ],
+    "/portfolio/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/portfolio/page.js"
+    ],
+    "/prestations/mariage/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/prestations/mariage/page.js"
     ]
   }
 }
