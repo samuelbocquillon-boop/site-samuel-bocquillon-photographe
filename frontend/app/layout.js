@@ -57,7 +57,7 @@ function localBusinessJsonLd(settings) {
     url: SITE_URL,
     telephone: settings.phone,
     email: settings.email,
-    priceRange: '1600€ - 3800€',
+    priceRange: '1990€ - 3390€',
     address: {
       '@type': 'PostalAddress',
       addressLocality: settings.city,
@@ -84,7 +84,7 @@ function localBusinessJsonLd(settings) {
       },
     ],
     makesOffer: [
-      { '@type': 'Offer', name: 'Reportage photo de mariage', price: '1600', priceCurrency: 'EUR' },
+      { '@type': 'Offer', name: 'Reportage photo de mariage', price: '1990', priceCurrency: 'EUR' },
       { '@type': 'Offer', name: 'Photographie corporate' },
       { '@type': 'Offer', name: 'Location de photobooth', price: '490', priceCurrency: 'EUR' },
       { '@type': 'Offer', name: 'Formation photographie' },

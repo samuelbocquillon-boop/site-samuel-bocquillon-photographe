@@ -6,7 +6,7 @@ const city = CITIES.lille;
 export const metadata = {
   title: `Photographe de mariage à Lille (59) — Reportages dans toute la métropole`,
   description:
-    "Photographe de mariage à Lille et dans la métropole lilloise : reportages authentiques du Vieux-Lille aux châteaux de la MEL. Déplacement offert, à partir de 1600 €. Réponse sous 24h.",
+    "Photographe de mariage à Lille et dans la métropole lilloise : reportages authentiques du Vieux-Lille aux châteaux de la MEL. Déplacement offert, à partir de 1 990 €. Réponse sous 24h.",
   alternates: { canonical: '/photographe-mariage-lille' },
 };
 

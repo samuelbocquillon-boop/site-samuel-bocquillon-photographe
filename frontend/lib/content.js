@@ -21,21 +21,92 @@ export const NAV_LINKS = [
 ];
 
 export const HOME_COLLECTIONS = [
-  { num: '01', name: 'Collection Essentielle', description: "L'essentiel de votre journée, capturé avec sensibilité et discrétion.", price: 'À partir de 1600 €', testid: 'pricing-card-essentielle' },
-  { num: '02', name: 'Collection Complète', description: "Du préparatif à la soirée, l'histoire complète de votre mariage.", price: 'À partir de 2400 €', testid: 'pricing-card-complete' },
-  { num: '03', name: 'Collection Premium', description: 'Une expérience sur mesure avec séance engagement et album fine art.', price: 'À partir de 3200 €', testid: 'pricing-card-premium' },
+  { num: '01', name: 'Collection Hugs', description: "Des préparatifs à la fin du vin d'honneur, avec prise de vue drone et prises de vue illimitées.", price: '1 990 € TTC', testid: 'pricing-card-hugs' },
+  { num: '02', name: 'Collection Delight', description: "Séance d'engagement, présence jusqu'à 1 h du matin et photobooth avec 400 impressions.", price: '2 490 € TTC', testid: 'pricing-card-delight' },
+  { num: '03', name: 'Collection Infinity', description: "L'expérience complète : After Day, album personnalisé et livraison express sous 8 jours.", price: '3 390 € TTC', testid: 'pricing-card-infinity' },
 ];
 
 export const PRESTATIONS_COLLECTIONS = [
-  { num: '01', name: 'Collection Essentielle', price: 'À partir de 1900 €', features: ['Présence 8h le jour J', '400+ photos retouchées', 'Galerie privée en ligne', 'Livraison sous 6 semaines'], testid: 'prestations-card-essentielle' },
-  { num: '02', name: 'Collection Complète', price: 'À partir de 2600 €', features: ['Présence 12h — des préparatifs à la soirée', '700+ photos retouchées', 'Séance couple le jour J', 'Galerie privée + boîte USB'], popular: true, testid: 'prestations-card-complete' },
-  { num: '03', name: 'Collection Premium', price: 'À partir de 3200 €', features: ["Présence jusqu'à 14h", '900+ photos retouchées', 'Séance engagement offerte', 'Album fine art 30×30'], testid: 'prestations-card-premium' },
+  { num: '01', name: 'Collection Hugs', price: '1 990 € TTC', features: ["Présence des préparatifs jusqu'à 20 h (fin du vin d'honneur)", 'Prise de vue drone', 'Prises de vue illimitées', 'Coffret clé USB 32 Go + galerie privée 6 mois'], testid: 'prestations-card-hugs' },
+  { num: '02', name: 'Collection Delight', price: '2 490 € TTC', features: ["Séance d'engagement", "Présence des préparatifs jusqu'à 1 h du matin (gâteau)", 'Photobooth avec 400 impressions', 'Prise de vue drone + prises de vue illimitées'], popular: true, testid: 'prestations-card-delight' },
+  { num: '03', name: 'Collection Infinity', price: '3 390 € TTC', features: ["After Day + séance d'engagement", 'Livraison photo express sous 8 jours', 'Album personnalisé avec pochette de transport', 'Photobooth avec 400 impressions'], testid: 'prestations-card-infinity' },
 ];
 
+// Collections mariage — contenu contractuel exact (tarifs nets TTC).
+// Icônes lucide-react référencées par nom, mappées dans la page.
 export const MARIAGE_COLLECTIONS = [
-  { num: '01', name: 'Collection Essentielle', price: 'À partir de 1800 €', features: ['Présence 8h le jour J', '400+ photos retouchées en haute définition', 'Galerie privée en ligne', 'Livraison sous 6 semaines'] },
-  { num: '02', name: 'Collection Complète', price: 'À partir de 2800 €', features: ['Présence 12h — préparatifs à la soirée', '700+ photos retouchées', 'Séance couple au coucher du soleil', 'Galerie privée + boîte USB écrin'], popular: true },
-  { num: '03', name: 'Collection Premium', price: 'À partir de 3800 €', features: ["Présence jusqu'à 14h", '900+ photos retouchées', 'Séance engagement offerte', 'Album fine art 30×30 + coffret'] },
+  {
+    id: 'hugs',
+    name: 'Hugs',
+    price: '1 990 € TTC',
+    features: [
+      { icon: 'Clock', text: "Présence des préparatifs jusqu'à 20 h (fin du vin d'honneur)" },
+      { icon: 'Plane', text: 'Prise de vue drone' },
+      { icon: 'Infinity', text: 'Prises de vue illimitées' },
+      { icon: 'Wand2', text: 'Temps de post-production (tri, retouche, colorimétrie)' },
+      { icon: 'Usb', text: 'Livraison sur coffret clé USB 32 Go' },
+      { icon: 'LockKeyhole', text: 'Galerie personnalisée privée 6 mois' },
+      { icon: 'Presentation', text: 'Diaporama' },
+      { icon: 'CalendarCheck', text: 'Rendez-vous de préparation' },
+      { icon: 'Car', text: 'Déplacement' },
+    ],
+  },
+  {
+    id: 'delight',
+    name: 'Delight',
+    price: '2 490 € TTC',
+    popular: true,
+    badge: 'Le plus choisi',
+    features: [
+      { icon: 'HeartHandshake', text: "Séance d'engagement" },
+      { icon: 'Clock', text: "Présence des préparatifs jusqu'à 1 h du matin (gâteau)" },
+      { icon: 'Plane', text: 'Prise de vue drone' },
+      { icon: 'Printer', text: 'Photobooth avec 400 impressions' },
+      { icon: 'Infinity', text: 'Prises de vue illimitées' },
+      { icon: 'Wand2', text: 'Temps de post-production (tri, retouche, colorimétrie)' },
+      { icon: 'Usb', text: 'Livraison sur coffret clé USB 32 Go' },
+      { icon: 'LockKeyhole', text: 'Galerie personnalisée privée 6 mois' },
+      { icon: 'Presentation', text: 'Diaporama' },
+      { icon: 'CalendarCheck', text: 'Rendez-vous de préparation' },
+      { icon: 'Car', text: 'Déplacement' },
+    ],
+  },
+  {
+    id: 'infinity',
+    name: 'Infinity',
+    price: '3 390 € TTC',
+    features: [
+      { icon: 'HeartHandshake', text: "Séance d'engagement" },
+      { icon: 'Clock', text: "Présence des préparatifs jusqu'à 1 h du matin (gâteau)" },
+      { icon: 'Sunrise', text: 'After Day' },
+      { icon: 'Plane', text: 'Prise de vue drone' },
+      { icon: 'Printer', text: 'Photobooth avec 400 impressions' },
+      { icon: 'Infinity', text: 'Prises de vue illimitées' },
+      { icon: 'Wand2', text: 'Temps de post-production (tri, retouche, colorimétrie)' },
+      { icon: 'Zap', text: 'Livraison photo express sous 8 jours' },
+      { icon: 'Usb', text: 'Livraison sur coffret clé USB 32 Go' },
+      { icon: 'BookImage', text: 'Album personnalisé avec pochette de transport (dès 150 photos)' },
+      { icon: 'LockKeyhole', text: 'Galerie personnalisée privée 6 mois' },
+      { icon: 'Presentation', text: 'Diaporama' },
+      { icon: 'CalendarCheck', text: 'Rendez-vous de préparation' },
+      { icon: 'Car', text: 'Déplacement' },
+    ],
+  },
+];
+
+// Options complémentaires (facturation distincte, soumises à disponibilité)
+export const MARIAGE_OPTIONS = [
+  { icon: 'Timer', name: 'Heures supplémentaires', price: '120 € / heure', text: "Ajoutables au plus tard 15 jours avant le mariage. À titre exceptionnel, si le jour du mariage la couverture horaire est dépassée avec l'accord des mariés, chaque heure commencée est due." },
+  { icon: 'Users', name: 'Second photographe / assistant', price: '500 €', text: "Hautement recommandé au-delà de 150 invités. Ce tarif s'applique quelle que soit la collection choisie." },
+  { icon: 'Camera', name: 'Photobooth interactif', price: 'Sur devis', text: "Mise à disposition d'un photobooth pendant toute la durée de présence du photographe le jour J, avec possibilité d'impression selon le forfait choisi." },
+  { icon: 'Zap', name: 'Post-traitement express', price: '500 €', text: "Livraison des photographies de mariage 8 jours après l'événement." },
+];
+
+// Mentions contractuelles affichées sous les options
+export const MARIAGE_MENTIONS = [
+  "Réservation : acompte de 30 % à la signature du contrat, solde avant l'envoi du coffret final.",
+  'Frais de déplacement offerts dans un rayon de 150 km ; au-delà, 0,80 € / km + péages.',
+  "Les prix sont nets, TTC, et garantis 21 jours à compter de l'envoi du contrat.",
 ];
 
 export const INCLUS_ITEMS = [
@@ -53,27 +124,26 @@ export const ACCOMPAGNEMENT_STEPS = [
 ];
 
 export const OPTIONS_EXTRAS = [
-  { name: 'Séance engagement', price: '290 €' },
-  { name: 'Séance day after', price: '350 €' },
-  { name: 'Album fine art supplémentaire', price: '390 €' },
-  { name: 'Heure supplémentaire', price: '180 €' },
-  { name: 'Second photographe', price: '490 €' },
+  { name: 'Heures supplémentaires', price: '120 € / heure' },
+  { name: 'Second photographe / assistant', price: '500 €' },
+  { name: 'Photobooth interactif', price: 'Sur devis' },
+  { name: 'Post-traitement express', price: '500 €' },
 ];
 
 export const FAQ_PRESTATIONS = [
   { q: 'Combien de temps après le mariage recevons-nous nos photos ?', a: 'Vous recevez une sélection d\'avant-premières sous 72h, puis la galerie complète sous 4 à 6 semaines selon la saison.' },
   { q: 'Travaillez-vous seul ou en équipe ?', a: 'Je travaille seul par défaut, pour garantir la discrétion qui fait ma signature. Un second photographe peut être ajouté en option pour les grands mariages.' },
-  { q: 'Proposez-vous des albums ?', a: 'Oui — des albums fine art fabriqués en France, inclus dans la Collection Premium et disponibles en option pour toutes les collections.' },
-  { q: 'Vous déplacez-vous partout en France ?', a: 'Absolument. Basé à Valenciennes, j\'interviens dans tous les Hauts-de-France (Lille, Douai, Cambrai…), partout en France et à l\'étranger. Les frais de déplacement sont inclus dans un rayon de 50 km.' },
-  { q: 'Comment réserver votre date ?', a: 'Un acompte de 30 % et un contrat signé suffisent à bloquer votre date. Le solde est réglé le mois du mariage.' },
+  { q: 'Proposez-vous des albums ?', a: 'Oui — un album personnalisé avec pochette de transport (dès 150 photos) est inclus dans la Collection Infinity.' },
+  { q: 'Vous déplacez-vous partout en France ?', a: 'Absolument. Basé à Valenciennes, j\'interviens dans tous les Hauts-de-France (Lille, Douai, Cambrai…), partout en France et à l\'étranger. Les frais de déplacement sont offerts dans un rayon de 150 km ; au-delà, 0,80 € / km + péages.' },
+  { q: 'Comment réserver votre date ?', a: 'Un acompte de 30 % à la signature du contrat suffit à bloquer votre date. Le solde est réglé avant l\'envoi du coffret final.' },
 ];
 
 export const FAQ_CONTACT = [
   { q: 'Comment réserver votre date ?', a: 'Contactez-moi via le formulaire avec votre date : je vous confirme ma disponibilité sous 24 à 48h. Un acompte de 30 % et un contrat signé bloquent définitivement votre date.' },
   { q: 'Où êtes-vous basé ?', a: 'Je suis basé à Valenciennes, dans le Nord (59). J\'interviens régulièrement à Lille, Douai, Cambrai et dans tous les Hauts-de-France.' },
   { q: 'Travaillez-vous à l\'international ?', a: 'Oui, votre histoire m\'emmène où elle veut : destination weddings et élopements partout en Europe et à l\'international.' },
-  { q: 'Proposez-vous des séances engagement ?', a: 'Oui — une séance couple avant le mariage, idéale pour apprivoiser l\'objectif. Offerte dans la Collection Premium.' },
-  { q: 'Combien de photos livrez-vous ?', a: 'De 400 à 900+ photos retouchées selon la collection choisie, toutes en haute définition et sans filigrane.' },
+  { q: 'Proposez-vous des séances engagement ?', a: 'Oui — une séance couple avant le mariage, idéale pour apprivoiser l\'objectif. Incluse dans les collections Delight et Infinity.' },
+  { q: 'Combien de photos livrez-vous ?', a: 'Les prises de vue sont illimitées quelle que soit la collection. Toutes les photos livrées sont triées, retouchées et en haute définition, sans filigrane.' },
 ];
 
 export const VALEURS = [
@@ -150,12 +220,12 @@ export const CITIES = {
     dept: 'Nord (59)',
     heroSlot: 'ville-valenciennes-hero',
     intro: "Photographe de mariage basé à Valenciennes, je capture des histoires vraies dans tout le Valenciennois : cérémonies civiles à l'hôtel de ville, églises de l'Athis, châteaux et granges du Hainaut.",
-    resume: "Samuel Bocquillon est photographe de mariage à Valenciennes (Nord, 59). Approche documentaire et élégante, reportages complets du préparatif à la soirée, à partir de 1600 €. Déplacement gratuit dans un rayon de 50 km.",
+    resume: "Samuel Bocquillon est photographe de mariage à Valenciennes (Nord, 59). Approche documentaire et élégante, reportages complets du préparatif à la soirée, à partir de 1 990 €. Déplacement offert dans un rayon de 150 km.",
     venues: ['Le Royal Hainaut Spa & Resort', "L'hôtel de ville de Valenciennes", 'Le musée des Beaux-Arts', 'Les granges et châteaux du Hainaut'],
     zone: 'Valenciennes, Anzin, Saint-Saulve, Marly, Aulnoy-lez-Valenciennes, Denain et tout le Valenciennois.',
     faq: [
-      { q: 'Quel est le prix d\'un photographe de mariage à Valenciennes ?', a: 'Mes collections débutent à 1600 € pour l\'essentiel de la journée et vont jusqu\'à 3800 € pour une expérience complète avec album fine art. Le déplacement est offert à Valenciennes et dans son agglomération.' },
-      { q: 'Vous déplacez-vous dans tout le Valenciennois ?', a: 'Oui — basé à Valenciennes, j\'interviens sans frais dans un rayon de 50 km : Denain, Saint-Amand-les-Eaux, Condé-sur-l\'Escaut, Le Quesnoy…' },
+      { q: 'Quel est le prix d\'un photographe de mariage à Valenciennes ?', a: 'Mes collections débutent à 1 990 € TTC (Collection Hugs) et vont jusqu\'à 3 390 € TTC (Collection Infinity, avec After Day et album personnalisé). Le déplacement est offert dans un rayon de 150 km.' },
+      { q: 'Vous déplacez-vous dans tout le Valenciennois ?', a: 'Oui — basé à Valenciennes, j\'interviens sans frais de déplacement dans un rayon de 150 km : Denain, Saint-Amand-les-Eaux, Condé-sur-l\'Escaut, Le Quesnoy…' },
       { q: 'Combien de temps à l\'avance faut-il réserver ?', a: 'Les dates de mai à septembre partent 12 à 18 mois à l\'avance. Contactez-moi dès que votre date est fixée : je confirme ma disponibilité sous 24h.' },
     ],
   },
@@ -165,12 +235,12 @@ export const CITIES = {
     dept: 'Nord (59)',
     heroSlot: 'ville-lille-hero',
     intro: "Des pavés du Vieux-Lille aux salles de réception de la métropole, je photographie votre mariage à Lille avec un regard documentaire et élégant, sans jamais figer vos moments.",
-    resume: "Samuel Bocquillon, photographe de mariage intervenant à Lille et dans toute la métropole lilloise (MEL). Reportages authentiques et élégants à partir de 1600 €, du préparatif à la fête.",
+    resume: "Samuel Bocquillon, photographe de mariage intervenant à Lille et dans toute la métropole lilloise (MEL). Reportages authentiques et élégants à partir de 1 990 €, du préparatif à la fête.",
     venues: ['Le Vieux-Lille et la Grand\'Place', 'Le Palais Rameau', 'La Citadelle et ses parcs', 'Les châteaux de la métropole (Vert-Bois, Bourgogne…)'],
     zone: 'Lille, Roubaix, Tourcoing, Villeneuve-d\'Ascq, Marcq-en-Barœul et toute la métropole européenne de Lille.',
     faq: [
       { q: 'Photographiez-vous les mariages dans le Vieux-Lille ?', a: 'Oui, très régulièrement : ses façades flamandes et ses pavés offrent un décor magnifique pour les séances couple, notamment en fin de journée.' },
-      { q: 'Les frais de déplacement sont-ils inclus pour Lille ?', a: 'Oui — Lille se trouve dans mon rayon d\'intervention gratuit de 50 km autour de Valenciennes.' },
+      { q: 'Les frais de déplacement sont-ils inclus pour Lille ?', a: 'Oui — Lille se trouve dans mon rayon d\'intervention offert de 150 km autour de Valenciennes.' },
       { q: 'Proposez-vous une séance engagement à Lille ?', a: 'Absolument : la Citadelle, le Vieux-Lille ou les quais de la Deûle sont des lieux idéaux pour votre séance avant le mariage.' },
     ],
   },
@@ -180,7 +250,7 @@ export const CITIES = {
     dept: 'Nord (59)',
     heroSlot: 'ville-douai-hero',
     intro: "À l'ombre du beffroi classé à l'UNESCO, je raconte les mariages douaisiens avec sincérité : des préparatifs à la dernière danse, chaque instant compte.",
-    resume: "Samuel Bocquillon, photographe de mariage à Douai et dans le Douaisis. Reportages documentaires élégants, à partir de 1600 €. Déplacement offert depuis Valenciennes.",
+    resume: "Samuel Bocquillon, photographe de mariage à Douai et dans le Douaisis. Reportages documentaires élégants, à partir de 1 990 €. Déplacement offert depuis Valenciennes.",
     venues: ['Le beffroi et l\'hôtel de ville de Douai', 'Le parc Charles-Bertin', 'Les rives de la Scarpe', 'Les domaines champêtres du Douaisis'],
     zone: 'Douai, Sin-le-Noble, Waziers, Lambres-lez-Douai, Cuincy et tout le Douaisis.',
     faq: [
@@ -195,7 +265,7 @@ export const CITIES = {
     dept: 'Nord (59)',
     heroSlot: 'ville-cambrai-hero',
     intro: "Entre la citadelle, le jardin public et les abbayes du Cambrésis, votre mariage à Cambrai mérite des images à la hauteur de son décor. Je m'y déplace régulièrement depuis Valenciennes.",
-    resume: "Samuel Bocquillon, photographe de mariage à Cambrai et dans le Cambrésis. Approche documentaire, images intemporelles, collections à partir de 1600 €, déplacement offert.",
+    resume: "Samuel Bocquillon, photographe de mariage à Cambrai et dans le Cambrésis. Approche documentaire, images intemporelles, collections à partir de 1 990 €, déplacement offert.",
     venues: ['La citadelle de Cambrai', 'Le jardin public et son kiosque', "L'abbaye de Vaucelles", 'Les fermes et domaines du Cambrésis'],
     zone: 'Cambrai, Caudry, Le Cateau-Cambrésis, Solesmes et tout le Cambrésis.',
     faq: [

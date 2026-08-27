@@ -13,7 +13,7 @@ import { SITE_URL } from '@/lib/content';
 export const metadata = {
   title: 'Prestations & tarifs — Collections mariage, corporate, photobooth, formation',
   description:
-    "Découvrez les prestations de Samuel Bocquillon : collections mariage de 1900 € à 3200 €, reportages corporate, photobooth dès 490 € et formations photo. Devis sous 24h.",
+    "Découvrez les prestations de Samuel Bocquillon : collections mariage de 1 990 € à 3 390 € TTC, reportages corporate, photobooth dès 490 € et formations photo. Devis sous 24h.",
   alternates: { canonical: '/prestations' },
 };
 
@@ -65,7 +65,7 @@ export default async function PrestationsPage() {
                   data-testid={c.testid}
                 >
                   {c.popular && (
-                    <span className="absolute -top-3 left-8 bg-cognac text-ivoire label-caps !text-[10px] px-3 py-1.5 rounded-full">La plus choisie</span>
+                    <span className="absolute -top-3 left-8 bg-cognac text-ivoire label-caps !text-[10px] px-3 py-1.5 rounded-full">Le plus choisi</span>
                   )}
                   <p className={`label-caps ${c.popular ? 'text-ivoire/60' : 'text-pierre'}`}>{c.num}</p>
                   <h3 className="font-serif text-3xl leading-[1.05] mt-3">{c.name}</h3>

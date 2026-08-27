@@ -10,7 +10,7 @@ import { ContactForm } from '@/components/ContactForm';
 export const metadata = {
   title: 'Samuel Bocquillon — Photographe de mariage à Valenciennes, Nord',
   description:
-    "Photographe de mariage à Valenciennes : des histoires vraies, sans filtre. Reportages authentiques et élégants à Lille, Douai, Cambrai, dans les Hauts-de-France et partout en France. À partir de 1600 €.",
+    "Photographe de mariage à Valenciennes : des histoires vraies, sans filtre. Reportages authentiques et élégants à Lille, Douai, Cambrai, dans les Hauts-de-France et partout en France. À partir de 1 990 €.",
   alternates: { canonical: '/' },
   openGraph: {
     title: 'Samuel Bocquillon — Photographe de mariage à Valenciennes',
@@ -154,7 +154,7 @@ export default async function HomePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3">
             {HOME_COLLECTIONS.map((c, idx) => {
-              const brown = idx === 1; // 02 Collection Complète en brun (maquette)
+              const brown = idx === 1; // 02 Collection Delight en brun (maquette)
               return (
                 <Reveal key={c.num} delay={idx * 0.07} className={brown ? 'bg-cuir' : ''}>
                   <article

@@ -77,7 +77,7 @@ export default async function ContactPage() {
       </section>
 
       {/* ============ FORMULAIRE + RESTONS EN CONTACT ============ */}
-      <section className="pb-14 sm:pb-20 sb-grain" data-testid="contact-main">
+      <section id="formulaire" className="pb-14 sm:pb-20 sb-grain" data-testid="contact-main">
         <div className="sb-container">
           <div className="bg-white px-6 sm:px-10 lg:px-14 py-12 sm:py-16 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             <Reveal className="lg:col-span-6">

@@ -1,7 +1,11 @@
 import Link from 'next/link';
-import { Sparkles, HeartHandshake, Aperture, Gem, Clock, Camera, Check } from 'lucide-react';
+import {
+  Sparkles, HeartHandshake, Aperture, Gem, Clock, Camera,
+  Plane, Infinity as InfinityIcon, Wand2, Usb, LockKeyhole, Presentation,
+  CalendarCheck, Car, Printer, Sunrise, Zap, BookImage, Timer, Users,
+} from 'lucide-react';
 import { getImages, getTestimonials } from '@/lib/api';
-import { MARIAGE_COLLECTIONS, ACCOMPAGNEMENT_STEPS } from '@/lib/content';
+import { MARIAGE_COLLECTIONS, MARIAGE_OPTIONS, MARIAGE_MENTIONS, ACCOMPAGNEMENT_STEPS } from '@/lib/content';
 import { SmartImage } from '@/components/SmartImage';
 import { Reveal } from '@/components/Reveal';
 import { PageHero } from '@/components/PageHero';
@@ -10,10 +14,17 @@ import { TestimonialBlock } from '@/components/TestimonialBlock';
 import { PrestationsSubnav } from '@/components/PrestationsSubnav';
 
 export const metadata = {
-  title: 'Photographe de mariage — Collections de 1800 € à 3800 €',
+  title: 'Photographe de mariage — Collections de 1 990 € à 3 390 € TTC',
   description:
-    "Reportage photo de mariage par Samuel Bocquillon : approche documentaire et émotionnelle, discrétion absolue, matériel haut de gamme. Collections de 1800 € à 3800 €, dans le Nord et partout en France.",
+    "Reportage photo de mariage par Samuel Bocquillon : approche documentaire et émotionnelle, discrétion absolue, matériel haut de gamme. Collections Hugs, Delight et Infinity de 1 990 € à 3 390 € TTC, dans le Nord et partout en France.",
   alternates: { canonical: '/prestations/mariage' },
+};
+
+// Icônes des prestations incluses — référencées par nom dans lib/content.js
+const FEATURE_ICONS = {
+  Clock, Plane, Infinity: InfinityIcon, Wand2, Usb, LockKeyhole, Presentation,
+  CalendarCheck, Car, HeartHandshake, Printer, Sunrise, Zap, BookImage,
+  Timer, Users, Camera,
 };
 
 const APPROCHE = [
@@ -70,33 +81,99 @@ export default async function MariagePage() {
         <div className="sb-container">
           <Reveal>
             <p className="label-caps text-cognac">Collections mariage</p>
-            <h2 className="font-serif text-4xl sm:text-5xl leading-[1.05] mt-4">Choisissez votre formule.</h2>
+            <h2 className="font-serif text-4xl sm:text-5xl leading-[1.05] mt-4">Les collections.</h2>
+            <p className="mt-4 text-[15.5px] leading-[1.6] text-charbon/70 italic">Tarifs nets, toutes taxes comprises.</p>
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-5 mt-12 lg:items-stretch">
             {MARIAGE_COLLECTIONS.map((c, idx) => (
-              <Reveal key={c.num} delay={idx * 0.08}>
+              <Reveal
+                key={c.id}
+                delay={idx * 0.08}
+                className={c.popular ? 'order-first lg:order-none' : ''}
+              >
                 <article
-                  className={`relative h-full flex flex-col rounded-[12px] border p-8 transition-transform duration-300 hover:-translate-y-1 ${c.popular ? 'bg-cuir text-ivoire border-cuir shadow-[var(--sb-shadow)]' : 'bg-ivoire border-charbon/10 shadow-[var(--sb-shadow-soft)]'}`}
-                  data-testid={`mariage-collection-${idx + 1}`}
+                  className={`relative h-full flex flex-col rounded-[12px] border bg-ivoire p-7 sm:p-8 transition-transform duration-300 hover:-translate-y-1 ${
+                    c.popular
+                      ? 'border-cognac shadow-[var(--sb-shadow)] lg:scale-[1.02]'
+                      : 'border-charbon/10 shadow-[var(--sb-shadow-soft)] hover:border-cognac/40'
+                  }`}
+                  data-testid={`mariage-collection-${c.id}`}
                 >
-                  {c.popular && <span className="absolute -top-3 left-8 bg-cognac text-ivoire label-caps !text-[10px] px-3 py-1.5 rounded-full">La plus choisie</span>}
-                  <p className={`label-caps ${c.popular ? 'text-ivoire/60' : 'text-pierre'}`}>{c.num}</p>
-                  <h3 className="font-serif text-3xl leading-[1.05] mt-3">{c.name}</h3>
-                  <ul className={`mt-6 space-y-3 flex-1 text-[15px] leading-[1.5] ${c.popular ? 'text-ivoire/85' : 'text-charbon/80'}`}>
-                    {c.features.map((f) => (
-                      <li key={f} className="flex gap-2.5">
-                        <Check className={`h-4.5 w-4.5 shrink-0 mt-0.5 ${c.popular ? 'text-ivoire/70' : 'text-cognac'}`} />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className={`label-caps mt-7 ${c.popular ? 'text-ivoire' : 'text-cuir'}`}>{c.price}</p>
-                  <Link href="/contact" className={`mt-6 ${c.popular ? 'btn-light' : 'btn-outline'}`} data-testid={`mariage-collection-${idx + 1}-cta`}>
-                    En savoir plus
+                  {c.popular && (
+                    <span className="absolute -top-3 left-8 bg-cognac text-ivoire label-caps !text-[10px] px-3 py-1.5 rounded-full" data-testid="mariage-collection-badge">
+                      {c.badge}
+                    </span>
+                  )}
+                  <p className="label-caps text-pierre">Collection</p>
+                  <h3 className="font-serif text-4xl leading-[1.05] mt-2">{c.name}</h3>
+                  <p className="label-caps !text-[14px] text-cuir mt-4" data-testid={`mariage-collection-${c.id}-price`}>{c.price}</p>
+                  <Link
+                    href="/contact#formulaire"
+                    className={`mt-6 ${c.popular ? 'btn-primary justify-center' : 'btn-outline justify-center'}`}
+                    data-testid={`mariage-collection-${c.id}-cta`}
+                  >
+                    Demander cette collection
                   </Link>
+                  <div className="h-px bg-charbon/10 mt-7" aria-hidden="true" />
+                  <ul className="mt-6 space-y-3.5 flex-1 text-[14.5px] leading-[1.5] text-charbon/80">
+                    {c.features.map((f) => {
+                      const Icon = FEATURE_ICONS[f.icon] || Camera;
+                      return (
+                        <li key={f.text} className="flex items-start gap-3">
+                          <Icon className="h-[18px] w-[18px] shrink-0 mt-0.5 text-cognac" strokeWidth={1.5} aria-hidden="true" />
+                          {f.text}
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </article>
               </Reveal>
             ))}
+          </div>
+
+          {/* Options complémentaires */}
+          <div className="mt-16 sm:mt-20" data-testid="mariage-options">
+            <Reveal>
+              <h3 className="font-serif text-3xl sm:text-4xl leading-[1.05]">Les options.</h3>
+              <p className="mt-3 text-[15px] leading-[1.6] text-charbon/70">
+                Toutes les options sont soumises à disponibilité et facturées en complément de la collection choisie.
+              </p>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-9">
+              {MARIAGE_OPTIONS.map((o, idx) => {
+                const Icon = FEATURE_ICONS[o.icon] || Camera;
+                return (
+                  <Reveal key={o.name} delay={idx * 0.06}>
+                    <div
+                      className="h-full rounded-[12px] border border-charbon/10 bg-ivoire p-6 shadow-[var(--sb-shadow-soft)] transition-transform duration-300 hover:-translate-y-0.5"
+                      data-testid={`mariage-option-${idx + 1}`}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex items-center gap-3">
+                          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-cognac/40 text-cognac">
+                            <Icon className="h-[18px] w-[18px]" strokeWidth={1.5} aria-hidden="true" />
+                          </span>
+                          <h4 className="label-caps !text-[13px]">{o.name}</h4>
+                        </div>
+                        <p className="label-caps !text-[13px] text-cuir whitespace-nowrap">{o.price}</p>
+                      </div>
+                      <p className="mt-4 text-[14px] leading-[1.65] text-charbon/70">{o.text}</p>
+                    </div>
+                  </Reveal>
+                );
+              })}
+            </div>
+
+            {/* Mentions contractuelles */}
+            <Reveal>
+              <ul className="mt-10 space-y-2 border-t border-charbon/10 pt-6" data-testid="mariage-mentions">
+                {MARIAGE_MENTIONS.map((m) => (
+                  <li key={m} className="text-[13px] leading-[1.65] text-charbon/60">
+                    {m}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
           </div>
         </div>
       </section>

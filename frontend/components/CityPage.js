@@ -18,7 +18,7 @@ export function cityJsonLd(city, settings) {
       serviceType: 'Photographie de mariage',
       provider: { '@id': `${SITE_URL}/#business` },
       areaServed: { '@type': 'City', name: city.name },
-      offers: { '@type': 'Offer', price: '1600', priceCurrency: 'EUR', description: 'Reportage de mariage à partir de 1600 €' },
+      offers: { '@type': 'Offer', price: '1990', priceCurrency: 'EUR', description: 'Reportage de mariage à partir de 1 990 € TTC' },
     },
     {
       '@context': 'https://schema.org',
@@ -107,7 +107,7 @@ export async function CityPage({ city }) {
                 <h3 className="label-caps !text-[12px] text-cognac">Zone d'intervention</h3>
                 <p className="mt-3 text-[14.5px] leading-[1.65] text-ivoire/80">{city.zone}</p>
                 <p className="mt-3 flex items-center gap-2 text-[14px] text-ivoire/70">
-                  <Check className="h-4 w-4 text-cognac" /> Déplacement offert dans un rayon de 50 km
+                  <Check className="h-4 w-4 text-cognac" /> Déplacement offert dans un rayon de 150 km
                 </p>
               </div>
             </Reveal>

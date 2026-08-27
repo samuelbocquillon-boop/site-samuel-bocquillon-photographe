@@ -6,7 +6,7 @@
 - Maximiser le **SEO local** : cohérence NAP, JSON-LD LocalBusiness, pages villes, contenu géolocalisé.
 - Maintenir une **zone admin** pour gérer le contenu (images, blog, galerie, témoignages, demandes) avec **optimisation automatique** (Pillow WebP multi-tailles + fallback JPEG, Cloudinary via URLs optimisées).
 - Assurer un **tunnel de contact** complet : page Contact (map + FAQ), enregistrement DB, page **/merci**, notification email (active uniquement si SMTP fourni).
-- **BLOG (journal/reportages) — Objectif SEO local majeur** : 
+- **BLOG (journal/reportages) — Objectif SEO local majeur** :
   - Page listing et pages articles conformes à la maquette, cohérentes avec l’identité du site.
   - Articles enrichis (lieu/ville/département/région/pays) pour renforcer le référencement local.
   - Admin « sans code » via éditeur par blocs + gestion des slugs + alt par image.
@@ -18,13 +18,16 @@
 - **Galerie Portfolio (UX premium + SEO)** :
   - **Galerie unifiée** (suppression des filtres) + **lightbox diaporama** fullscreen.
   - Publication **triviale** via l’admin : collage d’URLs Cloudinary, alt optionnel, ordre drag & drop.
+- **Tarifs & Collections (conformité contractuelle)** :
+  - Garantir la cohérence **des noms de collections, prix, options et mentions** sur l’ensemble du site (pages, métadonnées, SEO local, llms.txt), sans inventer de contenu.
 
 **Statut global :**
 - Phases 1 et 2 : ✅ terminées (site complet + admin V1 + SEO)
 - Phase 3 : 🔄 stabilisation / qualité prod + activation credentials (en attente)
 - Phase 4 : ✅ BLOG — COMPLETED (implémenté + testé 100%)
 - Phase 5 : ✅ CMS / Dashboard propriétaire — Phase A COMPLETED (design + wiring + tests)
-- **Phase 6 : ✅ Galerie unifiée + Lightbox — COMPLETED (implémentée + testée)**
+- Phase 6 : ✅ Galerie unifiée + Lightbox — COMPLETED (implémentée + testée)
+- **Phase 7 : ✅ Tarifs réels des collections — COMPLETED (implémenté + vérifié)**
 
 ---
 
@@ -65,7 +68,7 @@
 - Navigation : menu + dropdown Prestations + état actif + hamburger mobile.
 
 2) **Contenu** — ✅
-- Seed contenu conforme aux maquettes (textes, prix, CTA, FAQ, témoignages).
+- Seed contenu conforme aux maquettes (textes, CTA, FAQ, témoignages).
 - Étude de cas (Portfolio : « Clara & Julien — mariage en Provence »).
 
 3) **SEO/GEO complet** — ✅
@@ -121,7 +124,7 @@
 ### Phase 4 — Rubrique BLOG (journal / SEO local) — ✅ COMPLETED
 **Objectif :** reproduire **fidèlement** la maquette Blog fournie, conserver l’identité existante, créer un système d’articles administrables par blocs, SSR/SEO complet, pagination indexable, données structurées.
 
-> Statut : **implémenté + testé à 100%** (voir `/app/test_reports/iteration_2.json`).
+> Statut : **implémenté + testé à 100%**.
 
 **À faire (complément validé / backlog P0)**
 - Appliquer l’optimisation automatique Cloudinary (`f_auto,q_auto`) aux images collées dans l’éditeur de blog (`AdminBlogEditor.js`).
@@ -139,7 +142,7 @@
 
 #### Phase A — Refonte visuelle du dashboard + branchement aux fonctionnalités existantes — ✅ COMPLETED
 - Design tokens admin, shell, navigation 13 rubriques, dashboard grid, endpoints stats/sections/pages/media.
-- Tests : `/app/test_reports/iteration_3.json` (admin frontend 100%).
+- Tests : admin frontend 100%.
 
 #### Phase B — Médiathèque centralisée + sélecteur universel 3 options — ⏳ NOT STARTED
 - Collection `medias` + `media_usages`.
@@ -164,77 +167,64 @@
 - Le **hero Portfolio** reste visuellement identique.
 - SEO : un seul **H1** sur la page = nouveau titre galerie (le “Portfolio” du hero est démoté en élément non-H1).
 
-#### 6.1 Backend (FastAPI + MongoDB) — ✅
-- **Nouvelle collection MongoDB** : `gallery`
-  - `id` (uuid)
-  - `url` (string)
-  - `alt` (string, optionnel)
-  - `order` (number)
-  - `created_at` (datetime)
-- Routes (implémentées) :
-  - `GET /api/gallery` (public) : items triés par `order`, URLs optimisées.
-  - `POST /api/gallery` (admin) : ajout en bulk (collage multi-URL) + normalisation Cloudinary (suppression des transformations déjà présentes dans l’URL collée).
-  - `PUT /api/gallery/reorder` (admin) : ordre (liste d’ids).
-  - `PUT /api/gallery/{id}` (admin) : update alt.
-  - `DELETE /api/gallery/{id}` (admin) : suppression.
-- **Seed automatique** : si `gallery` vide, insertion depuis `GALLERY_SEED`.
-- Optimisation Cloudinary automatique :
-  - **Grille** : `f_auto,q_auto` + `w_400`, `w_800`, `w_1200`.
-  - **Lightbox** : `f_auto,q_auto:good,c_limit,w_2000`.
-- Refactor slots : les anciens slots `portfolio-galerie-*` sont **retirés** du registre `IMAGE_SLOTS` (donc plus visibles dans l’admin Images) et migrés en `GALLERY_SEED`.
+(Backend, Frontend, Admin, Tests : ✅ livrés et testés — rapport itération 5.)
 
-#### 6.2 Frontend (Next.js 15) — ✅
-1) **Portfolio page (SSR)** — ✅
-- `app/portfolio/page.js` :
-  - Filtres supprimés.
-  - Bloc SEO centré ajouté :
-    - H1 unique : `Galerie photographe de mariage — Nord-Pas-de-Calais, France et ailleurs`
-    - Intro courte.
-  - Metadata conformes :
-    - Title absolu : `Galerie photographe de mariage Nord-Pas-de-Calais | Samuel Bocquillon`
-    - Meta description adaptée.
-  - JSON-LD `ImageGallery` + `ImageObject` injecté en SSR.
-  - Sections sous la galerie conservées.
+---
 
-2) **Grille galerie** — ✅
-- `UnifiedGallery` :
-  - Grille responsive 4/3/2/1 colonnes.
-  - Placeholders `aspect-[3/4]` anti-CLS.
-  - Lazy loading + 4 premières eager (`fetchpriority="high"`).
-  - Hover : scale 1.02 + overlay léger.
-  - Bouton **VOIR PLUS** après 24 images.
+### Phase 7 — Tarifs réels des collections (harmonisation globale) — ✅ COMPLETED
+**Objectif :** remplacer tous les tarifs “placeholder” par les tarifs contractuels, harmoniser les collections et options sur **tout le site** (pages, SEO, llms.txt), et restructurer la page Mariage selon le document fourni.
 
-3) **Lightbox diaporama réutilisable** — ✅
-- `GalleryLightbox` :
-  - Overlay `rgba(20,16,14,0.96)`.
-  - Image centrée `object-contain`, max 92vh/92vw, jamais croppée.
-  - Crossfade 400ms en 2 couches.
-  - Placeholder vignette + fondu vers l’image pleine résolution.
-  - Autoplay 5s boucle infinie + reset sur navigation manuelle + pause au survol + toggle pause/lecture + barre de progression.
-  - Navigation : boutons, clavier (→/Espace/←/Esc/P), swipe (horiz ~50px, bas = fermer), clic fond = fermer, clic image = suivante.
-  - Préchargement n±1 (+2 si autoplay).
-  - Scroll lock + restauration + focus trap + restore focus vignette.
-  - Accessibilité : `role="dialog"`, `aria-modal="true"`, labels FR.
-  - Deep-link : `?photo=n` via `history.replaceState` + ouverture directe si param présent.
-  - `prefers-reduced-motion` : autoplay désactivé par défaut + transitions instantanées.
-  - Nettoyage timers/listeners : OK.
+#### 7.1 Données (lib/content.js) — ✅
+- Mise à jour **HOME_COLLECTIONS** :
+  - Hugs **1 990 € TTC**
+  - Delight **2 490 € TTC**
+  - Infinity **3 390 € TTC**
+- Mise à jour **PRESTATIONS_COLLECTIONS** (hub prestations) : Hugs / Delight (popular) / Infinity.
+- Remplacement complet **MARIAGE_COLLECTIONS** : structure “contractuelle” avec features et **icônes Lucide par nom**.
+  - Icône “Drone” inexistante dans Lucide → **Plane** utilisée.
+  - `Infinity` importé en `InfinityIcon`.
+- Ajout :
+  - **MARIAGE_OPTIONS** (4 options détaillées + descriptions)
+  - **MARIAGE_MENTIONS** (3 mentions contractuelles)
+- Remplacement **OPTIONS_EXTRAS** par les options contractuelles (120 €/h, 500 €, sur devis, 500 €).
+- Mise à jour **FAQ_PRESTATIONS** + **FAQ_CONTACT** :
+  - Albums → Infinity
+  - Engagement → Delight/Infinity
+  - Prises de vue illimitées
+  - Solde avant envoi du coffret final
+  - Déplacements offerts rayon **150 km**
+- Harmonisation des pages villes (résumés + FAQ) : minimum à **1 990 €**, rayon **150 km**.
 
-#### 6.3 Admin (Next.js) — ✅
-- Route : `app/admin/galerie/page.js`.
-- UI : `components/admin/AdminGallery.js`
-  - Collage multi-URLs + validation.
-  - Alt optionnel (auto SEO si vide).
-  - Réorganisation : drag & drop + boutons haut/bas (persistés via `/api/gallery/reorder`).
-  - Suppression avec confirmation.
-  - Autosave indicator intégré.
-- Sidebar : entrée **Galerie** ajoutée (icône `LayoutGrid`).
+#### 7.2 Page Prestations → Mariage (/prestations/mariage) — ✅
+- Nouvelle section **« Les collections. »** + sous-titre *« Tarifs nets, toutes taxes comprises. »*
+- 3 cartes : label **COLLECTION**, nom serif, prix, CTA **« Demander cette collection »** → `/contact#formulaire`.
+- Delight :
+  - Badge **« Le plus choisi »**
+  - mise en avant (bordure cognac + légère scale desktop)
+  - **1ère sur mobile** (order-first)
+- Listes de features avec icônes (strokeWidth 1.5, cognac, aria-hidden).
+- Section **« Les options. »** : grille 2 colonnes, icônes + descriptions.
+- Mentions contractuelles affichées sous les options.
+- Metadata mise à jour : **1 990 € à 3 390 € TTC**.
 
-#### 6.4 Tests & QA — ✅
-- Rapport : `/app/test_reports/iteration_5.json`
-  - Backend : **100%** (19/19)
-  - Admin : **100%**
-  - Régression : **100%**
-  - Frontend : alerte mineure « clic image » détectée par script, **vérifiée manuellement comme faux positif** (le clic image avance bien).
+#### 7.3 Harmonisation SEO globale — ✅
+- Accueil : cartes + meta description à partir de **1 990 €**.
+- Prestations (hub) : badge « Le plus choisi » + meta description mise à jour.
+- Layout global : `priceRange` → **1990€ - 3390€**, `Offer.price` → **1990**.
+- CityPage.js : `Offer.price` → **1990** + rayon **150 km**.
+- `public/llms.txt` : tarifs et mentions mis à jour (1 990€–3 390€ TTC, 150 km).
+
+#### 7.4 UX / Mobile — ✅
+- Ajout sur la page Accueil : bandeau **« Prestations »** mobile pour rendre la transition “Portfolio → collections” plus claire (desktop/tablette inchangés).
+
+#### 7.5 Contact — ✅
+- Ajout de l’ancre `id="formulaire"` sur la section principale de `/contact`.
+
+#### 7.6 QA — ✅
+- `esbuild` OK.
+- Captures desktop/mobile/hub/accueil conformes.
+- Delight en 1er sur mobile validé.
+- Pages clés 200 OK et **aucune occurrence des anciens tarifs** sur les pages testées.
 
 ---
 
@@ -243,7 +233,7 @@
 - Auto-injection `f_auto,q_auto` dans `AdminBlogEditor.js` pour les images collées dans les blocs.
 
 2) **SEO local — Pages villes (P1)**
-- Implémenter/valider les pages ciblées : Valenciennes, Lille, Douai, Cambrai (contenu + JSON-LD + maillage interne).
+- Valider le contenu + JSON-LD + maillage interne des pages : Valenciennes, Lille, Douai, Cambrai.
 
 3) **Phase 3 — Stabilisation Contact (pixel-perfect) + activation SMTP/NAP**
 - Ajustements maquette.
@@ -265,6 +255,10 @@
   - Grille unifiée performante (Lighthouse mobile ≥ 90, CLS < 0.05).
   - Lightbox : ouverture rapide, préchargement, autoplay 5s, deep-link `?photo=n`, a11y complète.
   - Admin : ajout par collage d’URL, alt optionnel, ordre drag & drop.
+- Tarifs & Collections (Phase 7 ✅) :
+  - Aucune occurrence des anciens tarifs placeholder.
+  - Cohérence des montants (1 990 € / 2 490 € / 3 390 € TTC) + options + mentions sur tout le site (pages, FAQ, JSON-LD Offers, llms.txt).
+  - Delight clairement mise en avant (« Le plus choisi ») et 1ère sur mobile.
 - Admin :
   - V1 existante stable.
   - Phase A ✅ : dashboard visuel + KPI + preview + navigation + réservations pipeline + SEO local éditable.
