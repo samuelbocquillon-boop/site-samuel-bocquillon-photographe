@@ -43,10 +43,10 @@ export default async function PrestationsPage() {
         label="Prestations"
         title="Chaque mariage est unique."
         subtitle="Mes collections sont pensées pour raconter votre histoire avec authenticité, élégance et discrétion. Des souvenirs sincères, pour toute une vie."
-        raised
+        split
         testid="prestations-hero"
       >
-        <Link href="/contact" className="btn-light mt-8" data-testid="prestations-hero-cta-button">
+        <Link href="/contact" className="btn-light mt-6" data-testid="prestations-hero-cta-button">
           Réserver ma date
         </Link>
       </PageHero>
