@@ -1,22 +1,37 @@
 import Link from 'next/link';
-import { getImages, getTestimonials } from '@/lib/api';
+import { getImages, getTestimonials, getGallery } from '@/lib/api';
+import { SITE_URL } from '@/lib/content';
 import { SmartImage } from '@/components/SmartImage';
 import { Reveal } from '@/components/Reveal';
 import { TestimonialCarousel } from '@/components/TestimonialCarousel';
-import { PortfolioGallery } from '@/components/PortfolioGallery';
+import { UnifiedGallery } from '@/components/gallery/UnifiedGallery';
 
 export const metadata = {
-  title: 'Portfolio — Reportages de mariage authentiques',
+  title: { absolute: 'Galerie photographe de mariage Nord-Pas-de-Calais | Samuel Bocquillon' },
   description:
-    "Portfolio de Samuel Bocquillon, photographe de mariage : reportages en France et à l'étranger, petits comités et élopements. Des histoires vraies, des émotions brutes, des images qui traversent le temps.",
+    'Découvrez la galerie de Samuel Bocquillon, photographe de mariage dans le Nord-Pas-de-Calais. Reportages de mariage authentiques en France et à l\'étranger.',
   alternates: { canonical: '/portfolio' },
 };
 
 export default async function PortfolioPage() {
-  const [images, testimonials] = await Promise.all([getImages(), getTestimonials()]);
+  const [images, testimonials, gallery] = await Promise.all([getImages(), getTestimonials(), getGallery()]);
   const mariageQuotes = testimonials.filter((t) => t.category === 'mariage');
   // « Ses photos sont tout simplement sublimes… » (Marie & Thomas) en premier, comme la maquette
   const ordered = [...mariageQuotes.filter((t) => t.author.includes('Marie')), ...mariageQuotes.filter((t) => !t.author.includes('Marie'))];
+
+  const galleryJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ImageGallery',
+    name: 'Galerie photographe de mariage — Nord-Pas-de-Calais, France et ailleurs',
+    url: `${SITE_URL}/portfolio`,
+    description:
+      'Sélection des plus belles images de mariage de Samuel Bocquillon, photographe dans le Nord-Pas-de-Calais, en France et à l\'étranger.',
+    image: gallery.map((p) => ({
+      '@type': 'ImageObject',
+      contentUrl: p.full,
+      caption: p.alt,
+    })),
+  };
 
   return (
     <main>
@@ -29,7 +44,7 @@ export default async function PortfolioPage() {
         </div>
         <div className="relative sb-container flex min-h-[62svh] lg:min-h-[70svh] items-center">
           <div className="max-w-lg py-24">
-            <h1 className="font-serif font-medium text-6xl sm:text-7xl lg:text-[88px] leading-[0.98] tracking-[-0.02em] text-charbon">Portfolio</h1>
+            <p className="font-serif font-medium text-6xl sm:text-7xl lg:text-[88px] leading-[0.98] tracking-[-0.02em] text-charbon">Portfolio</p>
             <span className="block h-[2px] w-10 bg-cognac mt-5" aria-hidden="true" />
             <p className="mt-6 text-[15px] sm:text-[15.5px] leading-[1.8] text-charbon/80 max-w-xs">
               Des histoires vraies, des émotions brutes,
@@ -44,11 +59,24 @@ export default async function PortfolioPage() {
         </div>
       </section>
 
-      {/* ============ FILTRES + GALERIE MOSAÏQUE ============ */}
+      {/* ============ GALERIE UNIFIÉE + DIAPORAMA ============ */}
       <section className="pt-8 sm:pt-10 pb-14 sm:pb-20" data-testid="portfolio-gallery-section">
-        <div className="sb-container">
-          <PortfolioGallery images={images} />
+        <div className="sb-container" id="galerie">
+          {/* Bloc SEO — un seul H1 sur la page */}
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="font-serif text-3xl sm:text-4xl leading-[1.15] text-charbon" data-testid="gallery-seo-title">
+              Galerie photographe de mariage — Nord-Pas-de-Calais, France et ailleurs
+            </h1>
+            <p className="mt-4 text-[15px] leading-[1.7] text-charbon/75" data-testid="gallery-seo-intro">
+              Une sélection de mes plus belles images de mariage, réalisées dans le Nord-Pas-de-Calais, partout en
+              France et à l'étranger. Cliquez sur une photo pour lancer le diaporama.
+            </p>
+          </div>
+          <div className="mt-10 sm:mt-12">
+            <UnifiedGallery photos={gallery} />
+          </div>
         </div>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(galleryJsonLd) }} />
       </section>
 
       {/* ============ REPORTAGE À LA UNE — photo | texte | carte citation ============ */}

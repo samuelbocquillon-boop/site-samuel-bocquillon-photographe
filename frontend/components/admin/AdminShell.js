@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import {
   Home, FileText, SquarePen, Image as ImageIcon, Briefcase, Images, MessageSquare, CalendarDays,
   MapPin, ClipboardList, Menu, Palette, Settings, ExternalLink, Power, ChevronDown, Plus,
-  Loader2, Lock, X, FilePlus, Camera, UploadCloud, Star,
+  Loader2, Lock, X, FilePlus, Camera, UploadCloud, Star, LayoutGrid,
 } from 'lucide-react';
 import { apiFetch, getToken, setToken, clearToken } from '@/lib/adminApi';
 
@@ -18,6 +18,7 @@ const NAV = [
   { href: '/admin/pages', label: 'Pages', icon: FileText, title: 'Pages', subtitle: 'Gérez les pages de votre site.' },
   { href: '/admin/blog', label: 'Blog', icon: SquarePen, title: 'Blog', subtitle: 'Créez et publiez vos reportages.' },
   { href: '/admin/portfolio', label: 'Portfolio', icon: ImageIcon, title: 'Portfolio', subtitle: 'Gérez vos galeries et vos images.' },
+  { href: '/admin/galerie', label: 'Galerie', icon: LayoutGrid, title: 'Galerie', subtitle: 'Les photos du diaporama de la page Portfolio.' },
   { href: '/admin/prestations', label: 'Prestations', icon: Briefcase, title: 'Prestations', subtitle: 'Mariage, corporate, photobooth et formation.' },
   { href: '/admin/medias', label: 'Médias', icon: Images, title: 'Bibliothèque médias', subtitle: 'Toutes les images de votre site.' },
   { href: '/admin/temoignages', label: 'Témoignages', icon: MessageSquare, title: 'Témoignages', subtitle: 'Gérez les avis de vos clients.' },

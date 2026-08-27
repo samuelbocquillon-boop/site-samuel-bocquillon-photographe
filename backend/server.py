@@ -20,7 +20,7 @@ from passlib.context import CryptContext
 from PIL import Image, ImageOps
 import smtplib
 from email.mime.text import MIMEText
-from slots import IMAGE_SLOTS, PAGE_ORDER, DEFAULT_TESTIMONIALS
+from slots import IMAGE_SLOTS, PAGE_ORDER, DEFAULT_TESTIMONIALS, GALLERY_SEED
 from blog_seed import DEMO_POSTS
 
 ROOT_DIR = Path(__file__).parent
@@ -879,6 +879,136 @@ async def admin_media_recent(limit: int = 6, admin: str = Depends(get_current_ad
                 break
             out.append({'url': s['default_url'], 'alt': s['default_alt'], 'slot_key': s['slot_key']})
     return out[:limit]
+
+
+# ---------------- Routes: galerie unifiée (Portfolio) ----------------
+# Une seule collection `gallery` : ajout par collage d'URL Cloudinary, alt optionnel, ordre drag & drop.
+
+# Retire les segments de transformation Cloudinary déjà présents (ex: f_auto,q_auto,w_1600/)
+CLOUDINARY_TRANSFO_RE = re.compile(r'(/image/upload/)(?:[^/]*,[^/]*/)+')
+
+
+def normalize_gallery_url(url: str) -> str:
+    """Nettoie une URL Cloudinary de ses transformations pour repartir de l'original."""
+    return CLOUDINARY_TRANSFO_RE.sub(r'\1', url.strip())
+
+
+def gallery_optimized(url: str) -> dict:
+    """Variantes optimisées : grille (400/800/1200w) + lightbox (limitée à 2000px, qualité ~82)."""
+    m = CLOUDINARY_URL_RE.match(url)
+    if m:
+        base, rest = m.groups()
+
+        def v(t):
+            return f'{base}{t}/{rest}'
+        return {
+            'src': v('f_auto,q_auto,w_800'),
+            'srcset': ', '.join(f"{v(f'f_auto,q_auto,w_{w}')} {w}w" for w in (400, 800, 1200)),
+            'full': v('f_auto,q_auto:good,c_limit,w_2000'),
+        }
+    return {'src': url, 'srcset': None, 'full': url}
+
+
+class GalleryAddIn(BaseModel):
+    urls: List[str]
+    alt: str = ''
+
+
+class GalleryAltIn(BaseModel):
+    alt: str = ''
+
+
+class GalleryReorderIn(BaseModel):
+    ids: List[str]
+
+
+def serialize_gallery_item(doc: dict, position: int) -> dict:
+    opt = gallery_optimized(doc['url'])
+    alt = (doc.get('alt') or '').strip() or f'Photographe de mariage Nord-Pas-de-Calais — photo de mariage {position + 1}'
+    return {
+        'id': doc['id'],
+        'url': doc['url'],
+        'alt': alt,
+        'has_custom_alt': bool((doc.get('alt') or '').strip()),
+        'order': doc.get('order', position),
+        'src': opt['src'],
+        'srcset': opt['srcset'],
+        'full': opt['full'],
+        'created_at': serialize_doc(doc.get('created_at')),
+    }
+
+
+async def ensure_gallery_seed():
+    count = await db.gallery.count_documents({})
+    if count == 0:
+        now = datetime.now(timezone.utc)
+        for i, item in enumerate(GALLERY_SEED):
+            await db.gallery.insert_one({
+                'id': str(uuid.uuid4()),
+                'url': item['url'],
+                'alt': item['alt'],
+                'order': i,
+                'created_at': now,
+            })
+
+
+@api_router.get('/gallery')
+async def list_gallery():
+    """Galerie unifiée publique — items triés, URLs Cloudinary optimisées."""
+    await ensure_gallery_seed()
+    docs = await db.gallery.find().sort('order', 1).to_list(1000)
+    return {'items': [serialize_gallery_item(d, i) for i, d in enumerate(docs)]}
+
+
+@api_router.post('/gallery')
+async def add_gallery_items(payload: GalleryAddIn, admin: str = Depends(get_current_admin)):
+    """Ajout en lot : une ou plusieurs URLs (Cloudinary recommandé)."""
+    await ensure_gallery_seed()
+    urls = [u.strip() for u in payload.urls if u and u.strip()]
+    if not urls:
+        raise HTTPException(status_code=400, detail='Aucune URL fournie')
+    for u in urls:
+        if not u.lower().startswith(('http://', 'https://')):
+            raise HTTPException(status_code=400, detail=f'URL invalide : {u[:80]} — elle doit commencer par http(s)://')
+    last = await db.gallery.find().sort('order', -1).to_list(1)
+    next_order = (last[0]['order'] + 1) if last else 0
+    created = []
+    now = datetime.now(timezone.utc)
+    for i, u in enumerate(urls):
+        doc = {
+            'id': str(uuid.uuid4()),
+            'url': normalize_gallery_url(u),
+            'alt': payload.alt.strip() if len(urls) == 1 else '',
+            'order': next_order + i,
+            'created_at': now,
+        }
+        await db.gallery.insert_one(doc)
+        created.append(serialize_gallery_item(doc, doc['order']))
+    return {'created': created, 'count': len(created)}
+
+
+@api_router.put('/gallery/reorder')
+async def reorder_gallery(payload: GalleryReorderIn, admin: str = Depends(get_current_admin)):
+    """Réordonne la galerie — la liste d'ids définit le nouvel ordre."""
+    for i, item_id in enumerate(payload.ids):
+        await db.gallery.update_one({'id': item_id}, {'$set': {'order': i}})
+    return {'ok': True}
+
+
+@api_router.put('/gallery/{item_id}')
+async def update_gallery_alt(item_id: str, payload: GalleryAltIn, admin: str = Depends(get_current_admin)):
+    res = await db.gallery.update_one({'id': item_id}, {'$set': {'alt': payload.alt.strip()}})
+    if res.matched_count == 0:
+        raise HTTPException(status_code=404, detail='Photo introuvable')
+    return {'ok': True}
+
+
+@api_router.delete('/gallery/{item_id}')
+async def delete_gallery_item(item_id: str, admin: str = Depends(get_current_admin)):
+    res = await db.gallery.delete_one({'id': item_id})
+    if res.deleted_count == 0:
+        raise HTTPException(status_code=404, detail='Photo introuvable')
+    return {'ok': True}
 
 
 # ---------------- Mount ----------------

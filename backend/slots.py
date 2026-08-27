@@ -32,18 +32,6 @@ IMAGE_SLOTS = [
 
     # ---------- PORTFOLIO ----------
     {'slot_key': 'portfolio-hero', 'page': 'Portfolio', 'label': 'Portfolio — Bannière (photo de droite)', 'description': "Photo du hero, fondue vers l'ivoire à gauche", 'default_url': f'{U}1646380911979-615ba6cc9826{Q}', 'default_alt': 'Couple de mariés contemplant la vallée au coucher du soleil — portfolio mariage'},
-    {'slot_key': 'portfolio-galerie-1', 'page': 'Portfolio', 'label': 'Portfolio — Galerie image 1', 'description': 'Mosaïque — petits comités (paysage)', 'default_url': f'{U}1520854221256-17451cc331bf{QS}', 'default_alt': 'Invités complices dans la voiture des mariés — ambiance de cortège'},
-    {'slot_key': 'portfolio-galerie-2', 'page': 'Portfolio', 'label': 'Portfolio — Galerie image 2', 'description': 'Mosaïque — mariage en France (portrait)', 'default_url': f'{U}1522673607200-164d1b6ce486{QS}', 'default_alt': 'Sortie de cérémonie sous une pluie de confettis — mariage en France'},
-    {'slot_key': 'portfolio-galerie-3', 'page': 'Portfolio', 'label': 'Portfolio — Galerie image 3', 'description': "Mosaïque — à l'étranger (paysage)", 'default_url': f'{U}1521033719794-41049d18b8d4{QS}', 'default_alt': 'Coucher de soleil sur le lac le soir du mariage — destination wedding'},
-    {'slot_key': 'portfolio-galerie-4', 'page': 'Portfolio', 'label': 'Portfolio — Galerie image 4', 'description': 'Mosaïque — mariage en France (détail)', 'default_url': f'{U}1606800052052-a08af7148866{QS}', 'default_alt': 'Détail de la montre et des alliances du marié — préparatifs'},
-    {'slot_key': 'portfolio-galerie-5', 'page': 'Portfolio', 'label': 'Portfolio — Galerie image 5', 'description': 'Mosaïque — mariage en France (portrait)', 'default_url': f'{U}1519741497674-611481863552{QS}', 'default_alt': 'Les mariés dansant au milieu de leurs invités — soirée de mariage'},
-    {'slot_key': 'portfolio-galerie-6', 'page': 'Portfolio', 'label': 'Portfolio — Galerie image 6', 'description': "Mosaïque — à l'étranger (grande, paysage)", 'default_url': f'{U}1583939003579-730e3918a45a{QS}', 'default_alt': 'Porté romantique des mariés à la lumière des cierges magiques'},
-    {'slot_key': 'portfolio-galerie-7', 'page': 'Portfolio', 'label': 'Portfolio — Galerie image 7', 'description': 'Mosaïque — élopement (portrait)', 'default_url': f'{U}1465495976277-4387d4b0b4c6{QS}', 'default_alt': 'Baiser des mariés dans les hautes herbes au soleil couchant — élopement'},
-    {'slot_key': 'portfolio-galerie-8', 'page': 'Portfolio', 'label': 'Portfolio — Galerie image 8', 'description': 'Mosaïque — élopement (paysage)', 'default_url': f'{U}1532712938310-34cb3982ef74{QS}', 'default_alt': 'Cérémonie intime en terrasse face à la vallée — élopement'},
-    {'slot_key': 'portfolio-galerie-9', 'page': 'Portfolio', 'label': 'Portfolio — Galerie image 9', 'description': 'Mosaïque — petit comité (portrait serré)', 'default_url': f'{U}1525258946800-98cfd641d0de{QS}', 'default_alt': 'Étreinte tendre des jeunes mariés — émotion à fleur de peau'},
-    {'slot_key': 'portfolio-galerie-10', 'page': 'Portfolio', 'label': 'Portfolio — Galerie image 10', 'description': 'Mosaïque — mariage en France (paysage)', 'default_url': f'{U}1511285560929-80b456fea0bc{QS}', 'default_alt': 'La mariée à la sortie de la voiture de collection — noir et blanc'},
-    {'slot_key': 'portfolio-galerie-11', 'page': 'Portfolio', 'label': 'Portfolio — Galerie image 11', 'description': 'Mosaïque — petit comité (paysage)', 'default_url': f'{U}1519225421980-715cb0215aed{QS}', 'default_alt': 'Réception sous les guirlandes lumineuses — chaleur de la soirée'},
-    {'slot_key': 'portfolio-galerie-12', 'page': 'Portfolio', 'label': 'Portfolio — Galerie image 12', 'description': "Mosaïque — à l'étranger (portrait)", 'default_url': f'{U}1481653125770-b78c206c59d4{QS}', 'default_alt': 'Portrait de la mariée à la lumière naturelle — mariage à l\'étranger'},
     {'slot_key': 'portfolio-une', 'page': 'Portfolio', 'label': 'Portfolio — Reportage à la une (photo)', 'description': 'Photo à gauche du bloc « Reportage à la une »', 'default_url': f'{U}1542038784456-1ea8e935640e{QS}', 'default_alt': 'Samuel Bocquillon, appareil en main pendant un reportage de mariage'},
     {'slot_key': 'portfolio-temoignage-fond', 'page': 'Portfolio', 'label': 'Portfolio — Fond bande témoignage', 'description': 'Photo panoramique derrière la citation client', 'default_url': f'{U}1519225421980-715cb0215aed{Q}', 'default_alt': 'Mariés dansant sous les guirlandes lumineuses — souvenir de soirée'},
     {'slot_key': 'portfolio-cta-camera', 'page': 'Portfolio', 'label': 'Portfolio — Appareil photo (section finale)', 'description': "Photo de l'appareil photo à droite de l'appel à l'action (fond clair conseillé)", 'default_url': f'{U}1502920917128-1aa500764cbd{QS}', 'default_alt': 'Appareil photo vintage et sa sangle en cuir — prêt à raconter votre histoire'},
@@ -113,4 +101,20 @@ DEFAULT_TESTIMONIALS = [
     {'id': 'seed-4', 'author': 'Matthieu L.', 'role': 'Stagiaire formation', 'text': 'La formation de Samuel m\'a permis non seulement d\'acquérir des techniques, mais surtout de sortir de ma zone de confort et d\'oser. Il est patient, pédagogue et passionné. Je recommande vivement !', 'rating': 5, 'category': 'formation', 'featured': True},
     {'id': 'seed-5', 'author': 'Sophie & Antoine', 'role': 'Mariés à Valenciennes', 'text': 'Discret toute la journée, on l\'a presque oublié… jusqu\'à la découverte des photos. Chaque image raconte exactement ce que nous avons vécu.', 'rating': 5, 'category': 'mariage', 'featured': False},
     {'id': 'seed-6', 'author': 'Laëtitia & Maxime', 'role': 'Mariés à Douai', 'text': 'Un immense merci ! Les photos sont naturelles, lumineuses, pleines de vie. Nos familles n\'en reviennent toujours pas.', 'rating': 5, 'category': 'mariage', 'featured': False},
+]
+
+# ---------- GALERIE UNIFIÉE (seed initial — migré depuis l'ancienne mosaïque Portfolio) ----------
+GALLERY_SEED = [
+    {'url': f'{U}1520854221256-17451cc331bf{QS}', 'alt': 'Invités complices dans la voiture des mariés — ambiance de cortège'},
+    {'url': f'{U}1522673607200-164d1b6ce486{QS}', 'alt': 'Sortie de cérémonie sous une pluie de confettis — mariage en France'},
+    {'url': f'{U}1521033719794-41049d18b8d4{QS}', 'alt': 'Coucher de soleil sur le lac le soir du mariage — destination wedding'},
+    {'url': f'{U}1606800052052-a08af7148866{QS}', 'alt': 'Détail de la montre et des alliances du marié — préparatifs'},
+    {'url': f'{U}1519741497674-611481863552{QS}', 'alt': 'Les mariés dansant au milieu de leurs invités — soirée de mariage'},
+    {'url': f'{U}1583939003579-730e3918a45a{QS}', 'alt': 'Porté romantique des mariés à la lumière des cierges magiques'},
+    {'url': f'{U}1465495976277-4387d4b0b4c6{QS}', 'alt': 'Baiser des mariés dans les hautes herbes au soleil couchant — élopement'},
+    {'url': f'{U}1532712938310-34cb3982ef74{QS}', 'alt': 'Cérémonie intime en terrasse face à la vallée — élopement'},
+    {'url': f'{U}1525258946800-98cfd641d0de{QS}', 'alt': 'Étreinte tendre des jeunes mariés — émotion à fleur de peau'},
+    {'url': f'{U}1511285560929-80b456fea0bc{QS}', 'alt': 'La mariée à la sortie de la voiture de collection — noir et blanc'},
+    {'url': f'{U}1519225421980-715cb0215aed{QS}', 'alt': 'Réception sous les guirlandes lumineuses — chaleur de la soirée'},
+    {'url': f'{U}1481653125770-b78c206c59d4{QS}', 'alt': 'Portrait de la mariée à la lumière naturelle — mariage à l\'étranger'},
 ]

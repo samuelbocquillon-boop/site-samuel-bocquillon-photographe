@@ -1,38 +1,30 @@
 [
   {
-    "content": "Backend: modèle blog_posts, routes publiques + admin, upload, seed 9 articles — testé 100%",
+    "content": "Backend : collection gallery + endpoints + seed 12 photos + optimisation Cloudinary",
     "status": "completed"
   },
   {
-    "content": "Backend: slot 'blog-hero' + 3 slots pré-footer dans slots.py + PAGE_ORDER",
+    "content": "slots.py : 12 slots portfolio-galerie migrés vers GALLERY_SEED",
     "status": "completed"
   },
   {
-    "content": "Frontend: nav BLOG + lien footer + helpers lib/api.js",
+    "content": "Frontend : composant Lightbox réutilisable (autoplay, progress bar, crossfade, clavier/swipe, a11y, ?photo=n)",
     "status": "completed"
   },
   {
-    "content": "Frontend: page /blog + /blog/page/[num] — vérifié screenshots + tests",
+    "content": "Frontend : GalleryGrid + bloc SEO h1 + JSON-LD ImageGallery",
     "status": "completed"
   },
   {
-    "content": "Frontend: page article /blog/[slug] complète — vérifié screenshots + tests",
+    "content": "Nettoyage : PortfolioGallery supprimé, filtres retirés, h1 unique",
     "status": "completed"
   },
   {
-    "content": "Frontend: BlogPreFooter éditorial brun",
+    "content": "Admin : AdminGallery (collage liens, alt, drag & drop) + route + sidebar",
     "status": "completed"
   },
   {
-    "content": "SEO: JSON-LD BlogPosting + BreadcrumbList, generateMetadata, sitemap.js dynamique",
-    "status": "completed"
-  },
-  {
-    "content": "Admin: onglet BLOG — liste + éditeur par blocs drag & drop — flux E2E validé",
-    "status": "completed"
-  },
-  {
-    "content": "Testing agent complet: 100% (0 bug) + PRD.md mis à jour",
+    "content": "Tests : esbuild OK, vérifications Playwright, testing_agent 100% backend / 95%+ frontend (faux positif vérifié manuellement)",
     "status": "completed"
   }
 ]

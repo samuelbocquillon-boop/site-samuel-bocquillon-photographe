@@ -198,3 +198,17 @@ html, body {
 /* Scrollbar discrète pour la zone admin */
 .adm-scroll::-webkit-scrollbar { width: 8px; }
 .adm-scroll::-webkit-scrollbar-thumb { background: var(--bordure); border-radius: 8px; }
+
+/* ---------- Lightbox diaporama (galerie unifiée) ---------- */
+@keyframes lb-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes lb-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes lb-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}

@@ -51,6 +51,11 @@ export async function getTestimonials() {
   return t || [];
 }
 
+export async function getGallery() {
+  const d = await ssrFetch('/gallery');
+  return (d && d.items) || [];
+}
+
 // ---------------- Blog ----------------
 export async function getBlogPosts({ category, lieu, q, page = 1, limit = 9 } = {}) {
   const params = new URLSearchParams();

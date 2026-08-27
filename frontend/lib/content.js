@@ -91,29 +91,6 @@ export const PARCOURS = [
   { year: '2024', text: 'Plus de 200 mariages racontés, en France et ailleurs.' },
 ];
 
-export const PORTFOLIO_FILTERS = [
-  { id: 'tous', label: 'Tous les reportages' },
-  { id: 'france', label: 'Mariages en France' },
-  { id: 'etranger', label: 'À l\'étranger' },
-  { id: 'petits-comites', label: 'Petits comités' },
-  { id: 'elopements', label: 'Élopements' },
-];
-
-export const PORTFOLIO_ITEMS = [
-  { slot: 'portfolio-galerie-1', category: 'petits-comites', aspect: 'aspect-[4/3]' },
-  { slot: 'portfolio-galerie-2', category: 'france', aspect: 'aspect-[3/4]' },
-  { slot: 'portfolio-galerie-3', category: 'etranger', aspect: 'aspect-[4/3]' },
-  { slot: 'portfolio-galerie-4', category: 'france', aspect: 'aspect-[4/3]' },
-  { slot: 'portfolio-galerie-5', category: 'france', aspect: 'aspect-[3/4]' },
-  { slot: 'portfolio-galerie-6', category: 'etranger', aspect: 'aspect-[4/5]' },
-  { slot: 'portfolio-galerie-7', category: 'elopements', aspect: 'aspect-[3/4]' },
-  { slot: 'portfolio-galerie-8', category: 'elopements', aspect: 'aspect-[4/3]' },
-  { slot: 'portfolio-galerie-9', category: 'petits-comites', aspect: 'aspect-[3/4]' },
-  { slot: 'portfolio-galerie-10', category: 'france', aspect: 'aspect-[4/3]' },
-  { slot: 'portfolio-galerie-11', category: 'petits-comites', aspect: 'aspect-[4/3]' },
-  { slot: 'portfolio-galerie-12', category: 'etranger', aspect: 'aspect-[3/4]' },
-];
-
 export const CORPORATE_PRESTATIONS = [
   { slot: 'corporate-prestation-1', title: 'Reportage événementiel', text: 'Séminaires, conférences, soirées d\'entreprise : je raconte vos événements avec un regard éditorial.' },
   { slot: 'corporate-prestation-2', title: 'Portraits d\'équipe', text: 'Des portraits naturels et valorisants, en studio ou dans vos locaux.' },
