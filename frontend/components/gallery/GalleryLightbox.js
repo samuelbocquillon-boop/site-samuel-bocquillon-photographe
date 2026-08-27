@@ -8,7 +8,7 @@ import { X, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 
 const AUTOPLAY_MS = 5000;
 
-const LightboxImage = ({ photo, fadingOut, reduce, onClick, onMouseEnter, onMouseLeave }) => {
+const LightboxImage = ({ photo, fadingOut, reduce, onClick }) => {
   const [loaded, setLoaded] = useState(false);
   return (
     <div
@@ -23,8 +23,6 @@ const LightboxImage = ({ photo, fadingOut, reduce, onClick, onMouseEnter, onMous
       <div
         className={fadingOut ? 'relative' : 'relative pointer-events-auto cursor-pointer'}
         onClick={fadingOut ? undefined : onClick}
-        onMouseEnter={fadingOut ? undefined : onMouseEnter}
-        onMouseLeave={fadingOut ? undefined : onMouseLeave}
       >
         {/* Vignette basse résolution — placeholder instantané */}
         <img src={photo.src} alt="" aria-hidden="true" className="block max-h-[92vh] max-w-[92vw] object-contain select-none" draggable="false" />
@@ -46,7 +44,6 @@ export const GalleryLightbox = ({ photos, startIndex = 0, onClose }) => {
   const [reduce] = useState(() => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const [index, setIndex] = useState(startIndex);
   const [playing, setPlaying] = useState(!(typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches));
-  const [hovered, setHovered] = useState(false);
   const [layers, setLayers] = useState([{ idx: startIndex, key: 0 }]);
   const layerKey = useRef(0);
   const fadeTimer = useRef(null);
@@ -54,7 +51,7 @@ export const GalleryLightbox = ({ photos, startIndex = 0, onClose }) => {
   const closeBtnRef = useRef(null);
   const touchStart = useRef(null);
   const total = photos.length;
-  const running = playing && !hovered;
+  const running = playing;
 
   const goTo = useCallback(
     (n) => {
@@ -195,8 +192,6 @@ export const GalleryLightbox = ({ photos, startIndex = 0, onClose }) => {
             e.stopPropagation();
             goNext();
           }}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
         />
       ))}
 
@@ -247,7 +242,7 @@ export const GalleryLightbox = ({ photos, startIndex = 0, onClose }) => {
       <div className="absolute bottom-5 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2" onClick={stop}>
         <div className="w-[200px] max-w-[38vw] h-[2px] bg-ivoire/15 overflow-hidden" aria-hidden="true">
           <div
-            key={`${index}-${playing}-${hovered}`}
+            key={`${index}-${playing}`}
             className="h-full origin-left"
             style={{
               background: 'rgba(242, 239, 234, 0.6)',
