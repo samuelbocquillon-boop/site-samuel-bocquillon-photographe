@@ -61,12 +61,12 @@ class GalleryAPITester:
                 self.log(f"FAILED - Expected {expected_status}, got {response.status_code}", "error")
                 try:
                     self.log(f"Response: {response.text[:200]}", "error")
-                except:
+                except Exception:
                     pass
             
             try:
                 return success, response.json() if response.text else {}
-            except:
+            except Exception:
                 return success, {}
         
         except Exception as e:

@@ -139,6 +139,12 @@ export default async function HomePage() {
 
       {/* ============ PRESTATIONS — texte vertical + 3 colonnes, la 02 en brun ============ */}
       <section className="relative border-y border-charbon/10" data-testid="home-pricing-section">
+        {/* Titre PRESTATIONS — mobile uniquement (horizontal, même style que le vertical desktop) */}
+        <div className="md:hidden border-b border-charbon/10 py-6 text-center" data-testid="home-pricing-mobile-title">
+          <p className="font-serif text-cognac text-xl tracking-[0.3em] uppercase" aria-hidden="true">
+            Prestations
+          </p>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-[64px_1fr] lg:grid-cols-[88px_1fr]">
           {/* Texte vertical PRESTATIONS */}
           <div className="hidden md:flex items-center justify-center border-r border-charbon/10">
