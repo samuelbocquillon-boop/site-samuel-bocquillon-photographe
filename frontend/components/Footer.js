@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { ScriptMonogram } from './Logo';
 
 const FooterLink = ({ href, children, testid, external = false }) => (
   <Link
@@ -19,19 +18,25 @@ export const Footer = ({ settings }) => {
     <footer className="bg-ivoire border-t border-charbon/10" data-testid="site-footer">
       <div className="sb-container py-12 sm:py-14">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
-          <div className="md:col-span-6 flex items-start gap-4">
-            <ScriptMonogram className="h-14 w-12 text-cuir shrink-0" />
-            <div>
-              <p className="font-serif text-[18px] tracking-[0.18em] uppercase text-charbon leading-none">Samuel Bocquillon</p>
-              <p className="font-sans font-semibold text-[9px] tracking-[0.32em] uppercase text-charbon/55 mt-1.5">Photographe de mariage</p>
-              <p className="mt-4 text-charbon/55 text-[13px] leading-relaxed max-w-xs">
-                {s.address || 'Valenciennes, Nord (59), France'}
-                <br />
-                <a href={`tel:${(s.phone || '').replace(/\s/g, '')}`} className="hover:text-cuir transition-colors">{s.phone}</a>
-                {' · '}
-                <a href={`mailto:${s.email}`} className="hover:text-cuir transition-colors">{s.email}</a>
-              </p>
-            </div>
+          <div className="md:col-span-6">
+            <Link href="/" aria-label="Samuel Bocquillon — Photographe de mariage, retour à l'accueil" data-testid="footer-logo" className="inline-block">
+              <img
+                src="/logo-footer.webp"
+                alt="Samuel Bocquillon — Photographe de mariage"
+                width="1508"
+                height="436"
+                className="w-auto h-16 sm:h-[72px]"
+                loading="lazy"
+                decoding="async"
+              />
+            </Link>
+            <p className="mt-4 text-charbon/55 text-[13px] leading-relaxed max-w-xs">
+              {s.address || 'Valenciennes, Nord (59), France'}
+              <br />
+              <a href={`tel:${(s.phone || '').replace(/\s/g, '')}`} className="hover:text-cuir transition-colors">{s.phone}</a>
+              {' · '}
+              <a href={`mailto:${s.email}`} className="hover:text-cuir transition-colors">{s.email}</a>
+            </p>
           </div>
           <div className="md:col-span-3">
             <p className="label-caps text-charbon/45 mb-4">Liens</p>
