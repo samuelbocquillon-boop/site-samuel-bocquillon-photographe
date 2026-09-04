@@ -15,6 +15,7 @@ URLS = [
     "https://res.cloudinary.com/dvsqwrbc3/image/upload/v1788560942/2D992224-831E-4489-B453-8EF86FDA3EF7_1_105_c_caliob.jpg",
     "https://res.cloudinary.com/dvsqwrbc3/image/upload/v1788560951/E20BB4CA-D056-4DFC-B640-7315F888AEA9_1_105_c_f5rsc4.jpg",
     "https://res.cloudinary.com/dvsqwrbc3/image/upload/v1788560974/DCDAAE78-DB91-4B58-8574-CBDE3A8EAD9F_1_105_c_nodlgc.jpg",
+    "https://res.cloudinary.com/dvsqwrbc3/image/upload/v1788561091/9C69A0B8-6181-48B4-93AB-4176F50E85B5_1_105_c_d7hhf2.jpg",
 ]
 
 async def main():
