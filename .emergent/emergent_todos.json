@@ -1,30 +1,18 @@
 [
   {
-    "content": "Backend : collection gallery + endpoints + seed 12 photos + optimisation Cloudinary",
+    "content": "Ajouter les keyframes Ken Burns + ajustements fondu dans globals.css",
     "status": "completed"
   },
   {
-    "content": "slots.py : 12 slots portfolio-galerie migrés vers GALLERY_SEED",
+    "content": "Réécrire UnifiedGallery.js en mosaïque masonry (colonnes CSS, ratios préservés, fade-in au load, hover 2%)",
     "status": "completed"
   },
   {
-    "content": "Frontend : composant Lightbox réutilisable (autoplay, progress bar, crossfade, clavier/swipe, a11y, ?photo=n)",
+    "content": "Réécrire GalleryLightbox.js : crossfade 700ms, effet Ken Burns variable, compteur en bas, play/pause 6-7s, reduced-motion",
     "status": "completed"
   },
   {
-    "content": "Frontend : GalleryGrid + bloc SEO h1 + JSON-LD ImageGallery",
-    "status": "completed"
-  },
-  {
-    "content": "Nettoyage : PortfolioGallery supprimé, filtres retirés, h1 unique",
-    "status": "completed"
-  },
-  {
-    "content": "Admin : AdminGallery (collage liens, alt, drag & drop) + route + sidebar",
-    "status": "completed"
-  },
-  {
-    "content": "Tests : esbuild OK, vérifications Playwright, testing_agent 100% backend / 95%+ frontend (faux positif vérifié manuellement)",
+    "content": "Vérifier compilation + rendu (grille masonry + diaporama) via playwright",
     "status": "completed"
   }
 ]

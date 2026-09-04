@@ -1,9 +1,50 @@
 'use client';
-// Galerie unifiée — grille responsive anti-CLS + bouton « Voir plus » + lightbox diaporama.
+// Galerie unifiée — mosaïque masonry (colonnes CSS) qui préserve le ratio d'origine
+// de chaque photo, apparition en fondu, léger survol, + lightbox diaporama.
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { GalleryLightbox } from '@/components/gallery/GalleryLightbox';
 
 const PAGE_SIZE = 24;
+
+// Vignette autonome — gère son propre fondu à l'apparition (lazy loading).
+const GalleryThumb = ({ ph, index, onOpen, thumbRef }) => {
+  const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef(null);
+
+  // Si l'image est déjà en cache, `onLoad` peut se déclencher avant l'hydratation :
+  // on vérifie `complete` au montage pour ne pas rester bloqué en opacity 0.
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete) setLoaded(true);
+  }, []);
+
+  return (
+    <button
+      ref={thumbRef}
+      onClick={() => onOpen(index)}
+      aria-label={`Ouvrir le diaporama à la photo ${index + 1} : ${ph.alt}`}
+      className="group relative block w-full mb-2 sm:mb-[10px] overflow-hidden cursor-pointer break-inside-avoid focus-visible:outline focus-visible:outline-2 focus-visible:outline-cognac focus-visible:outline-offset-2"
+      data-testid={`gallery-thumb-${index + 1}`}
+    >
+      <img
+        ref={imgRef}
+        src={ph.src}
+        {...(ph.srcset ? { srcSet: ph.srcset } : {})}
+        sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
+        alt={ph.alt}
+        loading={index < 3 ? 'eager' : 'lazy'}
+        fetchPriority={index < 3 ? 'high' : undefined}
+        decoding="async"
+        onLoad={() => setLoaded(true)}
+        className="block w-full h-auto object-contain ease-out group-hover:scale-[1.02]"
+        style={{ opacity: loaded ? 1 : 0, transition: 'opacity 600ms ease, transform 400ms ease-out' }}
+      />
+      <span
+        className="absolute inset-0 bg-charbon/0 group-hover:bg-charbon/15 transition-colors [transition-duration:400ms] ease-out"
+        aria-hidden="true"
+      />
+    </button>
+  );
+};
 
 export const UnifiedGallery = ({ photos }) => {
   const [visible, setVisible] = useState(PAGE_SIZE);
@@ -29,30 +70,21 @@ export const UnifiedGallery = ({ photos }) => {
 
   return (
     <div>
-      <div className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4" data-testid="unified-gallery-grid">
+      {/* Mosaïque masonry : 1 colonne mobile, 2 tablette, 3 desktop — ratios d'origine préservés */}
+      <div
+        className="columns-1 md:columns-2 lg:columns-3 [column-gap:8px] sm:[column-gap:10px]"
+        data-testid="unified-gallery-grid"
+      >
         {photos.slice(0, visible).map((ph, i) => (
-          <button
+          <GalleryThumb
             key={ph.id}
-            ref={(el) => {
+            ph={ph}
+            index={i}
+            onOpen={setOpenAt}
+            thumbRef={(el) => {
               thumbRefs.current[i] = el;
             }}
-            onClick={() => setOpenAt(i)}
-            aria-label={`Ouvrir le diaporama à la photo ${i + 1} : ${ph.alt}`}
-            className="group relative block w-full overflow-hidden aspect-[3/4] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-cognac focus-visible:outline-offset-2"
-            data-testid={`gallery-thumb-${i + 1}`}
-          >
-            <img
-              src={ph.src}
-              {...(ph.srcset ? { srcSet: ph.srcset } : {})}
-              sizes="(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 1279px) 33vw, 25vw"
-              alt={ph.alt}
-              loading={i < 4 ? 'eager' : 'lazy'}
-              fetchPriority={i < 4 ? 'high' : undefined}
-              decoding={i < 4 ? 'sync' : 'async'}
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02]"
-            />
-            <span className="absolute inset-0 bg-charbon/0 group-hover:bg-charbon/15 transition-colors duration-300" aria-hidden="true" />
-          </button>
+          />
         ))}
       </div>
 

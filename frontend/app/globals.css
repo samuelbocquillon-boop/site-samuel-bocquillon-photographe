@@ -212,3 +212,19 @@ html, body {
   from { opacity: 1; }
   to { opacity: 0; }
 }
+
+/* Effet Ken Burns — zoom lent et léger (transform: scale uniquement) */
+@keyframes kb-in {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); }
+}
+@keyframes kb-out {
+  from { transform: scale(1.05); }
+  to { transform: scale(1); }
+}
+
+/* Apparition en fondu des vignettes de la mosaïque */
+@keyframes gallery-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
