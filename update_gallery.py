@@ -12,6 +12,7 @@ URLS = [
     "https://res.cloudinary.com/dvsqwrbc3/image/upload/v1788560778/photo_20_eutram.jpg",
     "https://res.cloudinary.com/dvsqwrbc3/image/upload/v1788560869/Pauline_Alexandre-153_yem5cn.jpg",
     "https://res.cloudinary.com/dvsqwrbc3/image/upload/v1788560986/1A297165-C093-4024-BF98-5C2CA9BA1791_1_105_c_jazlru.jpg",
+    "https://res.cloudinary.com/dvsqwrbc3/image/upload/v1788560942/2D992224-831E-4489-B453-8EF86FDA3EF7_1_105_c_caliob.jpg",
 ]
 
 async def main():
