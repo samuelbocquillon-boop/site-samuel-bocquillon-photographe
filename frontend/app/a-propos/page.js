@@ -167,6 +167,22 @@ export default async function AProposPage() {
         </div>
       </section>
 
+      {/* MANIFESTE — phrase de transition éditoriale après la frise */}
+      <section className="py-20 sm:py-28" data-testid="apropos-manifeste">
+        <div className="sb-container">
+          <Reveal className="max-w-[820px] mx-auto text-center">
+            <span className="block h-[2px] w-10 bg-cognac mx-auto mb-8 sm:mb-10" aria-hidden="true" />
+            <p className="font-serif font-light text-[24px] sm:text-[31px] lg:text-[34px] leading-[1.4] text-charbon/75">
+              De la musique à la photographie, des mariages aux entreprises, puis de la création à la transmission :
+              le métier a beaucoup changé depuis 2009.
+            </p>
+            <p className="font-serif italic text-[30px] sm:text-[42px] lg:text-[46px] leading-[1.2] text-charbon mt-6 sm:mt-7">
+              La passion de raconter les gens, <span className="text-cognac">elle, est restée la même.</span>
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
       {/* DANS LES COULISSES — bande de 5 photos */}
       <section className="pb-4" data-testid="apropos-coulisses">
         <div className="sb-container">
