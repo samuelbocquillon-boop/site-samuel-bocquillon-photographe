@@ -6,16 +6,16 @@ import { SmartImage } from '@/components/SmartImage';
 import { Reveal } from '@/components/Reveal';
 
 export const metadata = {
-  title: 'À propos — Un observateur discret',
+  title: 'À propos — Une complicité avant tout',
   description:
-    "Découvrez Samuel Bocquillon, photographe de mariage basé à Valenciennes : son approche documentaire, ses valeurs (authenticité, émotion, élégance) et son parcours depuis 2012.",
+    "Découvrez Samuel Bocquillon, photographe de mariage depuis 2009 : une approche moderne et spontanée, fondée sur la complicité — capturer l'instant et créer les images avec vous.",
   alternates: { canonical: '/a-propos' },
 };
 
 const VALEURS_APROPOS = [
-  { icon: Leaf, title: 'Authenticité', text: "Des images vraies, prises sur le vif, loin des poses figées. Je cherche l'essentiel : vous." },
-  { icon: Heart, title: 'Émotion', text: "Chaque mariage est unique et chargé d'émotions. Je capture l'invisible pour en faire un souvenir tangible." },
-  { icon: Gem, title: 'Élégance', text: 'Une attention portée aux détails, à la lumière et à la composition pour des images intemporelles.' },
+  { icon: Leaf, title: 'Complicité', text: "Les plus belles images commencent bien avant de déclencher l'appareil. Apprendre à vous connaître et créer une vraie relation de confiance me permet de réaliser des photographies qui vous ressemblent vraiment." },
+  { icon: Heart, title: 'Spontanéité', text: "Un regard, un rire, une larme, un mouvement imprévu… Je veux préserver tout ce qui fait la vérité d'une journée de mariage, sans transformer chaque instant en séance photo. Vous profitez. Je raconte." },
+  { icon: Gem, title: 'Créativité', text: "Observer ne signifie pas simplement attendre. Quand une lumière, un lieu ou une idée peut créer une image forte, je vous propose quelque chose et nous la construisons ensemble. Certaines photographies se capturent. D'autres se créent ensemble." },
 ];
 
 export default async function AProposPage() {
@@ -31,17 +31,23 @@ export default async function AProposPage() {
             <h1 className="font-serif font-medium text-6xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-[-0.02em] mt-3">
               À propos
             </h1>
-            <p className="label-caps !text-[13px] sm:!text-[14px] text-cognac mt-5">Un observateur discret.</p>
+            <p className="label-caps !text-[13px] sm:!text-[14px] text-cognac mt-5">Une complicité avant tout.</p>
             <span className="block h-[2px] w-10 bg-cognac mt-4" aria-hidden="true" />
             <p className="mt-7 text-[15.5px] sm:text-[16px] leading-[1.7] text-charbon/80 max-w-sm">
-              Je suis Samuel, photographe de mariage basé en France et disponible pour raconter votre histoire,
-              là où elle se vit, avec sincérité et élégance.
+              Je suis Samuel, photographe de mariage depuis 2009. J'aime les images modernes, vivantes et spontanées,
+              celles qui racontent réellement votre journée et votre personnalité.
             </p>
             <p className="mt-4 text-[15.5px] sm:text-[16px] leading-[1.7] text-charbon/80 max-w-sm">
-              Ma mission : créer des images vraies, intemporelles et profondément humaines.
+              Ma façon de travailler repose avant tout sur la relation que nous allons créer ensemble. Pour moi, une belle
+              image n'est jamais uniquement le travail du photographe : elle naît d'une confiance, d'un échange et d'une
+              véritable complicité avec mes mariés.
+            </p>
+            <p className="mt-4 text-[15.5px] sm:text-[16px] leading-[1.7] text-charbon/80 max-w-sm">
+              Je capture bien sûr tout ce qui se passe naturellement. Mais lorsque la lumière, un lieu ou une idée peut
+              donner naissance à une image forte, je suis aussi là pour vous guider et la construire avec vous.
             </p>
             <Link href="/contact" className="btn-primary mt-8" data-testid="apropos-hero-cta-button">
-              Discutons de votre histoire <span aria-hidden="true">→</span>
+              Parlons de votre histoire <span aria-hidden="true">→</span>
             </Link>
           </Reveal>
           <Reveal delay={0.1} className="lg:col-span-7">
@@ -56,7 +62,9 @@ export default async function AProposPage() {
               <div className="lg:absolute lg:bottom-0 lg:right-0 bg-white shadow-[var(--sb-shadow)] p-7 sm:p-8 max-w-[300px] mt-[-3rem] ml-auto mr-4 relative lg:mt-0 lg:mr-0" data-testid="apropos-quote-card">
                 <span className="font-serif text-cognac text-5xl leading-none select-none" aria-hidden="true">“</span>
                 <p className="font-serif text-[19px] leading-[1.4] text-charbon -mt-3">
-                  Il ne s'agit pas de prendre des photos, mais de <strong className="font-medium">ressentir</strong> l'instant pour le révéler.
+                  Vous vivez l'histoire.
+                  <br />
+                  Nous créons les images ensemble.
                 </p>
                 <img src="/signature-samuel-b.webp" alt="Signature de Samuel B." className="h-10 w-auto opacity-80 mt-4" loading="lazy" decoding="async" />
               </div>
@@ -73,16 +81,25 @@ export default async function AProposPage() {
               Mon approche <span className="h-px w-8 bg-cognac inline-block" aria-hidden="true" />
             </p>
             <h2 className="font-serif text-4xl sm:text-5xl leading-[1.05] mt-5">
-              L'art de la discrétion,
-              <span className="block text-cognac italic">la force du vrai.</span>
+              Capturer l'instant,
+              <span className="block text-cognac italic">créer avec vous.</span>
             </h2>
             <p className="mt-6 text-[15.5px] leading-[1.7] text-charbon/80 max-w-md">
-              J'avance à vos côtés avec discrétion et bienveillance. Je capte les regards, les gestes, les rires
-              et les silences. Ces instants simples qui racontent votre histoire.
+              Il y a des moments où mon rôle est simplement d'observer : un regard, un éclat de rire, une main qui se serre,
+              une émotion que personne n'avait vue venir. Ces instants-là ne se provoquent pas. Ils se vivent, et je suis là
+              pour les saisir.
             </p>
             <p className="mt-4 text-[15.5px] leading-[1.7] text-charbon/80 max-w-md">
-              Mon style est naturel, lumineux et intemporel. Chaque reportage est une création sur mesure,
-              fidèle à votre personnalité.
+              Et puis il y a les images que nous allons imaginer ensemble. Une lumière incroyable, une architecture, un
+              coucher de soleil, une idée un peu différente… Dans ces moments-là, je vous accompagne, je vous guide et nous
+              construisons l'image à plusieurs.
+            </p>
+            <p className="mt-4 text-[15.5px] leading-[1.7] text-charbon/80 max-w-md">
+              Je ne cherche pas à vous faire jouer un rôle ou à reproduire les mêmes photographies à chaque mariage.{' '}
+              <strong className="font-medium text-charbon">Le reportage doit vous ressembler.</strong>
+            </p>
+            <p className="mt-4 text-[15.5px] leading-[1.7] text-charbon/80 max-w-md">
+              C'est ce mélange entre spontanéité et création qui donne à chaque mariage son identité.
             </p>
             <img src="/signature-samuel-b.webp" alt="Signature de Samuel B." className="h-14 w-auto opacity-85 mt-8" loading="lazy" decoding="async" />
           </Reveal>
