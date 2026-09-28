@@ -149,13 +149,16 @@ export default async function AProposPage() {
           <div className="mt-12 relative">
             {/* Ligne horizontale (desktop) */}
             <div className="hidden lg:block absolute top-[46px] left-0 right-0 h-px bg-cognac/30" aria-hidden="true" />
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-10">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-x-5 gap-y-10">
               {PARCOURS.map((p, idx) => (
                 <Reveal key={p.year} delay={idx * 0.05}>
                   <div className="text-center" data-testid={`parcours-${p.year}`}>
-                    <p className="font-serif text-3xl text-charbon">{p.year}</p>
+                    <p className="font-serif text-3xl text-charbon whitespace-nowrap">{p.year}</p>
                     <span className="relative z-10 block h-2.5 w-2.5 rounded-full bg-cognac mx-auto mt-3.5 ring-4 ring-ivoire" aria-hidden="true" />
-                    <p className="mt-4 text-[13.5px] leading-[1.6] text-charbon/70">{p.text}</p>
+                    <p className="mt-4 text-[13px] leading-[1.55] text-charbon/60">
+                      <span className="block font-medium text-charbon mb-1">{p.title}</span>
+                      {p.text}
+                    </p>
                   </div>
                 </Reveal>
               ))}

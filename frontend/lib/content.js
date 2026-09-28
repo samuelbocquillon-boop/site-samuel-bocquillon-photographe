@@ -153,12 +153,13 @@ export const VALEURS = [
 ];
 
 export const PARCOURS = [
-  { year: '2012', text: 'Premiers reportages de mariage dans le Nord.' },
-  { year: '2015', text: 'Développement de mon approche documentaire et éditoriale.' },
-  { year: '2017', text: 'Premiers prix et reconnaissance de la profession.' },
-  { year: '2019', text: 'Premiers mariages à l\'étranger — destination weddings.' },
-  { year: '2022', text: 'Lancement des formations photo et du studio photobooth.' },
-  { year: '2024', text: 'Plus de 200 mariages racontés, en France et ailleurs.' },
+  { year: '2009', title: 'Création de SK Music Sonorisation.', text: 'Une passion pour la musique devenue peu à peu une véritable activité événementielle.' },
+  { year: '2012', title: 'Mariages & premières photos.', text: 'Je photographie les soirées de mariage en complément de mes prestations de sonorisation.' },
+  { year: '2017', title: 'Le déclic.', text: 'La photographie prend le dessus sur l\'animation et devient le cœur de mon activité.' },
+  { year: '2019', title: 'Photographe à 100 %.', text: 'Arrêt de la sonorisation et premiers destination weddings, notamment à Rome puis à l\'étranger.' },
+  { year: '2020–2022', title: 'Diversification & transmission.', text: 'Reportages d\'entreprise, vidéo, lancement du photobooth et premières formations photo.' },
+  { year: '2025', title: 'Photobooth Classique & Vintage.', text: 'Création d\'une marque indépendante dédiée à mon activité photobooth et événementielle.' },
+  { year: '2026', title: 'Une vision arrivée à maturité.', text: 'Moins de mariages, des projets plus qualitatifs et une approche toujours plus personnelle.' },
 ];
 
 export const CORPORATE_PRESTATIONS = [
