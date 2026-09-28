@@ -75,18 +75,33 @@ export default async function HomePage() {
               À propos <span className="h-px w-8 bg-cognac inline-block" aria-hidden="true" />
             </p>
             <h2 className="font-serif text-4xl sm:text-5xl leading-[1.12] mt-5">
-              Plus qu'un photographe,
+              Les plus belles images,
               <br />
-              <span className="text-cognac">un observateur discret.</span>
+              <span className="text-cognac">on les crée ensemble.</span>
             </h2>
-            <p className="mt-7 text-[15px] sm:text-[15.5px] leading-[1.9] text-charbon/80 max-w-md">
-              Je suis Samuel, photographe de mariage basé en France
-              <br className="hidden sm:block" /> et disponible partout où votre histoire m'emmène.
-              <br className="hidden sm:block" /> Ma boussole est simple : être là, au bon moment.
-              <br className="hidden sm:block" /> Au bon endroit. Et laisser l'instant parler.
-              <br className="hidden sm:block" /> Pour raconter ce qui compte, avec vérité, sincérité.
-              <br className="hidden sm:block" /> Des images nettes, pour des souvenirs qui le restent.
-            </p>
+            <div className="mt-7 space-y-4 text-[15px] sm:text-[15.5px] leading-[1.9] text-charbon/80 max-w-xl">
+              <p>
+                Photographe de mariage depuis 2009, j'aime les images modernes, vivantes et spontanées. Celles qui racontent vraiment une
+                journée : les regards, les éclats de rire, les gestes que personne ne remarque… mais aussi ces images plus fortes que l'on
+                prend le temps d'imaginer et de construire ensemble.
+              </p>
+              <p>Ma façon de travailler repose avant tout sur la complicité.</p>
+              <p>
+                Je ne crois pas qu'une belle photo soit uniquement le travail du photographe. Elle naît d'une rencontre, d'une confiance et
+                d'un véritable échange avec mes mariés.
+              </p>
+              <p>
+                Pendant votre mariage, je capture évidemment tout ce qui se passe naturellement. Mais je suis aussi là pour vous guider
+                lorsque c'est nécessaire, chercher la bonne lumière, vous proposer une idée ou créer avec vous une image qui vous ressemble.
+              </p>
+              <p>
+                Parce que chaque couple est différent, mon reportage l'est aussi. J'aime comprendre qui vous êtes, ce qui compte pour vous et
+                la manière dont vous souhaitez vivre cette journée.
+              </p>
+              <p className="font-serif italic text-cognac text-[19px] sm:text-[20px] leading-[1.5]">
+                Vous vivez l'histoire. Nous créons les images ensemble.
+              </p>
+            </div>
             <img src="/signature-samuel-b.webp" alt="Signature de Samuel B." className="h-12 w-auto opacity-85 mt-8" loading="lazy" decoding="async" data-testid="home-about-signature" />
           </Reveal>
         </div>
