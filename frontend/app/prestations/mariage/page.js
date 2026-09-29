@@ -77,7 +77,7 @@ export default async function MariagePage() {
       </section>
 
       {/* COLLECTIONS MARIAGE */}
-      <section className="bg-white py-14 sm:py-20 lg:py-24" data-testid="mariage-collections">
+      <section id="collections" className="bg-white py-14 sm:py-20 lg:py-24 scroll-mt-24" data-testid="mariage-collections">
         <div className="sb-container">
           <Reveal>
             <p className="label-caps text-cognac">Collections mariage</p>

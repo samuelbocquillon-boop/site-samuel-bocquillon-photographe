@@ -79,7 +79,7 @@ export default async function PrestationsPage() {
                     ))}
                   </ul>
                   <p className={`label-caps mt-7 ${c.popular ? 'text-ivoire' : 'text-cuir'}`}>{c.price}</p>
-                  <Link href="/contact" className={`mt-6 ${c.popular ? 'btn-light' : 'btn-outline'}`} data-testid={`${c.testid}-cta-button`}>
+                  <Link href="/prestations/mariage#collections" className={`mt-6 ${c.popular ? 'btn-light' : 'btn-outline'}`} data-testid={`${c.testid}-cta-button`}>
                     En savoir plus
                   </Link>
                 </article>
