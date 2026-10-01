@@ -21,7 +21,7 @@ export const AdminImages = () => {
 
   useEffect(() => {
     load();
-  }, []); // eslint-disable-line
+  }, []);
 
   if (error) return <p className="text-[#a03526]">{error}</p>;
   if (!data)

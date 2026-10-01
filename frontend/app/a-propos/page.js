@@ -183,42 +183,6 @@ export default async function AProposPage() {
         </div>
       </section>
 
-      {/* DANS LES COULISSES — bande de 5 photos */}
-      <section className="pb-4" data-testid="apropos-coulisses">
-        <div className="sb-container">
-          <Reveal>
-            <p className="label-caps text-charbon/60 flex items-center gap-3">
-              Dans les coulisses <span className="h-px w-8 bg-cognac inline-block" aria-hidden="true" />
-            </p>
-          </Reveal>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 mt-8 px-2.5">
-          {[1, 2, 3, 4, 5].map((i, idx) => (
-            <Reveal key={i} delay={idx * 0.05} className={i === 5 ? 'hidden lg:block' : i === 4 ? 'hidden sm:block' : ''}>
-              <SmartImage
-                img={images[`apropos-coulisses-${i}`]}
-                className="w-full aspect-[4/5] object-cover"
-                sizes="(max-width: 640px) 50vw, 20vw"
-              />
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* CITATION CENTRÉE */}
-      <section className="py-16 sm:py-24" data-testid="apropos-citation">
-        <div className="sb-container text-center max-w-3xl">
-          <Reveal>
-            <span className="font-serif text-cognac text-7xl leading-none select-none" aria-hidden="true">“</span>
-            <p className="font-serif text-3xl sm:text-4xl leading-[1.25] text-charbon -mt-5">
-              Le jour passe, les émotions restent,
-              <br className="hidden sm:block" /> mes images vous les rendent.
-            </p>
-            <span className="block h-[2px] w-10 bg-cognac mx-auto mt-8" aria-hidden="true" />
-          </Reveal>
-        </div>
-      </section>
-
       {/* CTA FINAL — aligné à gauche sur photo */}
       <section className="relative py-20 sm:py-28" data-testid="apropos-cta">
         <div className="absolute inset-0 overflow-hidden">
