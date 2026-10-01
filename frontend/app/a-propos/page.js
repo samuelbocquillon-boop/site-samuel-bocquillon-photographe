@@ -25,32 +25,17 @@ export default async function AProposPage() {
     <main>
       {/* HERO ÉDITORIAL — 2 colonnes : texte à gauche, portrait + carte citation à droite */}
       <section className="sb-container pt-10 sm:pt-16 pb-14 sm:pb-20" data-testid="apropos-hero">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          <Reveal className="lg:col-span-5">
+        {/* Mobile : titre → photo + citation → paragraphes. Desktop : inchangé (texte à gauche, photo à droite sur 2 lignes). */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-x-14 lg:gap-y-0 items-center">
+          <Reveal className="lg:col-span-5 lg:self-end">
             <p className="label-caps text-charbon/60">Plus qu'un photographe,</p>
             <h1 className="font-serif font-medium text-6xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-[-0.02em] mt-3">
               À propos
             </h1>
             <p className="label-caps !text-[13px] sm:!text-[14px] text-cognac mt-5">Une complicité avant tout.</p>
             <span className="block h-[2px] w-10 bg-cognac mt-4" aria-hidden="true" />
-            <p className="mt-7 text-[15.5px] sm:text-[16px] leading-[1.7] text-charbon/80 max-w-sm">
-              Je suis Samuel, photographe de mariage depuis 2009. J'aime les images modernes, vivantes et spontanées,
-              celles qui racontent réellement votre journée et votre personnalité.
-            </p>
-            <p className="mt-4 text-[15.5px] sm:text-[16px] leading-[1.7] text-charbon/80 max-w-sm">
-              Ma façon de travailler repose avant tout sur la relation que nous allons créer ensemble. Pour moi, une belle
-              image n'est jamais uniquement le travail du photographe : elle naît d'une confiance, d'un échange et d'une
-              véritable complicité avec mes mariés.
-            </p>
-            <p className="mt-4 text-[15.5px] sm:text-[16px] leading-[1.7] text-charbon/80 max-w-sm">
-              Je capture bien sûr tout ce qui se passe naturellement. Mais lorsque la lumière, un lieu ou une idée peut
-              donner naissance à une image forte, je suis aussi là pour vous guider et la construire avec vous.
-            </p>
-            <Link href="/contact" className="btn-primary mt-8" data-testid="apropos-hero-cta-button">
-              Parlons de votre histoire <span aria-hidden="true">→</span>
-            </Link>
           </Reveal>
-          <Reveal delay={0.1} className="lg:col-span-7">
+          <Reveal delay={0.1} className="lg:col-span-7 lg:row-span-2 lg:col-start-6 lg:row-start-1">
             <div className="relative lg:pr-16 lg:pb-16">
               <SmartImage
                 img={images['apropos-portrait']}
@@ -69,6 +54,24 @@ export default async function AProposPage() {
                 <img src="/signature-samuel-b.webp" alt="Signature de Samuel B." className="h-10 w-auto opacity-80 mt-4" loading="lazy" decoding="async" />
               </div>
             </div>
+          </Reveal>
+          <Reveal className="lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:self-start">
+            <p className="mt-0 lg:mt-7 text-[15.5px] sm:text-[16px] leading-[1.7] text-charbon/80 max-w-sm">
+              Je suis Samuel, photographe de mariage depuis 2009. J'aime les images modernes, vivantes et spontanées,
+              celles qui racontent réellement votre journée et votre personnalité.
+            </p>
+            <p className="mt-4 text-[15.5px] sm:text-[16px] leading-[1.7] text-charbon/80 max-w-sm">
+              Ma façon de travailler repose avant tout sur la relation que nous allons créer ensemble. Pour moi, une belle
+              image n'est jamais uniquement le travail du photographe : elle naît d'une confiance, d'un échange et d'une
+              véritable complicité avec mes mariés.
+            </p>
+            <p className="mt-4 text-[15.5px] sm:text-[16px] leading-[1.7] text-charbon/80 max-w-sm">
+              Je capture bien sûr tout ce qui se passe naturellement. Mais lorsque la lumière, un lieu ou une idée peut
+              donner naissance à une image forte, je suis aussi là pour vous guider et la construire avec vous.
+            </p>
+            <Link href="/contact" className="btn-primary mt-8" data-testid="apropos-hero-cta-button">
+              Parlons de votre histoire <span aria-hidden="true">→</span>
+            </Link>
           </Reveal>
         </div>
       </section>
