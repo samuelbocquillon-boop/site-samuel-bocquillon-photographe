@@ -180,6 +180,7 @@ export default async function PrestationsPage() {
         text="Vérifions ensemble si votre date est encore disponible."
         ctaLabel="Réserver ma date"
         testid="prestations-cta"
+        liftContent
       />
     </main>
   );
