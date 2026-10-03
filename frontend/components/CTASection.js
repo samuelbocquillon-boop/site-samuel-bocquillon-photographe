@@ -8,7 +8,7 @@ export const CTASection = ({ img, title, text, ctaLabel = 'Prendre rendez-vous',
       <SmartImage img={img} className="h-full w-full object-cover" sizes="100vw" />
       <div className="absolute inset-0 bg-charbon/60" />
     </div>
-    <div className={`relative sb-container text-center${liftContent ? ' sm:-translate-y-8' : ''}`}>
+    <div className={`relative sb-container text-center${liftContent ? ' sm:-translate-y-16' : ''}`}>
       <div className={liftContent ? '-translate-y-5 sm:translate-y-0' : ''}>
         <h2 className="font-serif font-medium text-ivoire text-4xl sm:text-5xl lg:text-6xl leading-[1]">{title}</h2>
         {text && <p className="mt-5 label-caps text-ivoire/80 max-w-2xl mx-auto !leading-[1.9]">{text}</p>}
