@@ -49,7 +49,6 @@ export default async function MariagePage() {
         img={images['mariage-hero']}
         label="Présentation — Mariage"
         title="Des souvenirs vrais. Pour toute une vie."
-        subtitle="Discret et attentif, j'immortalise les émotions vraies et les instants précieux de votre journée. Mon approche documentaire et élégante met en lumière l'essentiel : vous."
         mobileSplit
         testid="mariage-hero"
       />
