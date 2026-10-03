@@ -13,7 +13,7 @@ export const PageHero = ({ img, title, subtitle, label, children, tall = false, 
           <div className="absolute inset-0 sm:hidden bg-gradient-to-b from-charbon/65 via-charbon/10 to-charbon/70" />
           <div className="absolute inset-0 hidden sm:block bg-gradient-to-b from-charbon/70 via-charbon/20 to-charbon/5" />
         </div>
-        <div className="relative sb-container w-full flex flex-col justify-between sm:justify-start pt-8 pb-9 sm:pt-20 sm:pb-20">
+        <div className="relative sb-container w-full flex flex-col justify-between pt-8 pb-9 sm:pt-20 sm:pb-8">
           <div>
             {label && <p className="label-caps text-ivoire/85 mb-3 sm:mb-4">{label}</p>}
             <h1 className="font-serif font-medium text-ivoire text-5xl sm:text-6xl lg:text-7xl leading-[0.95] tracking-[-0.02em] max-w-3xl">{title}</h1>
