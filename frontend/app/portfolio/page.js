@@ -79,7 +79,7 @@ export default async function PortfolioPage() {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(galleryJsonLd) }} />
       </section>
 
-      {/* ============ REPORTAGE À LA UNE — photo | texte | carte citation ============ */}
+      {/* ============ LE BLOG — photo | texte | carte citation ============ */}
       <section className="bg-white py-14 sm:py-20" data-testid="portfolio-featured-case-study">
         <div className="sb-container grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           <Reveal className="lg:col-span-4">
@@ -91,16 +91,17 @@ export default async function PortfolioPage() {
           </Reveal>
           <Reveal delay={0.08} className="lg:col-span-4">
             <p className="label-caps !text-[10.5px] text-charbon/55 flex items-center gap-3">
-              Reportage à la une <span className="h-px w-7 bg-cognac inline-block" aria-hidden="true" />
+              Le blog <span className="h-px w-7 bg-cognac inline-block" aria-hidden="true" />
             </p>
-            <h2 className="font-serif text-4xl sm:text-5xl leading-[1.08] mt-5">Clara & Julien</h2>
-            <p className="font-serif text-cognac text-2xl sm:text-[27px] mt-1.5">Un mariage en Provence</p>
+            <h2 className="font-serif text-4xl sm:text-5xl leading-[1.08] mt-5">Carnet de mariages</h2>
+            <p className="font-serif text-cognac text-2xl sm:text-[27px] mt-1.5">Du Nord-Pas-de-Calais aux quatre coins de la France</p>
             <p className="mt-6 text-[14.5px] leading-[1.85] text-charbon/75 max-w-xs">
-              Entre lumière dorée, cigales et rires partagés, leur journée a été une véritable ode à l'amour
-              et à la simplicité.
+              Chaque couple a son histoire, chaque lieu sa lumière. Feuilletez sur le blog les mariages que j'ai eu
+              le bonheur de photographier dans les Hauts-de-France, partout en France et parfois même au-delà des
+              frontières. De quoi vous inspirer pour imaginer le vôtre.
             </p>
-            <Link href="#galerie" className="btn-primary !rounded-none mt-8" data-testid="portfolio-case-study-cta">
-              Découvrir ce reportage <span aria-hidden="true">→</span>
+            <Link href="/blog" className="btn-primary !rounded-none mt-8" data-testid="portfolio-case-study-cta">
+              Ouvrir le carnet <span aria-hidden="true">→</span>
             </Link>
           </Reveal>
           <Reveal delay={0.15} className="lg:col-span-4">
