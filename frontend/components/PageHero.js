@@ -7,7 +7,7 @@ export const PageHero = ({ img, title, subtitle, label, children, tall = false, 
   // (dégage un maximum la photo). Sur desktop, rendu identique au layout classique (tout en bas).
   if (mobileSplit) {
     return (
-      <section className={`relative flex ${tall ? 'min-h-[92svh]' : 'min-h-[58svh] sm:min-h-[64svh]'}`} data-testid={testid}>
+      <section className={`relative flex ${tall ? 'min-h-[92svh]' : 'min-h-[58svh] sm:min-h-0 sm:aspect-[3/2]'}`} data-testid={testid}>
         <div className="absolute inset-0 overflow-hidden">
           <SmartImage img={img} eager className="h-full w-full object-cover" sizes="100vw" />
           <div className="absolute inset-0 sm:hidden bg-gradient-to-b from-charbon/65 via-charbon/10 to-charbon/70" />
