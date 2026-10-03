@@ -20,7 +20,11 @@ export const PageHero = ({ img, title, subtitle, label, children, tall = false, 
           </div>
           {(subtitle || children) && (
             <div className="mt-6 sm:mt-5">
-              {subtitle && <p className="text-ivoire/85 font-sans text-[16px] sm:text-[18px] leading-[1.65] max-w-2xl">{subtitle}</p>}
+              {subtitle && (
+                <p className="max-w-2xl inline-block bg-charbon/55 backdrop-blur-md border border-ivoire/15 rounded-[12px] px-6 py-5 text-ivoire font-sans text-[16px] sm:text-[18px] leading-[1.65] shadow-[var(--sb-shadow)]">
+                  {subtitle}
+                </p>
+              )}
               {children}
             </div>
           )}
